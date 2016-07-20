@@ -18,10 +18,10 @@
 		28511FB11D3DF4C700231883 /* ntp_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 28511FA61D3DF4C700231883 /* ntp_types.h */; };
 		28511FB21D3DF4C700231883 /* uptime.c in Sources */ = {isa = PBXBuildFile; fileRef = 28511FA71D3DF4C700231883 /* uptime.c */; };
 		28511FB31D3DF4C700231883 /* uptime.h in Headers */ = {isa = PBXBuildFile; fileRef = 28511FA81D3DF4C700231883 /* uptime.h */; };
+		286D95A81D3FE4080010901C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286D95A51D3FE4080010901C /* AppDelegate.swift */; };
+		286D95A91D3FE4080010901C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 286D95A61D3FE4080010901C /* Assets.xcassets */; };
 		288A04D01D31A1250032B6FE /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04CE1D31A1250032B6FE /* Nimble.framework */; };
 		288A04D11D31A1250032B6FE /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04CF1D31A1250032B6FE /* Quick.framework */; };
-		288A04DA1D31A74D0032B6FE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288A04D91D31A74D0032B6FE /* AppDelegate.swift */; };
-		288A04E11D31A74D0032B6FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 288A04E01D31A74D0032B6FE /* Assets.xcassets */; };
 		288A04EC1D31A87F0032B6FE /* NetworkTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* NetworkTime.framework */; };
 		288A04F61D31B93F0032B6FE /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04F51D31B93F0032B6FE /* Result.framework */; };
 		288A04F71D31B93F0032B6FE /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04F51D31B93F0032B6FE /* Result.framework */; };
@@ -77,12 +77,12 @@
 		28511FA61D3DF4C700231883 /* ntp_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ntp_types.h; sourceTree = "<group>"; };
 		28511FA71D3DF4C700231883 /* uptime.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uptime.c; sourceTree = "<group>"; };
 		28511FA81D3DF4C700231883 /* uptime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uptime.h; sourceTree = "<group>"; };
+		286D95A51D3FE4080010901C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		286D95A61D3FE4080010901C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		286D95A71D3FE4080010901C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		288A04CE1D31A1250032B6FE /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		288A04CF1D31A1250032B6FE /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
-		288A04D71D31A74D0032B6FE /* NTPExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NTPExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		288A04D91D31A74D0032B6FE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		288A04E01D31A74D0032B6FE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		288A04E51D31A74D0032B6FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		288A04D71D31A74D0032B6FE /* NetworkTimeExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetworkTimeExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		288A04F51D31B93F0032B6FE /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		28E13F451D3E012400F104FB /* module.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.map; sourceTree = "<group>"; };
 		28E13F461D3E025B00F104FB /* Bridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridging.h; sourceTree = "<group>"; };
@@ -128,7 +128,7 @@
 			children = (
 				28511F9D1D3DF4C700231883 /* NetworkTime */,
 				28482DD01D314E7C003491D9 /* NetworkTimeTests */,
-				288A04D81D31A74D0032B6FE /* NTPExample */,
+				286D95A41D3FE4080010901C /* NetworkTimeExample */,
 				28482DC31D314E7B003491D9 /* Products */,
 				28F79E111D3F06EA00437F36 /* Curry.framework */,
 				288A04CE1D31A1250032B6FE /* Nimble.framework */,
@@ -142,7 +142,7 @@
 			children = (
 				28482DC21D314E7B003491D9 /* NetworkTime.framework */,
 				28482DCC1D314E7B003491D9 /* NetworkTimeTests.xctest */,
-				288A04D71D31A74D0032B6FE /* NTPExample.app */,
+				288A04D71D31A74D0032B6FE /* NetworkTimeExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -175,15 +175,15 @@
 			path = NetworkTime;
 			sourceTree = "<group>";
 		};
-		288A04D81D31A74D0032B6FE /* NTPExample */ = {
+		286D95A41D3FE4080010901C /* NetworkTimeExample */ = {
 			isa = PBXGroup;
 			children = (
-				288A04D91D31A74D0032B6FE /* AppDelegate.swift */,
-				288A04E01D31A74D0032B6FE /* Assets.xcassets */,
-				288A04E51D31A74D0032B6FE /* Info.plist */,
+				286D95A51D3FE4080010901C /* AppDelegate.swift */,
+				286D95A61D3FE4080010901C /* Assets.xcassets */,
+				286D95A71D3FE4080010901C /* Info.plist */,
 			);
-			path = NTPExample;
-			sourceTree = "<group>";
+			path = NetworkTimeExample;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -240,9 +240,9 @@
 			productReference = 28482DCC1D314E7B003491D9 /* NetworkTimeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		288A04D61D31A74D0032B6FE /* NTPExample */ = {
+		288A04D61D31A74D0032B6FE /* NetworkTimeExample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 288A04E61D31A74D0032B6FE /* Build configuration list for PBXNativeTarget "NTPExample" */;
+			buildConfigurationList = 288A04E61D31A74D0032B6FE /* Build configuration list for PBXNativeTarget "NetworkTimeExample" */;
 			buildPhases = (
 				288A04D31D31A74D0032B6FE /* Sources */,
 				288A04D41D31A74D0032B6FE /* Frameworks */,
@@ -255,9 +255,9 @@
 			dependencies = (
 				288A04EA1D31A7620032B6FE /* PBXTargetDependency */,
 			);
-			name = NTPExample;
+			name = NetworkTimeExample;
 			productName = NTPExample;
-			productReference = 288A04D71D31A74D0032B6FE /* NTPExample.app */;
+			productReference = 288A04D71D31A74D0032B6FE /* NetworkTimeExample.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -296,7 +296,7 @@
 			targets = (
 				28482DC11D314E7B003491D9 /* NetworkTime */,
 				28482DCB1D314E7B003491D9 /* NetworkTimeTests */,
-				288A04D61D31A74D0032B6FE /* NTPExample */,
+				288A04D61D31A74D0032B6FE /* NetworkTimeExample */,
 			);
 		};
 /* End PBXProject section */
@@ -320,7 +320,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				288A04E11D31A74D0032B6FE /* Assets.xcassets in Resources */,
+				286D95A91D3FE4080010901C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,7 +415,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				288A04DA1D31A74D0032B6FE /* AppDelegate.swift in Sources */,
+				286D95A81D3FE4080010901C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -634,9 +634,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = NTPExample/Info.plist;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NTPExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -650,9 +650,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = NTPExample/Info.plist;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NTPExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -687,7 +687,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		288A04E61D31A74D0032B6FE /* Build configuration list for PBXNativeTarget "NTPExample" */ = {
+		288A04E61D31A74D0032B6FE /* Build configuration list for PBXNativeTarget "NetworkTimeExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				288A04E71D31A74D0032B6FE /* Debug */,
