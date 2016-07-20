@@ -1,0 +1,9 @@
+//
+// Workaround to use bridging header from a framework.
+// Can't use directly or we get the error: "using bridging headers with
+// framework targets is unsupported".
+//
+module CNetworkTime [system] {
+    header "Bridging.h"
+    export *
+}
