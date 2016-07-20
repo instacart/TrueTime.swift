@@ -80,24 +80,24 @@ public typealias NetworkTimeCallback = Result<ReferenceTime, SNTPClientError> ->
 
 // MARK: - Objective-C Bridging
 
-@objc public final class BridgedReferenceTime: NSObject {
-    public let referenceTime: ReferenceTime
+@objc public final class NTPReferenceTime: NSObject {
     init(referenceTime: ReferenceTime) {
-        self.referenceTime = referenceTime
+        self.underlyingValue = referenceTime
     }
 
-    public var time: NSDate { return referenceTime.time }
-    public var uptime: timeval { return referenceTime.uptime }
-    public func now() -> NSDate { return referenceTime.now() }
+    public let underlyingValue: ReferenceTime
+    public var time: NSDate { return underlyingValue.time }
+    public var uptime: timeval { return underlyingValue.uptime }
+    public func now() -> NSDate { return underlyingValue.now() }
 }
 
 extension SNTPClient {
-    @objc public func bridgedRetrieveNetworkTime(success: BridgedReferenceTime -> Void,
-                                                 failure: NSError -> Void) {
+    @objc public func retrieveNetworkTime(success: NTPReferenceTime -> Void,
+                                          failure: NSError -> Void) {
         retrieveNetworkTime { result in
             switch result {
                 case let .Success(time):
-                    success(BridgedReferenceTime(referenceTime: time))
+                    success(NTPReferenceTime(referenceTime: time))
                 case let .Failure(error):
                     failure(error.bridged)
             }
