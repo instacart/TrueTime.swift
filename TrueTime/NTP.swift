@@ -11,7 +11,7 @@ import Result
 
 public enum SNTPClientError: ErrorType {
     case UnresolvableHost(underlyingError: CFStreamError?)
-    case SocketError(underlyingError: NSError?)
+    case ConnectionError(underlyingError: NSError?)
 }
 
 public struct ReferenceTime {
@@ -38,28 +38,37 @@ public typealias ReferenceTimeCallback = Result<ReferenceTime, SNTPClientError> 
     }
 
     public func start(hostURLs hostURLs: [NSURL]) {
-        dispatch_async(queue) {
-            self.startTime = CFAbsoluteTimeGetCurrent()
-            self.hostURLs = hostURLs
-            self.hosts = hostURLs.map { url in  SNTPHost(hostURL: url,
-                                                         timeout: self.timeout,
-                                                         onComplete: self.onComplete) }
-            self.hosts.forEach { $0.start() }
+        reachability.callbackQueue = queue
+        reachability.callback = { [weak self] status in
+            guard let strongSelf = self else { return }
+            switch status {
+                case .NotReachable:
+                    debugLog("Network unreachable")
+                    strongSelf.pauseQueue()
+                case .ReachableViaWWAN, .ReachableViaWiFi:
+                    debugLog("Network reachable")
+                    strongSelf.startQueue(hostURLs: hostURLs)
+            }
         }
+
+        reachability.startMonitoring()
     }
 
     public func pause() {
-        dispatch_async(queue) {
-            self.hosts.forEach { $0.close() }
-        }
+        reachability.stopMonitoring()
+        pauseQueue()
     }
 
     public func retrieveReferenceTime(callback: ReferenceTimeCallback) {
         dispatch_async(queue) {
             guard let referenceTime = self.referenceTime else {
-                self.callbacks.append(callback)
-                if self.results.count == self.hosts.count {
-                    self.start(hostURLs: self.hostURLs) // Retry if we failed last time.
+                if !self.reachability.online {
+                    callback(.Failure(.ConnectionError(underlyingError: .offlineError)))
+                } else {
+                    self.callbacks.append(callback)
+                    if self.results.count == self.hosts.count && self.results.count > 0 {
+                        self.startQueue(hostURLs: self.hostURLs) // Retry if we failed last time.
+                    }
                 }
                 return
             }
@@ -68,15 +77,15 @@ public typealias ReferenceTimeCallback = Result<ReferenceTime, SNTPClientError> 
         }
     }
 
-    private var hostURLs: [NSURL] = []
-    private var startTime: NSTimeInterval? = nil
     private let queue: dispatch_queue_t = dispatch_queue_create("com.instacart.sntp-client", nil)
+    private let reachability = Reachability()
     private var callbacks: [ReferenceTimeCallback] = []
+    private var hostURLs: [NSURL] = []
     private var hosts: [SNTPHost] = []
-    private var results: [Result<ReferenceTime, SNTPClientError>] = []
     private var referenceTime: ReferenceTime?
+    private var results: [Result<ReferenceTime, SNTPClientError>] = []
+    private var startTime: NSTimeInterval?
 }
-
 
 // MARK: - Objective-C Bridging
 
@@ -109,7 +118,7 @@ private let bridgedErrorDomain = "com.instacart.sntp-client-error"
 private extension SNTPClientError {
     var bridged: NSError {
         switch self {
-            case let .SocketError(underlyingError):
+            case let .ConnectionError(underlyingError):
                 if let underlyingError = underlyingError {
                     return underlyingError
                 }
@@ -127,7 +136,7 @@ private extension SNTPClientError {
         switch self {
             case .UnresolvableHost:
                 return (1, "Unresolvable host name.")
-            case .SocketError:
+            case .ConnectionError:
                 return (2, "Failed connecting to NTP server.")
         }
     }
@@ -136,6 +145,32 @@ private extension SNTPClientError {
 // MARK: -
 
 private extension SNTPClient {
+    func startQueue(hostURLs hostURLs: [NSURL]) {
+        dispatch_async(queue) {
+            guard self.hostURLs != hostURLs && self.referenceTime == nil else {
+                debugLog("Already \(self.referenceTime == nil ? "started" : "finished")")
+                return
+            }
+
+            debugLog("Starting queue with hosts: \(hostURLs)")
+            self.startTime = CFAbsoluteTimeGetCurrent()
+            self.hostURLs = hostURLs
+            self.hosts = hostURLs.map { url in  SNTPHost(hostURL: url,
+                                                         timeout: self.timeout,
+                                                         onComplete: self.onComplete) }
+            self.hosts.forEach { $0.start() }
+        }
+    }
+
+    func pauseQueue() {
+        dispatch_async(queue) {
+            debugLog("Pausing queue")
+            self.hosts.forEach { $0.close() }
+            self.hostURLs = []
+            self.startTime = nil
+        }
+    }
+
     func onComplete(result: Result<ReferenceTime, SNTPClientError>) {
         dispatch_async(queue) {
             self.results.append(result)

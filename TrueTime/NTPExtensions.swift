@@ -115,6 +115,12 @@ extension NSError {
         }
         self.init(domain: NSPOSIXErrorDomain, code: Int(errno), userInfo: userInfo)
     }
+
+    static var offlineError: NSError {
+        return NSError(domain: NSURLErrorDomain, code: NSURLErrorNotConnectedToInternet, userInfo: [
+            NSLocalizedDescriptionKey: "The Internet connection appears to be offline."
+        ])
+    }
 }
 
 func withErrno<X: SignedIntegerType>(@noescape block: () -> X) throws -> X {

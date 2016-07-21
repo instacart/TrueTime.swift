@@ -27,6 +27,7 @@
 		28FCABC51D414C7E009E33BC /* ArbitraryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABBB1D414C40009E33BC /* ArbitraryExtensions.swift */; };
 		28FCABC61D414C80009E33BC /* NTPExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABBD1D414C40009E33BC /* NTPExtensionsSpec.swift */; };
 		28FCABC81D414C91009E33BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB71D414C40009E33BC /* AppDelegate.swift */; };
+		28FCABCD1D4155FE009E33BC /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABCC1D4155FE009E33BC /* Reachability.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		28FCABBB1D414C40009E33BC /* ArbitraryExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArbitraryExtensions.swift; sourceTree = "<group>"; };
 		28FCABBC1D414C40009E33BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28FCABBD1D414C40009E33BC /* NTPExtensionsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NTPExtensionsSpec.swift; sourceTree = "<group>"; };
+		28FCABCC1D4155FE009E33BC /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +153,7 @@
 				28FCABB01D414C40009E33BC /* NTP.swift */,
 				28FCABB31D414C40009E33BC /* NTPNode.swift */,
 				28FCABB21D414C40009E33BC /* NTPExtensions.swift */,
+				28FCABCC1D4155FE009E33BC /* Reachability.swift */,
 				28FCABAC1D414C40009E33BC /* Endian.swift */,
 				28FCABB11D414C40009E33BC /* ntp_types.h */,
 				28FCABB51D414C40009E33BC /* uptime.h */,
@@ -392,6 +395,7 @@
 			files = (
 				28FCABBF1D414C71009E33BC /* NTPNode.swift in Sources */,
 				28FCABBE1D414C70009E33BC /* NTP.swift in Sources */,
+				28FCABCD1D4155FE009E33BC /* Reachability.swift in Sources */,
 				28FCABC41D414C71009E33BC /* uptime.c in Sources */,
 				28FCABC11D414C71009E33BC /* Endian.swift in Sources */,
 				28FCABC01D414C71009E33BC /* NTPExtensions.swift in Sources */,

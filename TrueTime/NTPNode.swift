@@ -185,7 +185,7 @@ private extension SNTPConnection {
             debugLog("Sending time: \(NSDate(timeIntervalSince1970: NSTimeInterval(time)))")
             let err = CFSocketSendData(socket, socketAddress.bigEndian.data, packet.data, timeout)
             if err != .Success {
-                onComplete(.Failure(.SocketError(underlyingError: NSError(errno: errno))))
+                onComplete(.Failure(.ConnectionError(underlyingError: NSError(errno: errno))))
             }
         }
     }

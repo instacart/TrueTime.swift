@@ -27,6 +27,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             NSURL(string: "0.us.pool.ntp.org")!,
             NSURL(string: "1.us.pool.ntp.org")!,
         ])
+
         client.retrieveReferenceTime { result in
             switch result {
                 case let .Success(referenceTime):
