@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "28482DC11D314E7B003491D9"
-               BuildableName = "NetworkTime.framework"
-               BlueprintName = "NetworkTime"
-               ReferencedContainer = "container:NetworkTime.xcodeproj">
+               BuildableName = "TrueTime.framework"
+               BlueprintName = "TrueTime"
+               ReferencedContainer = "container:TrueTime.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "28482DCB1D314E7B003491D9"
-               BuildableName = "NetworkTimeTests.xctest"
-               BlueprintName = "NetworkTimeTests"
-               ReferencedContainer = "container:NetworkTime.xcodeproj">
+               BuildableName = "TrueTimeTests.xctest"
+               BlueprintName = "TrueTimeTests"
+               ReferencedContainer = "container:TrueTime.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "28482DCB1D314E7B003491D9"
-               BuildableName = "NetworkTimeTests.xctest"
-               BlueprintName = "NetworkTimeTests"
-               ReferencedContainer = "container:NetworkTime.xcodeproj">
+               BuildableName = "TrueTimeTests.xctest"
+               BlueprintName = "TrueTimeTests"
+               ReferencedContainer = "container:TrueTime.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "28482DC11D314E7B003491D9"
-            BuildableName = "NetworkTime.framework"
-            BlueprintName = "NetworkTime"
-            ReferencedContainer = "container:NetworkTime.xcodeproj">
+            BuildableName = "TrueTime.framework"
+            BlueprintName = "TrueTime"
+            ReferencedContainer = "container:TrueTime.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -79,9 +79,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "28482DC11D314E7B003491D9"
-            BuildableName = "NetworkTime.framework"
-            BlueprintName = "NetworkTime"
-            ReferencedContainer = "container:NetworkTime.xcodeproj">
+            BuildableName = "TrueTime.framework"
+            BlueprintName = "TrueTime"
+            ReferencedContainer = "container:TrueTime.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -97,9 +97,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "28482DC11D314E7B003491D9"
-            BuildableName = "NetworkTime.framework"
-            BlueprintName = "NetworkTime"
-            ReferencedContainer = "container:NetworkTime.xcodeproj">
+            BuildableName = "TrueTime.framework"
+            BlueprintName = "TrueTime"
+            ReferencedContainer = "container:TrueTime.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

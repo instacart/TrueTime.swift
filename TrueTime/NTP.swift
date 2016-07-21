@@ -1,11 +1,12 @@
 //
 //  NTP.swift
-//  ntp.swift
+//  TrueTime
 //
 //  Created by Michael Sanders on 7/9/16.
 //  Copyright © 2016 Instacart. All rights reserved.
 //
 
+import Foundation
 import Result
 
 public enum SNTPClientError: ErrorType {

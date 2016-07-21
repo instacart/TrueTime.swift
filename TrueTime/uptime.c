@@ -1,6 +1,6 @@
 //
 //  uptime.c
-//  NetworkTime
+//  TrueTime
 //
 //  Created by Michael Sanders on 7/11/16.
 //  Copyright © 2016 Instacart. All rights reserved.

@@ -1,13 +1,13 @@
 //
 //  NTPNode.swift
-//  ntp.swift
+//  TrueTime
 //
 //  Created by Michael Sanders on 7/18/16.
 //  Copyright © 2016 Instacart. All rights reserved.
 //
 
 import Foundation
-import CNetworkTime
+import CTrueTime
 
 protocol SNTPNode {
     var timeout: NSTimeInterval { get }

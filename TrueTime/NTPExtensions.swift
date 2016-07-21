@@ -1,13 +1,13 @@
 //
 //  NTPExtensions.swift
-//  ntp.swift
+//  TrueTime
 //
 //  Created by Michael Sanders on 7/10/16.
 //  Copyright © 2016 Instacart. All rights reserved.
 //
 
 import Foundation
-import CNetworkTime
+import CTrueTime
 
 extension timeval {
     static func now() -> timeval {
@@ -18,7 +18,7 @@ extension timeval {
 
     static func uptime() -> timeval {
         var tv = timeval()
-        withFatalErrno { CNetworkTime.uptime(&tv) }
+        withFatalErrno { CTrueTime.uptime(&tv) }
         return tv
     }
 

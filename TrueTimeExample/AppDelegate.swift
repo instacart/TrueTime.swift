@@ -8,7 +8,7 @@
 
 import UIKit
 import Result
-import NetworkTime
+import TrueTime
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {

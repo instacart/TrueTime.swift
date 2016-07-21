@@ -1,13 +1,13 @@
 //
 //  NTPExtensionsSpec.swift
-//  NetworkTime
+//  TrueTime
 //
 //  Created by Michael Sanders on 7/18/16.
 //  Copyright © 2016 Instacart. All rights reserved.
 //
 
-@testable import NetworkTime
-import CNetworkTime
+@testable import TrueTime
+import CTrueTime
 import Nimble
 import Quick
 import SwiftCheck

@@ -7,28 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		280FE26E1D3F082600AD4937 /* NTPExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280FE2691D3F081900AD4937 /* NTPExtensionsSpec.swift */; };
-		280FE26F1D3F0EB800AD4937 /* ArbitraryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F79E0F1D3F061D00437F36 /* ArbitraryExtensions.swift */; };
-		28482DCD1D314E7B003491D9 /* NetworkTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* NetworkTime.framework */; };
-		28511FA91D3DF4C700231883 /* Endian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28511F9E1D3DF4C700231883 /* Endian.swift */; };
-		28511FAC1D3DF4C700231883 /* NTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28511FA11D3DF4C700231883 /* NTP.swift */; };
-		28511FAD1D3DF4C700231883 /* NetworkTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 28511FA21D3DF4C700231883 /* NetworkTime.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		28511FAE1D3DF4C700231883 /* NTPExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28511FA31D3DF4C700231883 /* NTPExtensions.swift */; };
-		28511FAF1D3DF4C700231883 /* NTPNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28511FA41D3DF4C700231883 /* NTPNode.swift */; };
-		28511FB11D3DF4C700231883 /* ntp_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 28511FA61D3DF4C700231883 /* ntp_types.h */; };
-		28511FB21D3DF4C700231883 /* uptime.c in Sources */ = {isa = PBXBuildFile; fileRef = 28511FA71D3DF4C700231883 /* uptime.c */; };
-		28511FB31D3DF4C700231883 /* uptime.h in Headers */ = {isa = PBXBuildFile; fileRef = 28511FA81D3DF4C700231883 /* uptime.h */; };
-		286D95A81D3FE4080010901C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286D95A51D3FE4080010901C /* AppDelegate.swift */; };
-		286D95A91D3FE4080010901C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 286D95A61D3FE4080010901C /* Assets.xcassets */; };
+		28482DCD1D314E7B003491D9 /* TrueTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; };
 		288A04D01D31A1250032B6FE /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04CE1D31A1250032B6FE /* Nimble.framework */; };
 		288A04D11D31A1250032B6FE /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04CF1D31A1250032B6FE /* Quick.framework */; };
-		288A04EC1D31A87F0032B6FE /* NetworkTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* NetworkTime.framework */; };
+		288A04EC1D31A87F0032B6FE /* TrueTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; };
 		288A04F61D31B93F0032B6FE /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04F51D31B93F0032B6FE /* Result.framework */; };
 		288A04F71D31B93F0032B6FE /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04F51D31B93F0032B6FE /* Result.framework */; };
 		288A04F81D31C3160032B6FE /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04F51D31B93F0032B6FE /* Result.framework */; };
-		28AF2F7B1D3CB66100FE536A /* NetworkTime.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* NetworkTime.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		28AF2F7B1D3CB66100FE536A /* TrueTime.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		28AF2F7C1D3CB67100FE536A /* Result.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04F51D31B93F0032B6FE /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		28F79E121D3F06EA00437F36 /* Curry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F79E111D3F06EA00437F36 /* Curry.framework */; };
+		28FCABBE1D414C70009E33BC /* NTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB01D414C40009E33BC /* NTP.swift */; };
+		28FCABBF1D414C71009E33BC /* NTPNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB31D414C40009E33BC /* NTPNode.swift */; };
+		28FCABC01D414C71009E33BC /* NTPExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB21D414C40009E33BC /* NTPExtensions.swift */; };
+		28FCABC11D414C71009E33BC /* Endian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABAC1D414C40009E33BC /* Endian.swift */; };
+		28FCABC21D414C71009E33BC /* ntp_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 28FCABB11D414C40009E33BC /* ntp_types.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		28FCABC31D414C71009E33BC /* uptime.h in Headers */ = {isa = PBXBuildFile; fileRef = 28FCABB51D414C40009E33BC /* uptime.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		28FCABC41D414C71009E33BC /* uptime.c in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB41D414C40009E33BC /* uptime.c */; };
+		28FCABC51D414C7E009E33BC /* ArbitraryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABBB1D414C40009E33BC /* ArbitraryExtensions.swift */; };
+		28FCABC61D414C80009E33BC /* NTPExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABBD1D414C40009E33BC /* NTPExtensionsSpec.swift */; };
+		28FCABC81D414C91009E33BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB71D414C40009E33BC /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +54,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				28AF2F7C1D3CB67100FE536A /* Result.framework in Copy Frameworks */,
-				28AF2F7B1D3CB66100FE536A /* NetworkTime.framework in Copy Frameworks */,
+				28AF2F7B1D3CB66100FE536A /* TrueTime.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -64,30 +62,30 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		280FE2691D3F081900AD4937 /* NTPExtensionsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTPExtensionsSpec.swift; sourceTree = "<group>"; };
-		280FE26B1D3F082000AD4937 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		28482DC21D314E7B003491D9 /* NetworkTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NetworkTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		28482DCC1D314E7B003491D9 /* NetworkTimeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkTimeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		28511F9E1D3DF4C700231883 /* Endian.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Endian.swift; sourceTree = "<group>"; };
-		28511F9F1D3DF4C700231883 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		28511FA11D3DF4C700231883 /* NTP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTP.swift; sourceTree = "<group>"; };
-		28511FA21D3DF4C700231883 /* NetworkTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkTime.h; sourceTree = "<group>"; };
-		28511FA31D3DF4C700231883 /* NTPExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTPExtensions.swift; sourceTree = "<group>"; };
-		28511FA41D3DF4C700231883 /* NTPNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTPNode.swift; sourceTree = "<group>"; };
-		28511FA61D3DF4C700231883 /* ntp_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ntp_types.h; sourceTree = "<group>"; };
-		28511FA71D3DF4C700231883 /* uptime.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uptime.c; sourceTree = "<group>"; };
-		28511FA81D3DF4C700231883 /* uptime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uptime.h; sourceTree = "<group>"; };
-		286D95A51D3FE4080010901C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		286D95A61D3FE4080010901C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		286D95A71D3FE4080010901C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28482DC21D314E7B003491D9 /* TrueTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TrueTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		28482DCC1D314E7B003491D9 /* TrueTimeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrueTimeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		288A04CE1D31A1250032B6FE /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		288A04CF1D31A1250032B6FE /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
-		288A04D71D31A74D0032B6FE /* NetworkTimeExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetworkTimeExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		288A04D71D31A74D0032B6FE /* TrueTimeExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrueTimeExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		288A04F51D31B93F0032B6FE /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
-		28E13F451D3E012400F104FB /* module.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.map; sourceTree = "<group>"; };
-		28E13F461D3E025B00F104FB /* Bridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridging.h; sourceTree = "<group>"; };
-		28F79E0F1D3F061D00437F36 /* ArbitraryExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArbitraryExtensions.swift; sourceTree = "<group>"; };
 		28F79E111D3F06EA00437F36 /* Curry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Curry.framework; path = Carthage/Build/iOS/Curry.framework; sourceTree = "<group>"; };
+		28FCABAB1D414C40009E33BC /* Bridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridging.h; sourceTree = "<group>"; };
+		28FCABAC1D414C40009E33BC /* Endian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endian.swift; sourceTree = "<group>"; };
+		28FCABAD1D414C40009E33BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28FCABAE1D414C40009E33BC /* module.map */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.map; sourceTree = "<group>"; };
+		28FCABAF1D414C40009E33BC /* TrueTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrueTime.h; sourceTree = "<group>"; };
+		28FCABB01D414C40009E33BC /* NTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NTP.swift; sourceTree = "<group>"; };
+		28FCABB11D414C40009E33BC /* ntp_types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ntp_types.h; sourceTree = "<group>"; };
+		28FCABB21D414C40009E33BC /* NTPExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NTPExtensions.swift; sourceTree = "<group>"; };
+		28FCABB31D414C40009E33BC /* NTPNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NTPNode.swift; sourceTree = "<group>"; };
+		28FCABB41D414C40009E33BC /* uptime.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = uptime.c; sourceTree = "<group>"; };
+		28FCABB51D414C40009E33BC /* uptime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = uptime.h; sourceTree = "<group>"; };
+		28FCABB71D414C40009E33BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		28FCABB81D414C40009E33BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		28FCABB91D414C40009E33BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28FCABBB1D414C40009E33BC /* ArbitraryExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArbitraryExtensions.swift; sourceTree = "<group>"; };
+		28FCABBC1D414C40009E33BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28FCABBD1D414C40009E33BC /* NTPExtensionsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NTPExtensionsSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,7 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28482DCD1D314E7B003491D9 /* NetworkTime.framework in Frameworks */,
+				28482DCD1D314E7B003491D9 /* TrueTime.framework in Frameworks */,
 				288A04D01D31A1250032B6FE /* Nimble.framework in Frameworks */,
 				288A04D11D31A1250032B6FE /* Quick.framework in Frameworks */,
 				288A04F61D31B93F0032B6FE /* Result.framework in Frameworks */,
@@ -115,7 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				288A04EC1D31A87F0032B6FE /* NetworkTime.framework in Frameworks */,
+				288A04EC1D31A87F0032B6FE /* TrueTime.framework in Frameworks */,
 				288A04F71D31B93F0032B6FE /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -126,9 +124,9 @@
 		28482DB81D314E7B003491D9 = {
 			isa = PBXGroup;
 			children = (
-				28511F9D1D3DF4C700231883 /* NetworkTime */,
-				28482DD01D314E7C003491D9 /* NetworkTimeTests */,
-				286D95A41D3FE4080010901C /* NetworkTimeExample */,
+				28FCABAA1D414C40009E33BC /* TrueTime */,
+				28FCABBA1D414C40009E33BC /* TrueTimeTests */,
+				28FCABB61D414C40009E33BC /* TrueTimeExample */,
 				28482DC31D314E7B003491D9 /* Products */,
 				28F79E111D3F06EA00437F36 /* Curry.framework */,
 				288A04CE1D31A1250032B6FE /* Nimble.framework */,
@@ -140,50 +138,50 @@
 		28482DC31D314E7B003491D9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				28482DC21D314E7B003491D9 /* NetworkTime.framework */,
-				28482DCC1D314E7B003491D9 /* NetworkTimeTests.xctest */,
-				288A04D71D31A74D0032B6FE /* NetworkTimeExample.app */,
+				28482DC21D314E7B003491D9 /* TrueTime.framework */,
+				28482DCC1D314E7B003491D9 /* TrueTimeTests.xctest */,
+				288A04D71D31A74D0032B6FE /* TrueTimeExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		28482DD01D314E7C003491D9 /* NetworkTimeTests */ = {
+		28FCABAA1D414C40009E33BC /* TrueTime */ = {
 			isa = PBXGroup;
 			children = (
-				280FE2691D3F081900AD4937 /* NTPExtensionsSpec.swift */,
-				28F79E0F1D3F061D00437F36 /* ArbitraryExtensions.swift */,
-				280FE26B1D3F082000AD4937 /* Info.plist */,
+				28FCABB01D414C40009E33BC /* NTP.swift */,
+				28FCABB31D414C40009E33BC /* NTPNode.swift */,
+				28FCABB21D414C40009E33BC /* NTPExtensions.swift */,
+				28FCABAC1D414C40009E33BC /* Endian.swift */,
+				28FCABB11D414C40009E33BC /* ntp_types.h */,
+				28FCABB51D414C40009E33BC /* uptime.h */,
+				28FCABB41D414C40009E33BC /* uptime.c */,
+				28FCABAB1D414C40009E33BC /* Bridging.h */,
+				28FCABAF1D414C40009E33BC /* TrueTime.h */,
+				28FCABAD1D414C40009E33BC /* Info.plist */,
+				28FCABAE1D414C40009E33BC /* module.map */,
 			);
-			path = NetworkTimeTests;
+			path = TrueTime;
 			sourceTree = "<group>";
 		};
-		28511F9D1D3DF4C700231883 /* NetworkTime */ = {
+		28FCABB61D414C40009E33BC /* TrueTimeExample */ = {
 			isa = PBXGroup;
 			children = (
-				28511FA11D3DF4C700231883 /* NTP.swift */,
-				28511FA41D3DF4C700231883 /* NTPNode.swift */,
-				28511FA31D3DF4C700231883 /* NTPExtensions.swift */,
-				28511F9E1D3DF4C700231883 /* Endian.swift */,
-				28511FA61D3DF4C700231883 /* ntp_types.h */,
-				28511FA81D3DF4C700231883 /* uptime.h */,
-				28511FA71D3DF4C700231883 /* uptime.c */,
-				28E13F461D3E025B00F104FB /* Bridging.h */,
-				28511FA21D3DF4C700231883 /* NetworkTime.h */,
-				28E13F451D3E012400F104FB /* module.map */,
-				28511F9F1D3DF4C700231883 /* Info.plist */,
+				28FCABB71D414C40009E33BC /* AppDelegate.swift */,
+				28FCABB81D414C40009E33BC /* Assets.xcassets */,
+				28FCABB91D414C40009E33BC /* Info.plist */,
 			);
-			path = NetworkTime;
+			path = TrueTimeExample;
 			sourceTree = "<group>";
 		};
-		286D95A41D3FE4080010901C /* NetworkTimeExample */ = {
+		28FCABBA1D414C40009E33BC /* TrueTimeTests */ = {
 			isa = PBXGroup;
 			children = (
-				286D95A51D3FE4080010901C /* AppDelegate.swift */,
-				286D95A61D3FE4080010901C /* Assets.xcassets */,
-				286D95A71D3FE4080010901C /* Info.plist */,
+				28FCABBB1D414C40009E33BC /* ArbitraryExtensions.swift */,
+				28FCABBD1D414C40009E33BC /* NTPExtensionsSpec.swift */,
+				28FCABBC1D414C40009E33BC /* Info.plist */,
 			);
-			path = NetworkTimeExample;
-			sourceTree = SOURCE_ROOT;
+			path = TrueTimeTests;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -192,18 +190,17 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28511FAD1D3DF4C700231883 /* NetworkTime.h in Headers */,
-				28511FB31D3DF4C700231883 /* uptime.h in Headers */,
-				28511FB11D3DF4C700231883 /* ntp_types.h in Headers */,
+				28FCABC31D414C71009E33BC /* uptime.h in Headers */,
+				28FCABC21D414C71009E33BC /* ntp_types.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		28482DC11D314E7B003491D9 /* NetworkTime */ = {
+		28482DC11D314E7B003491D9 /* TrueTime */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 28482DD61D314E7C003491D9 /* Build configuration list for PBXNativeTarget "NetworkTime" */;
+			buildConfigurationList = 28482DD61D314E7C003491D9 /* Build configuration list for PBXNativeTarget "TrueTime" */;
 			buildPhases = (
 				28482DBD1D314E7B003491D9 /* Sources */,
 				28482DBE1D314E7B003491D9 /* Frameworks */,
@@ -215,14 +212,14 @@
 			);
 			dependencies = (
 			);
-			name = NetworkTime;
+			name = TrueTime;
 			productName = ntp.swift;
-			productReference = 28482DC21D314E7B003491D9 /* NetworkTime.framework */;
+			productReference = 28482DC21D314E7B003491D9 /* TrueTime.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		28482DCB1D314E7B003491D9 /* NetworkTimeTests */ = {
+		28482DCB1D314E7B003491D9 /* TrueTimeTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 28482DD91D314E7C003491D9 /* Build configuration list for PBXNativeTarget "NetworkTimeTests" */;
+			buildConfigurationList = 28482DD91D314E7C003491D9 /* Build configuration list for PBXNativeTarget "TrueTimeTests" */;
 			buildPhases = (
 				28482DC81D314E7B003491D9 /* Sources */,
 				28482DC91D314E7B003491D9 /* Frameworks */,
@@ -235,14 +232,14 @@
 			dependencies = (
 				28482DCF1D314E7B003491D9 /* PBXTargetDependency */,
 			);
-			name = NetworkTimeTests;
+			name = TrueTimeTests;
 			productName = NetworkTimeTests;
-			productReference = 28482DCC1D314E7B003491D9 /* NetworkTimeTests.xctest */;
+			productReference = 28482DCC1D314E7B003491D9 /* TrueTimeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		288A04D61D31A74D0032B6FE /* NetworkTimeExample */ = {
+		288A04D61D31A74D0032B6FE /* TrueTimeExample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 288A04E61D31A74D0032B6FE /* Build configuration list for PBXNativeTarget "NetworkTimeExample" */;
+			buildConfigurationList = 288A04E61D31A74D0032B6FE /* Build configuration list for PBXNativeTarget "TrueTimeExample" */;
 			buildPhases = (
 				288A04D31D31A74D0032B6FE /* Sources */,
 				288A04D41D31A74D0032B6FE /* Frameworks */,
@@ -255,9 +252,9 @@
 			dependencies = (
 				288A04EA1D31A7620032B6FE /* PBXTargetDependency */,
 			);
-			name = NetworkTimeExample;
+			name = TrueTimeExample;
 			productName = NTPExample;
-			productReference = 288A04D71D31A74D0032B6FE /* NetworkTimeExample.app */;
+			productReference = 288A04D71D31A74D0032B6FE /* TrueTimeExample.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -281,7 +278,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 28482DBC1D314E7B003491D9 /* Build configuration list for PBXProject "NetworkTime" */;
+			buildConfigurationList = 28482DBC1D314E7B003491D9 /* Build configuration list for PBXProject "TrueTime" */;
 			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -294,9 +291,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				28482DC11D314E7B003491D9 /* NetworkTime */,
-				28482DCB1D314E7B003491D9 /* NetworkTimeTests */,
-				288A04D61D31A74D0032B6FE /* NetworkTimeExample */,
+				28482DC11D314E7B003491D9 /* TrueTime */,
+				28482DCB1D314E7B003491D9 /* TrueTimeTests */,
+				288A04D61D31A74D0032B6FE /* TrueTimeExample */,
 			);
 		};
 /* End PBXProject section */
@@ -320,7 +317,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				286D95A91D3FE4080010901C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,11 +390,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28511FAF1D3DF4C700231883 /* NTPNode.swift in Sources */,
-				28511FB21D3DF4C700231883 /* uptime.c in Sources */,
-				28511FAC1D3DF4C700231883 /* NTP.swift in Sources */,
-				28511FA91D3DF4C700231883 /* Endian.swift in Sources */,
-				28511FAE1D3DF4C700231883 /* NTPExtensions.swift in Sources */,
+				28FCABBF1D414C71009E33BC /* NTPNode.swift in Sources */,
+				28FCABBE1D414C70009E33BC /* NTP.swift in Sources */,
+				28FCABC41D414C71009E33BC /* uptime.c in Sources */,
+				28FCABC11D414C71009E33BC /* Endian.swift in Sources */,
+				28FCABC01D414C71009E33BC /* NTPExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,8 +402,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				280FE26F1D3F0EB800AD4937 /* ArbitraryExtensions.swift in Sources */,
-				280FE26E1D3F082600AD4937 /* NTPExtensionsSpec.swift in Sources */,
+				28FCABC51D414C7E009E33BC /* ArbitraryExtensions.swift in Sources */,
+				28FCABC61D414C80009E33BC /* NTPExtensionsSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,7 +411,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				286D95A81D3FE4080010901C /* AppDelegate.swift in Sources */,
+				28FCABC81D414C91009E33BC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,12 +420,12 @@
 /* Begin PBXTargetDependency section */
 		28482DCF1D314E7B003491D9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 28482DC11D314E7B003491D9 /* NetworkTime */;
+			target = 28482DC11D314E7B003491D9 /* TrueTime */;
 			targetProxy = 28482DCE1D314E7B003491D9 /* PBXContainerItemProxy */;
 		};
 		288A04EA1D31A7620032B6FE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 28482DC11D314E7B003491D9 /* NetworkTime */;
+			target = 28482DC11D314E7B003491D9 /* TrueTime */;
 			targetProxy = 288A04E91D31A7620032B6FE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -553,8 +549,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.ntp-swift";
-				PRODUCT_MODULE_NAME = NetworkTime;
-				PRODUCT_NAME = NetworkTime;
+				PRODUCT_NAME = TrueTime;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)";
@@ -583,8 +578,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.ntp-swift";
-				PRODUCT_MODULE_NAME = NetworkTime;
-				PRODUCT_NAME = NetworkTime;
+				PRODUCT_NAME = TrueTime;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)";
@@ -603,8 +597,7 @@
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeTests;
-				PRODUCT_MODULE_NAME = NetworkTimeTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = TrueTimeTests;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)";
 			};
 			name = Debug;
@@ -619,8 +612,7 @@
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeTests;
-				PRODUCT_MODULE_NAME = NetworkTimeTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = TrueTimeTests;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)";
 			};
 			name = Release;
@@ -637,7 +629,7 @@
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeExample;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = TrueTimeExample;
 			};
 			name = Debug;
 		};
@@ -653,14 +645,14 @@
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeExample;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = TrueTimeExample;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		28482DBC1D314E7B003491D9 /* Build configuration list for PBXProject "NetworkTime" */ = {
+		28482DBC1D314E7B003491D9 /* Build configuration list for PBXProject "TrueTime" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				28482DD41D314E7C003491D9 /* Debug */,
@@ -669,7 +661,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		28482DD61D314E7C003491D9 /* Build configuration list for PBXNativeTarget "NetworkTime" */ = {
+		28482DD61D314E7C003491D9 /* Build configuration list for PBXNativeTarget "TrueTime" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				28482DD71D314E7C003491D9 /* Debug */,
@@ -678,7 +670,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		28482DD91D314E7C003491D9 /* Build configuration list for PBXNativeTarget "NetworkTimeTests" */ = {
+		28482DD91D314E7C003491D9 /* Build configuration list for PBXNativeTarget "TrueTimeTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				28482DDA1D314E7C003491D9 /* Debug */,
@@ -687,7 +679,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		288A04E61D31A74D0032B6FE /* Build configuration list for PBXNativeTarget "NetworkTimeExample" */ = {
+		288A04E61D31A74D0032B6FE /* Build configuration list for PBXNativeTarget "TrueTimeExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				288A04E71D31A74D0032B6FE /* Debug */,
