@@ -13,11 +13,11 @@ import NetworkTime
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
-    var client: SNTPClient?
 
     func application(application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        client = SNTPClient(hostURLs: [
+        let client = SNTPClient.sharedInstance
+        client.start(hostURLs: [
             NSURL(string: "time.apple.com")!,
             NSURL(string: "clock.sjc.he.net")!,
             NSURL(string: "0.north-america.pool.ntp.org")!,
@@ -27,9 +27,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             NSURL(string: "0.us.pool.ntp.org")!,
             NSURL(string: "1.us.pool.ntp.org")!,
         ])
-
-        client?.start()
-        client?.retrieveNetworkTime { result in
+        client.retrieveReferenceTime { result in
             switch result {
                 case let .Success(referenceTime):
                     print("Got network time! \(referenceTime.time)s")

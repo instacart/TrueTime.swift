@@ -11,7 +11,7 @@ import CNetworkTime
 
 protocol SNTPNode {
     var timeout: NSTimeInterval { get }
-    var onComplete: NetworkTimeCallback { get }
+    var onComplete: ReferenceTimeCallback { get }
     func start()
     func close()
 }
@@ -19,11 +19,11 @@ protocol SNTPNode {
 final class SNTPHost {
     let hostURL: NSURL
     let timeout: NSTimeInterval
-    let onComplete: NetworkTimeCallback
+    let onComplete: ReferenceTimeCallback
 
     required init(hostURL: NSURL,
                   timeout: NSTimeInterval,
-                  onComplete: NetworkTimeCallback) {
+                  onComplete: ReferenceTimeCallback) {
         self.hostURL = hostURL
         self.timeout = timeout
         self.onComplete = onComplete
@@ -98,11 +98,11 @@ private extension SNTPHost {
 final class SNTPConnection {
     let socketAddress: sockaddr_in
     let timeout: NSTimeInterval
-    let onComplete: NetworkTimeCallback
+    let onComplete: ReferenceTimeCallback
 
     required init(socketAddress: sockaddr_in,
                   timeout: NSTimeInterval,
-                  onComplete: NetworkTimeCallback) {
+                  onComplete: ReferenceTimeCallback) {
         self.socketAddress = socketAddress
         self.timeout = timeout
         self.onComplete = onComplete

@@ -9,7 +9,7 @@
 import Foundation
 import CNetworkTime
 
-public extension timeval {
+extension timeval {
     static func now() -> timeval {
         var tv = timeval()
         withFatalErrno { gettimeofday(&tv, nil) }

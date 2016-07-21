@@ -27,24 +27,22 @@ public extension ReferenceTime {
     }
 }
 
-public typealias NetworkTimeCallback = Result<ReferenceTime, SNTPClientError> -> Void
+public typealias ReferenceTimeCallback = Result<ReferenceTime, SNTPClientError> -> Void
 
 @objc public final class SNTPClient: NSObject {
-    public let hostURLs: [NSURL]
+    public static let sharedInstance = SNTPClient()
     public let timeout: NSTimeInterval
-    required public init(hostURLs: [NSURL],
-                         timeout: NSTimeInterval = defaultTimeout) {
-        self.hostURLs = hostURLs
+    required public init(timeout: NSTimeInterval = defaultTimeout) {
         self.timeout = timeout
     }
 
-    public func start() {
+    public func start(hostURLs hostURLs: [NSURL]) {
         dispatch_async(queue) {
             self.startTime = CFAbsoluteTimeGetCurrent()
-            self.hosts = self.hostURLs.map { url in  SNTPHost(hostURL: url,
-                                            timeout: self.timeout,
-                                            onComplete: self.onComplete) }
-
+            self.hostURLs = hostURLs
+            self.hosts = hostURLs.map { url in  SNTPHost(hostURL: url,
+                                                         timeout: self.timeout,
+                                                         onComplete: self.onComplete) }
             self.hosts.forEach { $0.start() }
         }
     }
@@ -55,12 +53,12 @@ public typealias NetworkTimeCallback = Result<ReferenceTime, SNTPClientError> ->
         }
     }
 
-    public func retrieveNetworkTime(callback: NetworkTimeCallback) {
+    public func retrieveReferenceTime(callback: ReferenceTimeCallback) {
         dispatch_async(queue) {
             guard let referenceTime = self.referenceTime else {
                 self.callbacks.append(callback)
                 if self.results.count == self.hosts.count {
-                    self.start() // Retry if we failed last time.
+                    self.start(hostURLs: self.hostURLs) // Retry if we failed last time.
                 }
                 return
             }
@@ -69,9 +67,10 @@ public typealias NetworkTimeCallback = Result<ReferenceTime, SNTPClientError> ->
         }
     }
 
+    private var hostURLs: [NSURL] = []
     private var startTime: NSTimeInterval? = nil
     private let queue: dispatch_queue_t = dispatch_queue_create("com.instacart.sntp-client", nil)
-    private var callbacks: [NetworkTimeCallback] = []
+    private var callbacks: [ReferenceTimeCallback] = []
     private var hosts: [SNTPHost] = []
     private var results: [Result<ReferenceTime, SNTPClientError>] = []
     private var referenceTime: ReferenceTime?
@@ -92,14 +91,14 @@ public typealias NetworkTimeCallback = Result<ReferenceTime, SNTPClientError> ->
 }
 
 extension SNTPClient {
-    @objc public func retrieveNetworkTime(success: NTPReferenceTime -> Void,
-                                          failure: NSError -> Void) {
-        retrieveNetworkTime { result in
+    @objc public func retrieveReferenceTime(success success: NTPReferenceTime -> Void,
+                                            failure: (NSError -> Void)?) {
+        retrieveReferenceTime { result in
             switch result {
                 case let .Success(time):
                     success(NTPReferenceTime(referenceTime: time))
                 case let .Failure(error):
-                    failure(error.bridged)
+                    failure?(error.bridged)
             }
         }
     }
