@@ -9,19 +9,25 @@
 import Foundation
 import CTrueTime
 
+public extension timeval {
+    static func uptime() -> timeval {
+        let now = timeval.now()
+        var boottime = timeval()
+        var mib: [CInt] = [CTL_KERN, KERN_BOOTTIME]
+        var size = sizeofValue(boottime)
+        withFatalErrno { sysctl(&mib, 2, &boottime, &size, nil, 0) }
+        return timeval(tv_sec: now.tv_sec - boottime.tv_sec,
+                       tv_usec: now.tv_usec - boottime.tv_usec)
+    }
+}
+
 extension timeval {
     static func now() -> timeval {
         var tv = timeval()
         withFatalErrno { gettimeofday(&tv, nil) }
         return tv
     }
-
-    static func uptime() -> timeval {
-        var tv = timeval()
-        withFatalErrno { CTrueTime.uptime(&tv) }
-        return tv
-    }
-
+    
     var milliseconds: Int64 {
         return Int64(tv_sec) * Int64(MSEC_PER_SEC) + Int64(tv_usec) / Int64(USEC_PER_MSEC)
     }

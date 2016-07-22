@@ -17,6 +17,10 @@ public enum SNTPClientError: ErrorType {
 public struct ReferenceTime {
     public let time: NSDate
     public let uptime: timeval
+    public init(time: NSDate, uptime: timeval) {
+        self.time = time
+        self.uptime = uptime
+    }
 }
 
 public extension ReferenceTime {
@@ -90,7 +94,7 @@ public typealias ReferenceTimeCallback = Result<ReferenceTime, SNTPClientError> 
 // MARK: - Objective-C Bridging
 
 @objc public final class NTPReferenceTime: NSObject {
-    init(referenceTime: ReferenceTime) {
+    public init(_ referenceTime: ReferenceTime) {
         self.underlyingValue = referenceTime
     }
 
@@ -106,7 +110,7 @@ extension SNTPClient {
         retrieveReferenceTime { result in
             switch result {
                 case let .Success(time):
-                    success(NTPReferenceTime(referenceTime: time))
+                    success(NTPReferenceTime(time))
                 case let .Failure(error):
                     failure?(error.bridged)
             }

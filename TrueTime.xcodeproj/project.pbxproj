@@ -14,6 +14,7 @@
 		288A04F61D31B93F0032B6FE /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04F51D31B93F0032B6FE /* Result.framework */; };
 		288A04F71D31B93F0032B6FE /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04F51D31B93F0032B6FE /* Result.framework */; };
 		288A04F81D31C3160032B6FE /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04F51D31B93F0032B6FE /* Result.framework */; };
+		289A07631D420A7B0033FB93 /* Bridging.h in Headers */ = {isa = PBXBuildFile; fileRef = 28FCABAB1D414C40009E33BC /* Bridging.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		28AF2F7B1D3CB66100FE536A /* TrueTime.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		28AF2F7C1D3CB67100FE536A /* Result.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04F51D31B93F0032B6FE /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		28F79E121D3F06EA00437F36 /* Curry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F79E111D3F06EA00437F36 /* Curry.framework */; };
@@ -22,8 +23,6 @@
 		28FCABC01D414C71009E33BC /* NTPExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB21D414C40009E33BC /* NTPExtensions.swift */; };
 		28FCABC11D414C71009E33BC /* Endian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABAC1D414C40009E33BC /* Endian.swift */; };
 		28FCABC21D414C71009E33BC /* ntp_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 28FCABB11D414C40009E33BC /* ntp_types.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		28FCABC31D414C71009E33BC /* uptime.h in Headers */ = {isa = PBXBuildFile; fileRef = 28FCABB51D414C40009E33BC /* uptime.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		28FCABC41D414C71009E33BC /* uptime.c in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB41D414C40009E33BC /* uptime.c */; };
 		28FCABC51D414C7E009E33BC /* ArbitraryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABBB1D414C40009E33BC /* ArbitraryExtensions.swift */; };
 		28FCABC61D414C80009E33BC /* NTPExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABBD1D414C40009E33BC /* NTPExtensionsSpec.swift */; };
 		28FCABC81D414C91009E33BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB71D414C40009E33BC /* AppDelegate.swift */; };
@@ -69,18 +68,16 @@
 		288A04CF1D31A1250032B6FE /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		288A04D71D31A74D0032B6FE /* TrueTimeExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrueTimeExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		288A04F51D31B93F0032B6FE /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
+		289A07621D4209C80033FB93 /* module.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.map; sourceTree = "<group>"; };
 		28F79E111D3F06EA00437F36 /* Curry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Curry.framework; path = Carthage/Build/iOS/Curry.framework; sourceTree = "<group>"; };
 		28FCABAB1D414C40009E33BC /* Bridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridging.h; sourceTree = "<group>"; };
 		28FCABAC1D414C40009E33BC /* Endian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endian.swift; sourceTree = "<group>"; };
 		28FCABAD1D414C40009E33BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		28FCABAE1D414C40009E33BC /* module.map */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.map; sourceTree = "<group>"; };
 		28FCABAF1D414C40009E33BC /* TrueTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrueTime.h; sourceTree = "<group>"; };
 		28FCABB01D414C40009E33BC /* NTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NTP.swift; sourceTree = "<group>"; };
 		28FCABB11D414C40009E33BC /* ntp_types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ntp_types.h; sourceTree = "<group>"; };
 		28FCABB21D414C40009E33BC /* NTPExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NTPExtensions.swift; sourceTree = "<group>"; };
 		28FCABB31D414C40009E33BC /* NTPNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NTPNode.swift; sourceTree = "<group>"; };
-		28FCABB41D414C40009E33BC /* uptime.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = uptime.c; sourceTree = "<group>"; };
-		28FCABB51D414C40009E33BC /* uptime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = uptime.h; sourceTree = "<group>"; };
 		28FCABB71D414C40009E33BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28FCABB81D414C40009E33BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		28FCABB91D414C40009E33BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -156,12 +153,10 @@
 				28FCABCC1D4155FE009E33BC /* Reachability.swift */,
 				28FCABAC1D414C40009E33BC /* Endian.swift */,
 				28FCABB11D414C40009E33BC /* ntp_types.h */,
-				28FCABB51D414C40009E33BC /* uptime.h */,
-				28FCABB41D414C40009E33BC /* uptime.c */,
 				28FCABAB1D414C40009E33BC /* Bridging.h */,
 				28FCABAF1D414C40009E33BC /* TrueTime.h */,
+				289A07621D4209C80033FB93 /* module.map */,
 				28FCABAD1D414C40009E33BC /* Info.plist */,
-				28FCABAE1D414C40009E33BC /* module.map */,
 			);
 			path = TrueTime;
 			sourceTree = "<group>";
@@ -193,7 +188,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28FCABC31D414C71009E33BC /* uptime.h in Headers */,
+				289A07631D420A7B0033FB93 /* Bridging.h in Headers */,
 				28FCABC21D414C71009E33BC /* ntp_types.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -396,7 +391,6 @@
 				28FCABBF1D414C71009E33BC /* NTPNode.swift in Sources */,
 				28FCABBE1D414C70009E33BC /* NTP.swift in Sources */,
 				28FCABCD1D4155FE009E33BC /* Reachability.swift in Sources */,
-				28FCABC41D414C71009E33BC /* uptime.c in Sources */,
 				28FCABC11D414C71009E33BC /* Endian.swift in Sources */,
 				28FCABC01D414C71009E33BC /* NTPExtensions.swift in Sources */,
 			);
