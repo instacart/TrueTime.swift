@@ -32,7 +32,7 @@ final class SNTPHost {
     private var closed: Bool = false
     private var connections: [SNTPConnection] = []
     private static let hostCallback: CFHostClientCallBack = { (host, infoType, error, info)  in
-        let client = unsafeBitCast(info, SNTPHost.self)
+        let client = Unmanaged<SNTPHost>.fromOpaque(COpaquePointer(info)).takeUnretainedValue()
         debugLog("Resolving hosts")
         client.connect(host)
     }
@@ -44,7 +44,7 @@ extension SNTPHost: SNTPNode {
         let host = CFHostCreateWithName(nil, hostURL.absoluteString).takeUnretainedValue()
         var ctx = CFHostClientContext(
             version: 0,
-            info: unsafeBitCast(self, UnsafeMutablePointer<Void>.self),
+            info: UnsafeMutablePointer(Unmanaged.passUnretained(self).toOpaque()),
             retain: nil,
             release: nil,
             copyDescription: unsafeBitCast(0, CFAllocatorCopyDescriptionCallBack.self)
@@ -113,12 +113,14 @@ final class SNTPConnection {
     }
 
     private static let dataCallback: CFSocketCallBack = { (socket, type, address, data, info)  in
-        let client = unsafeBitCast(info, SNTPConnection.self)
+        let client = Unmanaged<SNTPConnection>.fromOpaque(COpaquePointer(info))
+                                              .takeUnretainedValue()
         guard CFSocketIsValid(socket) else { return }
 
         // Can't use switch here as these aren't defined as an enum.
         if type == .DataCallBack {
-            client.handleResponse(unsafeBitCast(data, CFData.self))
+            let data = Unmanaged<CFData>.fromOpaque(COpaquePointer(data)).takeUnretainedValue()
+            client.handleResponse(data)
         } else if type == .WriteCallBack {
             debugLog("Buffer \(client.socketAddress) writable - requesting time")
             client.requestTime()
@@ -142,7 +144,7 @@ extension SNTPConnection: SNTPNode {
         let callbackTypes: [CFSocketCallBackType] = [.DataCallBack, .WriteCallBack]
         var ctx = CFSocketContext(
             version: 0,
-            info: unsafeBitCast(self, UnsafeMutablePointer<Void>.self),
+            info: UnsafeMutablePointer(Unmanaged.passUnretained(self).toOpaque()),
             retain: nil,
             release: nil,
             copyDescription: unsafeBitCast(0, CFAllocatorCopyDescriptionCallBack.self)
