@@ -27,7 +27,7 @@ extension timeval {
         withFatalErrno { gettimeofday(&tv, nil) }
         return tv
     }
-    
+
     var milliseconds: Int64 {
         return Int64(tv_sec) * Int64(MSEC_PER_SEC) + Int64(tv_usec) / Int64(USEC_PER_MSEC)
     }

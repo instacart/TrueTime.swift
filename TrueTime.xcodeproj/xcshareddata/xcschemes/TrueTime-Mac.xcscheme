@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "28482DC11D314E7B003491D9"
+               BlueprintIdentifier = "287C37A31D4419F800084D47"
                BuildableName = "TrueTime.framework"
-               BlueprintName = "TrueTime"
+               BlueprintName = "TrueTime-Mac"
                ReferencedContainer = "container:TrueTime.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "28482DCB1D314E7B003491D9"
-               BuildableName = "TrueTimeTests.xctest"
-               BlueprintName = "TrueTimeTests"
+               BlueprintIdentifier = "280090491D444B64004C788E"
+               BuildableName = "TrueTime-MacTests.xctest"
+               BlueprintName = "TrueTime-MacTests"
                ReferencedContainer = "container:TrueTime.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,9 +46,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "28482DCB1D314E7B003491D9"
-               BuildableName = "TrueTimeTests.xctest"
-               BlueprintName = "TrueTimeTests"
+               BlueprintIdentifier = "280090491D444B64004C788E"
+               BuildableName = "TrueTime-MacTests.xctest"
+               BlueprintName = "TrueTime-MacTests"
                ReferencedContainer = "container:TrueTime.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -56,9 +56,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "28482DC11D314E7B003491D9"
+            BlueprintIdentifier = "287C37A31D4419F800084D47"
             BuildableName = "TrueTime.framework"
-            BlueprintName = "TrueTime"
+            BlueprintName = "TrueTime-Mac"
             ReferencedContainer = "container:TrueTime.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -78,9 +78,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "28482DC11D314E7B003491D9"
+            BlueprintIdentifier = "287C37A31D4419F800084D47"
             BuildableName = "TrueTime.framework"
-            BlueprintName = "TrueTime"
+            BlueprintName = "TrueTime-Mac"
             ReferencedContainer = "container:TrueTime.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -96,9 +96,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "28482DC11D314E7B003491D9"
+            BlueprintIdentifier = "287C37A31D4419F800084D47"
             BuildableName = "TrueTime.framework"
-            BlueprintName = "TrueTime"
+            BlueprintName = "TrueTime-Mac"
             ReferencedContainer = "container:TrueTime.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

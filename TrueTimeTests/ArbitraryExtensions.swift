@@ -6,6 +6,7 @@
 //  Copyright © 2016 Instacart. All rights reserved.
 //
 
+@testable import TrueTime
 import CTrueTime
 import Curry
 import SwiftCheck

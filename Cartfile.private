@@ -1,4 +1,4 @@
-github "Quick/Nimble" ~> 4.1.0
-github "Quick/Quick" ~> 0.9.0
+github "Quick/Nimble" ~> 4.1
+github "Quick/Quick" ~> 0.9
 github "thoughtbot/Curry" ~> 2.3
-github "typelift/SwiftCheck" ~> 0.6.0
+github "typelift/SwiftCheck" ~> 0.6
