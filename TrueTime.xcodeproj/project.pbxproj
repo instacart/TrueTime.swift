@@ -14,7 +14,7 @@
 		288A04F61D31B93F0032B6FE /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04F51D31B93F0032B6FE /* Result.framework */; };
 		288A04F71D31B93F0032B6FE /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04F51D31B93F0032B6FE /* Result.framework */; };
 		288A04F81D31C3160032B6FE /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04F51D31B93F0032B6FE /* Result.framework */; };
-		289A07631D420A7B0033FB93 /* Bridging.h in Headers */ = {isa = PBXBuildFile; fileRef = 28FCABAB1D414C40009E33BC /* Bridging.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		289A07631D420A7B0033FB93 /* Bridging.h in Headers */ = {isa = PBXBuildFile; fileRef = 28FCABAB1D414C40009E33BC /* Bridging.h */; };
 		28AF2F7B1D3CB66100FE536A /* TrueTime.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		28AF2F7C1D3CB67100FE536A /* Result.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04F51D31B93F0032B6FE /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		28F79E121D3F06EA00437F36 /* Curry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F79E111D3F06EA00437F36 /* Curry.framework */; };
@@ -22,7 +22,7 @@
 		28FCABBF1D414C71009E33BC /* NTPNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB31D414C40009E33BC /* NTPNode.swift */; };
 		28FCABC01D414C71009E33BC /* NTPExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB21D414C40009E33BC /* NTPExtensions.swift */; };
 		28FCABC11D414C71009E33BC /* Endian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABAC1D414C40009E33BC /* Endian.swift */; };
-		28FCABC21D414C71009E33BC /* ntp_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 28FCABB11D414C40009E33BC /* ntp_types.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		28FCABC21D414C71009E33BC /* ntp_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 28FCABB11D414C40009E33BC /* ntp_types.h */; };
 		28FCABC51D414C7E009E33BC /* ArbitraryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABBB1D414C40009E33BC /* ArbitraryExtensions.swift */; };
 		28FCABC61D414C80009E33BC /* NTPExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABBD1D414C40009E33BC /* NTPExtensionsSpec.swift */; };
 		28FCABC81D414C91009E33BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB71D414C40009E33BC /* AppDelegate.swift */; };
