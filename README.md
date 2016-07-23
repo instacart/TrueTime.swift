@@ -17,7 +17,7 @@ It's pretty simple actually. We make a request to an NTP server that gives us th
 import TrueTime
 
 let client = SNTPClient.sharedInstance
-client.start()
+client.start(hostURLs: [NSURL(string: "time.apple.com")!])
 client.retrieveReferenceTime { result in
 	switch result {
 		case let .Success(referenceTime):
@@ -32,7 +32,7 @@ client.retrieveReferenceTime { result in
 @import TrueTime;
 
 SNTPClient *client = [SNTPClient sharedInstance];
-[client start];
+[client startWithHostURLs:@[[NSURL URLWithString:@"time.apple.com"]]];
 [client retrieveReferenceTimeWithSuccess:^(NTPReferenceTime *referenceTime) {
     NSLog(@"True time: %@", [referenceTime now]);
 } failure:^(NSError *error) {
