@@ -31,6 +31,8 @@
 		2800907B1D4548A3004C788E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 280090761D4548A3004C788E /* Info.plist */; };
 		2800907C1D4548A3004C788E /* NTPExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090771D4548A3004C788E /* NTPExtensionsSpec.swift */; };
 		2800907D1D4548A3004C788E /* NTPExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090771D4548A3004C788E /* NTPExtensionsSpec.swift */; };
+		280090831D454A9F004C788E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090801D454A9F004C788E /* AppDelegate.swift */; };
+		280090841D454A9F004C788E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 280090811D454A9F004C788E /* Assets.xcassets */; };
 		28482DCD1D314E7B003491D9 /* TrueTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; };
 		287C37D11D44202000084D47 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37D01D44202000084D47 /* Result.framework */; };
 		287C37F01D4422CE00084D47 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37CB1D441FC700084D47 /* Result.framework */; };
@@ -40,7 +42,6 @@
 		288A04EC1D31A87F0032B6FE /* TrueTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; };
 		28AF2F7B1D3CB66100FE536A /* TrueTime.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		28F79E121D3F06EA00437F36 /* Curry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F79E111D3F06EA00437F36 /* Curry.framework */; };
-		28FCABC81D414C91009E33BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB71D414C40009E33BC /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +100,9 @@
 		280090751D4548A3004C788E /* ArbitraryExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArbitraryExtensions.swift; sourceTree = "<group>"; };
 		280090761D4548A3004C788E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		280090771D4548A3004C788E /* NTPExtensionsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTPExtensionsSpec.swift; sourceTree = "<group>"; };
+		280090801D454A9F004C788E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		280090811D454A9F004C788E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		280090821D454A9F004C788E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28482DC21D314E7B003491D9 /* TrueTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TrueTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28482DCC1D314E7B003491D9 /* TrueTimeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrueTimeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		287C37B41D4419F800084D47 /* TrueTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TrueTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,9 +112,6 @@
 		288A04CF1D31A1250032B6FE /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		288A04D71D31A74D0032B6FE /* TrueTimeExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrueTimeExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F79E111D3F06EA00437F36 /* Curry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Curry.framework; path = Carthage/Build/iOS/Curry.framework; sourceTree = "<group>"; };
-		28FCABB71D414C40009E33BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		28FCABB81D414C40009E33BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		28FCABB91D414C40009E33BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,12 +190,30 @@
 			path = Tests;
 			sourceTree = SOURCE_ROOT;
 		};
+		2800907E1D454A9F004C788E /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				2800907F1D454A9F004C788E /* iOS */,
+			);
+			path = Examples;
+			sourceTree = SOURCE_ROOT;
+		};
+		2800907F1D454A9F004C788E /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				280090801D454A9F004C788E /* AppDelegate.swift */,
+				280090811D454A9F004C788E /* Assets.xcassets */,
+				280090821D454A9F004C788E /* Info.plist */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
 		28482DB81D314E7B003491D9 = {
 			isa = PBXGroup;
 			children = (
 				2800905D1D45489D004C788E /* Sources */,
 				280090741D4548A3004C788E /* Tests */,
-				28FCABB61D414C40009E33BC /* TrueTimeExample */,
+				2800907E1D454A9F004C788E /* Examples */,
 				28482DC31D314E7B003491D9 /* Products */,
 				287C37CF1D44201300084D47 /* Frameworks */,
 			);
@@ -243,16 +262,6 @@
 				287C37CE1D44201000084D47 /* Mac */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		28FCABB61D414C40009E33BC /* TrueTimeExample */ = {
-			isa = PBXGroup;
-			children = (
-				28FCABB71D414C40009E33BC /* AppDelegate.swift */,
-				28FCABB81D414C40009E33BC /* Assets.xcassets */,
-				28FCABB91D414C40009E33BC /* Info.plist */,
-			);
-			path = TrueTimeExample;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -456,6 +465,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				280090841D454A9F004C788E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,7 +564,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/TrueTimeExample\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Examples/iOS\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
 		};
 		28F79E0E1D3EFE3700437F36 /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -619,7 +629,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28FCABC81D414C91009E33BC /* AppDelegate.swift in Sources */,
+				280090831D454A9F004C788E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -941,7 +951,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = TrueTimeExample/Info.plist;
+				INFOPLIST_FILE = Examples/iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeExample;
 				PRODUCT_NAME = TrueTimeExample;
@@ -957,7 +967,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = TrueTimeExample/Info.plist;
+				INFOPLIST_FILE = Examples/iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeExample;
 				PRODUCT_NAME = TrueTimeExample;
