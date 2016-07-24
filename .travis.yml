@@ -5,15 +5,9 @@ env:
     - PLATFORM=iOS SDK=iphonesimulator SCHEME=TrueTime-iOS
     - PLATFORM=Mac SDK=macosx SCHEME=TrueTime-Mac
 install: 
-  - gem install xcpretty
   - carthage bootstrap --platform "$PLATFORM"
 script:
-  - BUILD_LOG="xcodebuild.log"
-  - xcodebuild clean test -sdk "$SDK" -scheme "$SCHEME" | tee "$BUILD_LOG" | xcpretty
-  - STATUS="${PIPESTATUS[0]}"
-  - if [ -f "$BUILD_LOG" ]; then curl -sT "$BUILD_LOG" chunk.io; fi
-  - bash -c "exit $STATUS"
-
+  - xctool clean test -sdk "$SDK" -scheme "$SCHEME"
 cache:
   directories:
   - Carthage/Build
