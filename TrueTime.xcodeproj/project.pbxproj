@@ -13,12 +13,25 @@
 		280090561D444B85004C788E /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 280090301D444AE5004C788E /* Nimble.framework */; };
 		280090571D444B85004C788E /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 280090311D444AE5004C788E /* Quick.framework */; };
 		280090581D444B85004C788E /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 280090321D444AE5004C788E /* SwiftCheck.framework */; };
+		280090661D45489D004C788E /* Endian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2800905F1D45489D004C788E /* Endian.swift */; };
+		280090671D45489D004C788E /* Endian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2800905F1D45489D004C788E /* Endian.swift */; };
+		2800906A1D45489D004C788E /* NTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090611D45489D004C788E /* NTP.swift */; };
+		2800906B1D45489D004C788E /* NTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090611D45489D004C788E /* NTP.swift */; };
+		2800906C1D45489D004C788E /* NTPExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090621D45489D004C788E /* NTPExtensions.swift */; };
+		2800906D1D45489D004C788E /* NTPExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090621D45489D004C788E /* NTPExtensions.swift */; };
+		2800906E1D45489D004C788E /* NTPNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090631D45489D004C788E /* NTPNode.swift */; };
+		2800906F1D45489D004C788E /* NTPNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090631D45489D004C788E /* NTPNode.swift */; };
+		280090701D45489D004C788E /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090641D45489D004C788E /* Reachability.swift */; };
+		280090711D45489D004C788E /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090641D45489D004C788E /* Reachability.swift */; };
+		280090721D45489D004C788E /* TrueTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 280090651D45489D004C788E /* TrueTime.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		280090731D45489D004C788E /* TrueTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 280090651D45489D004C788E /* TrueTime.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		280090781D4548A3004C788E /* ArbitraryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090751D4548A3004C788E /* ArbitraryExtensions.swift */; };
+		280090791D4548A3004C788E /* ArbitraryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090751D4548A3004C788E /* ArbitraryExtensions.swift */; };
+		2800907A1D4548A3004C788E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 280090761D4548A3004C788E /* Info.plist */; };
+		2800907B1D4548A3004C788E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 280090761D4548A3004C788E /* Info.plist */; };
+		2800907C1D4548A3004C788E /* NTPExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090771D4548A3004C788E /* NTPExtensionsSpec.swift */; };
+		2800907D1D4548A3004C788E /* NTPExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090771D4548A3004C788E /* NTPExtensionsSpec.swift */; };
 		28482DCD1D314E7B003491D9 /* TrueTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; };
-		287C37A51D4419F800084D47 /* NTPNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB31D414C40009E33BC /* NTPNode.swift */; };
-		287C37A61D4419F800084D47 /* NTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB01D414C40009E33BC /* NTP.swift */; };
-		287C37A71D4419F800084D47 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABCC1D4155FE009E33BC /* Reachability.swift */; };
-		287C37A81D4419F800084D47 /* Endian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABAC1D414C40009E33BC /* Endian.swift */; };
-		287C37A91D4419F800084D47 /* NTPExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB21D414C40009E33BC /* NTPExtensions.swift */; };
 		287C37D11D44202000084D47 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37D01D44202000084D47 /* Result.framework */; };
 		287C37F01D4422CE00084D47 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37CB1D441FC700084D47 /* Result.framework */; };
 		287C37FB1D44297000084D47 /* Result.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37D01D44202000084D47 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -27,14 +40,7 @@
 		288A04EC1D31A87F0032B6FE /* TrueTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; };
 		28AF2F7B1D3CB66100FE536A /* TrueTime.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		28F79E121D3F06EA00437F36 /* Curry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F79E111D3F06EA00437F36 /* Curry.framework */; };
-		28FCABBE1D414C70009E33BC /* NTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB01D414C40009E33BC /* NTP.swift */; };
-		28FCABBF1D414C71009E33BC /* NTPNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB31D414C40009E33BC /* NTPNode.swift */; };
-		28FCABC01D414C71009E33BC /* NTPExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB21D414C40009E33BC /* NTPExtensions.swift */; };
-		28FCABC11D414C71009E33BC /* Endian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABAC1D414C40009E33BC /* Endian.swift */; };
-		28FCABC51D414C7E009E33BC /* ArbitraryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABBB1D414C40009E33BC /* ArbitraryExtensions.swift */; };
-		28FCABC61D414C80009E33BC /* NTPExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABBD1D414C40009E33BC /* NTPExtensionsSpec.swift */; };
 		28FCABC81D414C91009E33BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABB71D414C40009E33BC /* AppDelegate.swift */; };
-		28FCABCD1D4155FE009E33BC /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FCABCC1D4155FE009E33BC /* Reachability.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +89,16 @@
 		280090311D444AE5004C788E /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/Mac/Quick.framework; sourceTree = "<group>"; };
 		280090321D444AE5004C788E /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/Mac/SwiftCheck.framework; sourceTree = "<group>"; };
 		2800904A1D444B64004C788E /* TrueTime-MacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TrueTime-MacTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2800905F1D45489D004C788E /* Endian.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Endian.swift; sourceTree = "<group>"; };
+		280090601D45489D004C788E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		280090611D45489D004C788E /* NTP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTP.swift; sourceTree = "<group>"; };
+		280090621D45489D004C788E /* NTPExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTPExtensions.swift; sourceTree = "<group>"; };
+		280090631D45489D004C788E /* NTPNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTPNode.swift; sourceTree = "<group>"; };
+		280090641D45489D004C788E /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		280090651D45489D004C788E /* TrueTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrueTime.h; sourceTree = "<group>"; };
+		280090751D4548A3004C788E /* ArbitraryExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArbitraryExtensions.swift; sourceTree = "<group>"; };
+		280090761D4548A3004C788E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		280090771D4548A3004C788E /* NTPExtensionsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTPExtensionsSpec.swift; sourceTree = "<group>"; };
 		28482DC21D314E7B003491D9 /* TrueTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TrueTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28482DCC1D314E7B003491D9 /* TrueTimeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrueTimeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		287C37B41D4419F800084D47 /* TrueTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TrueTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,19 +108,9 @@
 		288A04CF1D31A1250032B6FE /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		288A04D71D31A74D0032B6FE /* TrueTimeExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrueTimeExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F79E111D3F06EA00437F36 /* Curry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Curry.framework; path = Carthage/Build/iOS/Curry.framework; sourceTree = "<group>"; };
-		28FCABAC1D414C40009E33BC /* Endian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endian.swift; sourceTree = "<group>"; };
-		28FCABAD1D414C40009E33BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		28FCABAF1D414C40009E33BC /* TrueTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrueTime.h; sourceTree = "<group>"; };
-		28FCABB01D414C40009E33BC /* NTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NTP.swift; sourceTree = "<group>"; };
-		28FCABB21D414C40009E33BC /* NTPExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NTPExtensions.swift; sourceTree = "<group>"; };
-		28FCABB31D414C40009E33BC /* NTPNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NTPNode.swift; sourceTree = "<group>"; };
 		28FCABB71D414C40009E33BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28FCABB81D414C40009E33BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		28FCABB91D414C40009E33BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		28FCABBB1D414C40009E33BC /* ArbitraryExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArbitraryExtensions.swift; sourceTree = "<group>"; };
-		28FCABBC1D414C40009E33BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		28FCABBD1D414C40009E33BC /* NTPExtensionsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NTPExtensionsSpec.swift; sourceTree = "<group>"; };
-		28FCABCC1D4155FE009E33BC /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,11 +165,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2800905D1D45489D004C788E /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				280090611D45489D004C788E /* NTP.swift */,
+				280090631D45489D004C788E /* NTPNode.swift */,
+				280090621D45489D004C788E /* NTPExtensions.swift */,
+				2800905F1D45489D004C788E /* Endian.swift */,
+				280090641D45489D004C788E /* Reachability.swift */,
+				280090651D45489D004C788E /* TrueTime.h */,
+				280090601D45489D004C788E /* Info.plist */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		280090741D4548A3004C788E /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				280090771D4548A3004C788E /* NTPExtensionsSpec.swift */,
+				280090751D4548A3004C788E /* ArbitraryExtensions.swift */,
+				280090761D4548A3004C788E /* Info.plist */,
+			);
+			path = Tests;
+			sourceTree = SOURCE_ROOT;
+		};
 		28482DB81D314E7B003491D9 = {
 			isa = PBXGroup;
 			children = (
-				28FCABAA1D414C40009E33BC /* TrueTime */,
-				28FCABBA1D414C40009E33BC /* TrueTimeTests */,
+				2800905D1D45489D004C788E /* Sources */,
+				280090741D4548A3004C788E /* Tests */,
 				28FCABB61D414C40009E33BC /* TrueTimeExample */,
 				28482DC31D314E7B003491D9 /* Products */,
 				287C37CF1D44201300084D47 /* Frameworks */,
@@ -215,20 +245,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		28FCABAA1D414C40009E33BC /* TrueTime */ = {
-			isa = PBXGroup;
-			children = (
-				28FCABB01D414C40009E33BC /* NTP.swift */,
-				28FCABB31D414C40009E33BC /* NTPNode.swift */,
-				28FCABB21D414C40009E33BC /* NTPExtensions.swift */,
-				28FCABCC1D4155FE009E33BC /* Reachability.swift */,
-				28FCABAC1D414C40009E33BC /* Endian.swift */,
-				28FCABAF1D414C40009E33BC /* TrueTime.h */,
-				28FCABAD1D414C40009E33BC /* Info.plist */,
-			);
-			path = TrueTime;
-			sourceTree = "<group>";
-		};
 		28FCABB61D414C40009E33BC /* TrueTimeExample */ = {
 			isa = PBXGroup;
 			children = (
@@ -239,16 +255,6 @@
 			path = TrueTimeExample;
 			sourceTree = "<group>";
 		};
-		28FCABBA1D414C40009E33BC /* TrueTimeTests */ = {
-			isa = PBXGroup;
-			children = (
-				28FCABBB1D414C40009E33BC /* ArbitraryExtensions.swift */,
-				28FCABBD1D414C40009E33BC /* NTPExtensionsSpec.swift */,
-				28FCABBC1D414C40009E33BC /* Info.plist */,
-			);
-			path = TrueTimeTests;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -256,6 +262,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				280090721D45489D004C788E /* TrueTime.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +270,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				280090731D45489D004C788E /* TrueTime.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +426,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2800907B1D4548A3004C788E /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,6 +441,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2800907A1D4548A3004C788E /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,7 +474,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/TrueTimeTests\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Tests\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
 		};
 		2800905B1D444BD3004C788E /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -497,7 +507,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/TrueTime\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Sources\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
 		};
 		287C37B01D4419F800084D47 /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -511,7 +521,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/TrueTime\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Sources\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
 		};
 		288A04D21D31A12A0032B6FE /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -558,7 +568,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/TrueTimeTests\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Tests\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -567,6 +577,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				280090791D4548A3004C788E /* ArbitraryExtensions.swift in Sources */,
+				2800907D1D4548A3004C788E /* NTPExtensionsSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -574,11 +586,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28FCABBF1D414C71009E33BC /* NTPNode.swift in Sources */,
-				28FCABBE1D414C70009E33BC /* NTP.swift in Sources */,
-				28FCABCD1D4155FE009E33BC /* Reachability.swift in Sources */,
-				28FCABC11D414C71009E33BC /* Endian.swift in Sources */,
-				28FCABC01D414C71009E33BC /* NTPExtensions.swift in Sources */,
+				2800906E1D45489D004C788E /* NTPNode.swift in Sources */,
+				2800906A1D45489D004C788E /* NTP.swift in Sources */,
+				280090661D45489D004C788E /* Endian.swift in Sources */,
+				280090701D45489D004C788E /* Reachability.swift in Sources */,
+				2800906C1D45489D004C788E /* NTPExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -586,8 +598,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28FCABC51D414C7E009E33BC /* ArbitraryExtensions.swift in Sources */,
-				28FCABC61D414C80009E33BC /* NTPExtensionsSpec.swift in Sources */,
+				280090781D4548A3004C788E /* ArbitraryExtensions.swift in Sources */,
+				2800907C1D4548A3004C788E /* NTPExtensionsSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -595,11 +607,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				287C37A51D4419F800084D47 /* NTPNode.swift in Sources */,
-				287C37A61D4419F800084D47 /* NTP.swift in Sources */,
-				287C37A71D4419F800084D47 /* Reachability.swift in Sources */,
-				287C37A81D4419F800084D47 /* Endian.swift in Sources */,
-				287C37A91D4419F800084D47 /* NTPExtensions.swift in Sources */,
+				2800906F1D45489D004C788E /* NTPNode.swift in Sources */,
+				2800906B1D45489D004C788E /* NTP.swift in Sources */,
+				280090671D45489D004C788E /* Endian.swift in Sources */,
+				280090711D45489D004C788E /* Reachability.swift in Sources */,
+				2800906D1D45489D004C788E /* NTPExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -641,7 +653,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
-				INFOPLIST_FILE = TrueTimeTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-MacTests";
@@ -659,7 +671,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
-				INFOPLIST_FILE = TrueTimeTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-MacTests";
@@ -784,7 +796,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/TrueTime/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.ntp-swift";
@@ -793,6 +805,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/External/CTrueTime";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -813,7 +826,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/TrueTime/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.ntp-swift";
@@ -822,6 +835,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/External/CTrueTime";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
@@ -833,7 +847,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = TrueTimeTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-iOSTests";
 				PRODUCT_NAME = TrueTimeTests;
@@ -848,7 +862,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = TrueTimeTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-iOSTests";
 				PRODUCT_NAME = TrueTimeTests;
@@ -873,7 +887,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/TrueTime/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.ntp-swift";
@@ -904,7 +918,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/TrueTime/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.ntp-swift";
@@ -960,6 +974,7 @@
 				280090541D444B64004C788E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		28482DBC1D314E7B003491D9 /* Build configuration list for PBXProject "TrueTime" */ = {
 			isa = XCConfigurationList;
