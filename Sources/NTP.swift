@@ -63,13 +63,18 @@ public typealias ReferenceTimeCallback = Result<ReferenceTime, SNTPClientError> 
         pauseQueue()
     }
 
-    public func retrieveReferenceTime(callback: ReferenceTimeCallback) {
+    public func retrieveReferenceTime(
+        queue callbackQueue: dispatch_queue_t = dispatch_get_main_queue(),
+        callback: ReferenceTimeCallback
+    ) {
         dispatch_async(queue) {
             guard let referenceTime = self.referenceTime else {
                 if !self.reachability.online {
-                    callback(.Failure(.ConnectionError(underlyingError: .offlineError)))
+                    dispatch_async(callbackQueue) {
+                        callback(.Failure(.ConnectionError(underlyingError: .offlineError)))
+                    }
                 } else {
-                    self.callbacks.append(callback)
+                    self.callbacks.append((callbackQueue, callback))
                     if self.results.count == self.hosts.count && self.results.count > 0 {
                         self.startQueue(hostURLs: self.hostURLs) // Retry if we failed last time.
                     }
@@ -77,13 +82,15 @@ public typealias ReferenceTimeCallback = Result<ReferenceTime, SNTPClientError> 
                 return
             }
 
-            callback(.Success(referenceTime))
+            dispatch_async(callbackQueue) {
+                callback(.Success(referenceTime))
+            }
         }
     }
 
     private let queue: dispatch_queue_t = dispatch_queue_create("com.instacart.sntp-client", nil)
     private let reachability = Reachability()
-    private var callbacks: [ReferenceTimeCallback] = []
+    private var callbacks: [(dispatch_queue_t, ReferenceTimeCallback)] = []
     private var hostURLs: [NSURL] = []
     private var hosts: [SNTPHost] = []
     private var referenceTime: ReferenceTime?
@@ -107,7 +114,15 @@ public typealias ReferenceTimeCallback = Result<ReferenceTime, SNTPClientError> 
 extension SNTPClient {
     @objc public func retrieveReferenceTime(success success: NTPReferenceTime -> Void,
                                             failure: (NSError -> Void)?) {
-        retrieveReferenceTime { result in
+        retrieveReferenceTime(success: success,
+                              failure: failure,
+                              onQueue: dispatch_get_main_queue())
+    }
+
+    @objc public func retrieveReferenceTime(success success: NTPReferenceTime -> Void,
+                                            failure: (NSError -> Void)?,
+                                            onQueue queue: dispatch_queue_t) {
+        retrieveReferenceTime(queue: queue) { result in
             switch result {
                 case let .Success(time):
                     success(NTPReferenceTime(time))
@@ -187,7 +202,11 @@ private extension SNTPClient {
                     debugLog("\(self.results.count) results: \(self.results)")
                     debugLog("Took \(endTime - self.startTime!)s")
                     self.hosts.forEach { $0.close() }
-                    self.callbacks.forEach { $0(result) }
+                    self.callbacks.forEach { (queue, callback) in
+                        dispatch_async(queue) {
+                            callback(result)
+                        }
+                    }
                     self.callbacks = []
                 default:
                     break
