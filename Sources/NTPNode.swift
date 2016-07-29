@@ -209,7 +209,7 @@ private extension SNTPConnection {
                                                      requestTicks.milliseconds)
 
         // https://en.wikipedia.org/wiki/Network_Time_Protocol#Clock_synchronization_algorithm
-        let T = [startTime.milliseconds,
+        let T = [packet.originate_time.milliseconds,
                  packet.receive_time.milliseconds,
                  packet.transmit_time.milliseconds,
                  responseTime]
