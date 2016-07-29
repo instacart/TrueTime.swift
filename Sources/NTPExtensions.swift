@@ -78,6 +78,13 @@ extension ByteRepresentable {
         var buffer = self
         return NSData(bytes: &buffer, length: sizeofValue(buffer))
     }
+
+    var isZero: Bool {
+        var buffer = self
+        let size = sizeofValue(buffer)
+        let byteArray = withUnsafePointer(&buffer, UnsafePointer<UInt8>.init)
+        return !(0..<size).contains { idx in byteArray[idx] > 0 }
+    }
 }
 
 extension NSData {

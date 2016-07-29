@@ -200,6 +200,11 @@ private extension SNTPConnection {
         }
 
         let packet = (data.decode() as ntp_packet_t).nativeEndian
+        guard !packet.isZero else { // Guard against dropped packets.
+            onComplete(.Failure(.InvalidResponse))
+            return
+        }
+
         let responseTime = startTime.milliseconds + (responseTicks.milliseconds -
                                                      requestTicks.milliseconds)
 

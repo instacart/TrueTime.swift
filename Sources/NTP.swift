@@ -12,6 +12,7 @@ import Result
 public enum SNTPClientError: ErrorType {
     case UnresolvableHost(underlyingError: CFStreamError?)
     case ConnectionError(underlyingError: NSError?)
+    case InvalidResponse
 }
 
 public struct ReferenceTime {
@@ -157,6 +158,8 @@ private extension SNTPClientError {
                 return (1, "Unresolvable host name.")
             case .ConnectionError:
                 return (2, "Failed connecting to NTP server.")
+            case .InvalidResponse:
+                return (3, "Unexpected response from NTP server. Try again later.")
         }
     }
 }
