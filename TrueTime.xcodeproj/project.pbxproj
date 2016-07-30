@@ -27,13 +27,25 @@
 		280090731D45489D004C788E /* TrueTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 280090651D45489D004C788E /* TrueTime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		280090781D4548A3004C788E /* ArbitraryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090751D4548A3004C788E /* ArbitraryExtensions.swift */; };
 		280090791D4548A3004C788E /* ArbitraryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090751D4548A3004C788E /* ArbitraryExtensions.swift */; };
-		2800907A1D4548A3004C788E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 280090761D4548A3004C788E /* Info.plist */; };
-		2800907B1D4548A3004C788E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 280090761D4548A3004C788E /* Info.plist */; };
 		2800907C1D4548A3004C788E /* NTPExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090771D4548A3004C788E /* NTPExtensionsSpec.swift */; };
 		2800907D1D4548A3004C788E /* NTPExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090771D4548A3004C788E /* NTPExtensionsSpec.swift */; };
 		280090831D454A9F004C788E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090801D454A9F004C788E /* AppDelegate.swift */; };
 		280090841D454A9F004C788E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 280090811D454A9F004C788E /* Assets.xcassets */; };
 		28482DCD1D314E7B003491D9 /* TrueTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; };
+		285047E81D4D67B800DE4CE8 /* NTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090611D45489D004C788E /* NTP.swift */; };
+		285047E91D4D67B800DE4CE8 /* NTPNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090631D45489D004C788E /* NTPNode.swift */; };
+		285047EA1D4D67B800DE4CE8 /* NTPExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090621D45489D004C788E /* NTPExtensions.swift */; };
+		285047EB1D4D67B800DE4CE8 /* Endian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2800905F1D45489D004C788E /* Endian.swift */; };
+		285047EC1D4D67B800DE4CE8 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090641D45489D004C788E /* Reachability.swift */; };
+		285047ED1D4D681300DE4CE8 /* TrueTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 280090651D45489D004C788E /* TrueTime.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		285047EE1D4D688000DE4CE8 /* TrueTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285047DF1D4D641400DE4CE8 /* TrueTime.framework */; };
+		285047EF1D4D68B000DE4CE8 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28682B591D4D2F2B00D65223 /* Result.framework */; };
+		28682B651D4D2F4600D65223 /* ArbitraryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090751D4548A3004C788E /* ArbitraryExtensions.swift */; };
+		28682B661D4D2F4600D65223 /* NTPExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090771D4548A3004C788E /* NTPExtensionsSpec.swift */; };
+		28682B751D4D308100D65223 /* Curry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28682B561D4D2F2B00D65223 /* Curry.framework */; };
+		28682B761D4D308100D65223 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28682B571D4D2F2B00D65223 /* Nimble.framework */; };
+		28682B771D4D308100D65223 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28682B581D4D2F2B00D65223 /* Quick.framework */; };
+		28682B781D4D308100D65223 /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28682B5A1D4D2F2B00D65223 /* SwiftCheck.framework */; };
 		287C37D11D44202000084D47 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37D01D44202000084D47 /* Result.framework */; };
 		287C37F01D4422CE00084D47 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37CB1D441FC700084D47 /* Result.framework */; };
 		287C37FB1D44297000084D47 /* Result.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37D01D44202000084D47 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -65,6 +77,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 28482DC11D314E7B003491D9;
 			remoteInfo = ntp.swift;
+		};
+		2891022E1D4D696E001AB090 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28482DB91D314E7B003491D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 285047DE1D4D641400DE4CE8;
+			remoteInfo = "TrueTime-tvOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -105,6 +124,13 @@
 		280090821D454A9F004C788E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28482DC21D314E7B003491D9 /* TrueTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TrueTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28482DCC1D314E7B003491D9 /* TrueTimeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrueTimeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		285047DF1D4D641400DE4CE8 /* TrueTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TrueTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		28682B561D4D2F2B00D65223 /* Curry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Curry.framework; path = Carthage/Build/tvOS/Curry.framework; sourceTree = "<group>"; };
+		28682B571D4D2F2B00D65223 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/tvOS/Nimble.framework; sourceTree = "<group>"; };
+		28682B581D4D2F2B00D65223 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/tvOS/Quick.framework; sourceTree = "<group>"; };
+		28682B591D4D2F2B00D65223 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/tvOS/Result.framework; sourceTree = "<group>"; };
+		28682B5A1D4D2F2B00D65223 /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/tvOS/SwiftCheck.framework; sourceTree = "<group>"; };
+		28682B731D4D2F4600D65223 /* TrueTime-TVTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TrueTime-TVTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		287C37B41D4419F800084D47 /* TrueTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TrueTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		287C37CB1D441FC700084D47 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
 		287C37D01D44202000084D47 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
@@ -144,6 +170,26 @@
 				288A04D11D31A1250032B6FE /* Quick.framework in Frameworks */,
 				2800902E1D444AD5004C788E /* SwiftCheck.framework in Frameworks */,
 				28F79E121D3F06EA00437F36 /* Curry.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		285047DB1D4D641400DE4CE8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				285047EF1D4D68B000DE4CE8 /* Result.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28682B671D4D2F4600D65223 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				285047EE1D4D688000DE4CE8 /* TrueTime.framework in Frameworks */,
+				28682B751D4D308100D65223 /* Curry.framework in Frameworks */,
+				28682B761D4D308100D65223 /* Nimble.framework in Frameworks */,
+				28682B771D4D308100D65223 /* Quick.framework in Frameworks */,
+				28682B781D4D308100D65223 /* SwiftCheck.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,8 +273,22 @@
 				288A04D71D31A74D0032B6FE /* TrueTimeExample.app */,
 				287C37B41D4419F800084D47 /* TrueTime.framework */,
 				2800904A1D444B64004C788E /* TrueTime-MacTests.xctest */,
+				28682B731D4D2F4600D65223 /* TrueTime-TVTests.xctest */,
+				285047DF1D4D641400DE4CE8 /* TrueTime.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		28682B551D4D2F0600D65223 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				28682B561D4D2F2B00D65223 /* Curry.framework */,
+				28682B571D4D2F2B00D65223 /* Nimble.framework */,
+				28682B581D4D2F2B00D65223 /* Quick.framework */,
+				28682B591D4D2F2B00D65223 /* Result.framework */,
+				28682B5A1D4D2F2B00D65223 /* SwiftCheck.framework */,
+			);
+			name = tvOS;
 			sourceTree = "<group>";
 		};
 		287C37CD1D44200B00084D47 /* iOS */ = {
@@ -260,6 +320,7 @@
 			children = (
 				287C37CD1D44200B00084D47 /* iOS */,
 				287C37CE1D44201000084D47 /* Mac */,
+				28682B551D4D2F0600D65223 /* tvOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -272,6 +333,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				280090721D45489D004C788E /* TrueTime.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		285047DC1D4D641400DE4CE8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				285047ED1D4D681300DE4CE8 /* TrueTime.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +414,45 @@
 			productReference = 28482DCC1D314E7B003491D9 /* TrueTimeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		285047DE1D4D641400DE4CE8 /* TrueTime-tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 285047E41D4D641400DE4CE8 /* Build configuration list for PBXNativeTarget "TrueTime-tvOS" */;
+			buildPhases = (
+				285047DA1D4D641400DE4CE8 /* Sources */,
+				285047DB1D4D641400DE4CE8 /* Frameworks */,
+				285047DC1D4D641400DE4CE8 /* Headers */,
+				285047DD1D4D641400DE4CE8 /* Resources */,
+				285047E71D4D679300DE4CE8 /* Swift Lint */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "TrueTime-tvOS";
+			productName = Test;
+			productReference = 285047DF1D4D641400DE4CE8 /* TrueTime.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		28682B611D4D2F4600D65223 /* TrueTime-TVTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28682B701D4D2F4600D65223 /* Build configuration list for PBXNativeTarget "TrueTime-TVTests" */;
+			buildPhases = (
+				28682B641D4D2F4600D65223 /* Sources */,
+				28682B671D4D2F4600D65223 /* Frameworks */,
+				28682B6D1D4D2F4600D65223 /* Resources */,
+				28682B6E1D4D2F4600D65223 /* Swift Lint */,
+				28682B6F1D4D2F4600D65223 /* Copy Carthage Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2891022F1D4D696E001AB090 /* PBXTargetDependency */,
+			);
+			name = "TrueTime-TVTests";
+			productName = "TrueTime-MacTests";
+			productReference = 28682B731D4D2F4600D65223 /* TrueTime-TVTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		287C37A31D4419F800084D47 /* TrueTime-Mac */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 287C37B11D4419F800084D47 /* Build configuration list for PBXNativeTarget "TrueTime-Mac" */;
@@ -403,6 +511,9 @@
 					28482DCB1D314E7B003491D9 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
+					285047DE1D4D641400DE4CE8 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
 					288A04D61D31A74D0032B6FE = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -423,8 +534,10 @@
 			targets = (
 				28482DC11D314E7B003491D9 /* TrueTime-iOS */,
 				287C37A31D4419F800084D47 /* TrueTime-Mac */,
+				285047DE1D4D641400DE4CE8 /* TrueTime-tvOS */,
 				28482DCB1D314E7B003491D9 /* TrueTime-iOSTests */,
 				280090491D444B64004C788E /* TrueTime-MacTests */,
+				28682B611D4D2F4600D65223 /* TrueTime-TVTests */,
 				288A04D61D31A74D0032B6FE /* TrueTime-iOSExample */,
 			);
 		};
@@ -435,7 +548,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2800907B1D4548A3004C788E /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,7 +562,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2800907A1D4548A3004C788E /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		285047DD1D4D641400DE4CE8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28682B6D1D4D2F4600D65223 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,6 +643,53 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Sources\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+		};
+		285047E71D4D679300DE4CE8 /* Swift Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Swift Lint";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Sources\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+		};
+		28682B6E1D4D2F4600D65223 /* Swift Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Swift Lint";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Tests\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+		};
+		28682B6F1D4D2F4600D65223 /* Copy Carthage Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/tvOS/Quick.framework",
+				"$(SRCROOT)/Carthage/Build/tvOS/Nimble.framework",
+				"$(SRCROOT)/Carthage/Build/tvOS/SwiftCheck.framework",
+				"$(SRCROOT)/Carthage/Build/tvOS/Curry.framework",
+				"$(SRCROOT)/Carthage/Build/tvOS/Result.framework",
+			);
+			name = "Copy Carthage Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
 		287C37B01D4419F800084D47 /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -613,6 +785,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		285047DA1D4D641400DE4CE8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				285047E91D4D67B800DE4CE8 /* NTPNode.swift in Sources */,
+				285047E81D4D67B800DE4CE8 /* NTP.swift in Sources */,
+				285047EB1D4D67B800DE4CE8 /* Endian.swift in Sources */,
+				285047EC1D4D67B800DE4CE8 /* Reachability.swift in Sources */,
+				285047EA1D4D67B800DE4CE8 /* NTPExtensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28682B641D4D2F4600D65223 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28682B651D4D2F4600D65223 /* ArbitraryExtensions.swift in Sources */,
+				28682B661D4D2F4600D65223 /* NTPExtensionsSpec.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		287C37A41D4419F800084D47 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -651,6 +844,11 @@
 			target = 28482DC11D314E7B003491D9 /* TrueTime-iOS */;
 			targetProxy = 288A04E91D31A7620032B6FE /* PBXContainerItemProxy */;
 		};
+		2891022F1D4D696E001AB090 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 285047DE1D4D641400DE4CE8 /* TrueTime-tvOS */;
+			targetProxy = 2891022E1D4D696E001AB090 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -665,7 +863,7 @@
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-MacTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -683,7 +881,7 @@
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-MacTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -880,6 +1078,84 @@
 			};
 			name = Release;
 		};
+		285047E51D4D641400DE4CE8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/tvOS";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.Test;
+				PRODUCT_NAME = TrueTime;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/External/CTrueTime";
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		285047E61D4D641400DE4CE8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/tvOS";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.Test;
+				PRODUCT_NAME = TrueTime;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/External/CTrueTime";
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
+		28682B711D4D2F4600D65223 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-MacTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		28682B721D4D2F4600D65223 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-MacTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
 		287C37B21D4419F800084D47 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -894,7 +1170,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
@@ -925,7 +1200,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
@@ -946,7 +1220,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -955,6 +1228,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeExample;
 				PRODUCT_NAME = TrueTimeExample;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -962,7 +1236,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -971,6 +1244,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeExample;
 				PRODUCT_NAME = TrueTimeExample;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
@@ -1009,6 +1283,24 @@
 			buildConfigurations = (
 				28482DDA1D314E7C003491D9 /* Debug */,
 				28482DDB1D314E7C003491D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		285047E41D4D641400DE4CE8 /* Build configuration list for PBXNativeTarget "TrueTime-tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				285047E51D4D641400DE4CE8 /* Debug */,
+				285047E61D4D641400DE4CE8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		28682B701D4D2F4600D65223 /* Build configuration list for PBXNativeTarget "TrueTime-TVTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28682B711D4D2F4600D65223 /* Debug */,
+				28682B721D4D2F4600D65223 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

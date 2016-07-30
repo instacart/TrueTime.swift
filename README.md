@@ -42,7 +42,7 @@ SNTPClient *client = [SNTPClient sharedInstance];
 
 ## Installation
 
-TrueTime is compatible with iOS 8 and up.
+TrueTime is currently compatible with iOS 8 and up, macOS 10.9 and tvOS 9.
 
 ### [Carthage](https://github.com/Carthage/Carthage)
 
@@ -67,7 +67,7 @@ $ carthage update
 * Add TrueTime as a submodule:
 
 ```
-$ git submodule add git@github.com:instacart/TrueTime.git
+$ git submodule add https://github.com/instacart/TrueTime.swift.git
 ```
 
 * Drag `TrueTime.xcodeproj` into the Project Navigator

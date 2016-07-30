@@ -4,6 +4,7 @@ env:
   matrix:
     - PLATFORM=iOS SDK=iphonesimulator SCHEME=TrueTime-iOS
     - PLATFORM=Mac SDK=macosx SCHEME=TrueTime-Mac
+    - PLATFORM=tvOS SDK=appletvsimulator SCHEME=TrueTime-tvOS
 install: 
   - carthage bootstrap --platform "$PLATFORM"
 script:
