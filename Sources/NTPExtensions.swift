@@ -105,6 +105,15 @@ extension sockaddr_in: CustomStringConvertible {
     }
 }
 
+extension SNTPConnection: CustomStringConvertible {
+    var description: String {
+        return "\(self.dynamicType)(socketAddress: \(socketAddress), " +
+                                    "timeout: \(timeout), " +
+                                    "maxRetries: \(maxRetries), " +
+                                    "attempts: \(attempts))"
+    }
+}
+
 extension ReferenceTime: CustomStringConvertible {
     public var description: String {
         return "\(self.dynamicType)(time: \(time), uptime: \(uptime.milliseconds) ms)"

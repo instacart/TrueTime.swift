@@ -42,13 +42,20 @@ public extension ReferenceTime {
     }
 }
 
-public typealias ReferenceTimeCallback = Result<ReferenceTime, SNTPClientError> -> Void
+public typealias ReferenceTimeResult = Result<ReferenceTime, SNTPClientError>
+public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
 
 @objc public final class SNTPClient: NSObject {
     public static let sharedInstance = SNTPClient()
     public let timeout: NSTimeInterval
-    required public init(timeout: NSTimeInterval = defaultTimeout) {
+    public let maxRetries: Int
+    public let maxConnections: Int
+    required public init(timeout: NSTimeInterval = defaultTimeout,
+                         maxRetries: Int = defaultMaxRetries,
+                         maxConnections: Int = defaultMaxConnections) {
         self.timeout = timeout
+        self.maxRetries = maxRetries
+        self.maxConnections = maxConnections
     }
 
     public func start(hostURLs hostURLs: [NSURL]) {
@@ -58,10 +65,12 @@ public typealias ReferenceTimeCallback = Result<ReferenceTime, SNTPClientError> 
             switch status {
                 case .NotReachable:
                     debugLog("Network unreachable")
-                    strongSelf.pauseQueue()
+                    strongSelf.stopQueue()
                 case .ReachableViaWWAN, .ReachableViaWiFi:
                     debugLog("Network reachable")
-                    strongSelf.startQueue(hostURLs: hostURLs)
+                    dispatch_async(strongSelf.queue) {
+                        strongSelf.startQueue(hostURLs: hostURLs)
+                    }
             }
         }
 
@@ -70,7 +79,7 @@ public typealias ReferenceTimeCallback = Result<ReferenceTime, SNTPClientError> 
 
     public func pause() {
         reachability.stopMonitoring()
-        pauseQueue()
+        dispatch_async(queue, stopQueue)
     }
 
     public func retrieveReferenceTime(
@@ -85,7 +94,7 @@ public typealias ReferenceTimeCallback = Result<ReferenceTime, SNTPClientError> 
                     }
                 } else {
                     self.callbacks.append((callbackQueue, callback))
-                    if self.results.count == self.hosts.count && self.results.count > 0 {
+                    if self.results.count == self.hosts.count && !self.hosts.isEmpty {
                         self.startQueue(hostURLs: self.hostURLs) // Retry if we failed last time.
                     }
                 }
@@ -101,10 +110,11 @@ public typealias ReferenceTimeCallback = Result<ReferenceTime, SNTPClientError> 
     private let queue: dispatch_queue_t = dispatch_queue_create("com.instacart.sntp-client", nil)
     private let reachability = Reachability()
     private var callbacks: [(dispatch_queue_t, ReferenceTimeCallback)] = []
+    private var connections: [SNTPConnection] = []
     private var hostURLs: [NSURL] = []
     private var hosts: [SNTPHost] = []
     private var referenceTime: ReferenceTime?
-    private var results: [Result<ReferenceTime, SNTPClientError>] = []
+    private var results: [ReferenceTimeResult] = []
     private var startTime: NSTimeInterval?
 }
 
@@ -143,7 +153,7 @@ extension SNTPClient {
     }
 }
 
-private let bridgedErrorDomain = "com.instacart.sntp-client-error"
+private let bridgedErrorDomain = "com.instacart.TrueTimeErrorDomain"
 private extension SNTPClientError {
     var bridged: NSError {
         switch self {
@@ -176,55 +186,107 @@ private extension SNTPClientError {
 // MARK: -
 
 private extension SNTPClient {
+    var unresolvedHosts: [SNTPHost] {
+        return hosts.filter { !$0.isResolved }
+    }
+
     func startQueue(hostURLs hostURLs: [NSURL]) {
+        guard self.hostURLs != hostURLs && referenceTime == nil else {
+            let started = referenceTime == nil
+            debugLog("Already \(started ? "started" : "finished")")
+            return
+        }
+
+        debugLog("Starting queue with hosts: \(hostURLs)")
+        self.hostURLs = hostURLs
+        startTime = CFAbsoluteTimeGetCurrent()
+        hosts = hostURLs.map { url in  SNTPHost(hostURL: url,
+                                                timeout: timeout,
+                                                maxRetries: maxRetries,
+                                                onComplete: hostCallback,
+                                                callbackQueue: queue) }
+        throttleHosts()
+    }
+
+    func stopQueue() {
+        debugLog("Stopping queue")
+        hosts.forEach { $0.stop() }
+        connections.forEach { $0.close() }
+        connections = []
+        hostURLs = []
+        hosts = []
+        results = []
+        startTime = nil
+    }
+
+    func throttleHosts() -> Bool {
+        let isEligible = { [unowned self] (host: SNTPHost) in host.attempts < self.maxRetries }
+        let eligibleHosts = unresolvedHosts.filter(isEligible)
+        let activeHosts = Array(eligibleHosts[0..<min(maxConnections, eligibleHosts.count)])
+        activeHosts.filter { !$0.isStarted }.forEach { $0.resolve() }
+        return hosts.contains(isEligible)
+    }
+
+    func throttleConnections() {
+        let eligibleConnections = connections.filter { $0.attempts < maxRetries }
+        let activeConnections = Array(eligibleConnections[0..<min(maxConnections,
+                                                                  eligibleConnections.count)])
+        activeConnections.filter { !$0.isStarted }.forEach {
+            $0.start(self.queue, onComplete: self.connectionCallback)
+        }
+        debugLog("Starting connections: \(activeConnections) (total: \(connections.count))")
+    }
+
+    func hostCallback(result: SNTPHostResult) {
+        switch result {
+            case let .Success(connections):
+                self.connections += connections
+                throttleConnections()
+            case let .Failure(error):
+                debugLog("Got error resolving host, trying next one. \(error)")
+                if !throttleHosts() {
+                    finish(.Failure(error))
+                }
+        }
+    }
+
+    func connectionCallback(result: ReferenceTimeResult) {
+        results.append(result)
+        switch result {
+            case let .Success(referenceTime):
+                self.referenceTime = referenceTime
+                fallthrough
+            case .Failure where results.count == connections.count && unresolvedHosts.isEmpty:
+                self.finish(result)
+            default:
+                break
+        }
+    }
+
+    func finish(result: ReferenceTimeResult) {
         dispatch_async(queue) {
-            guard self.hostURLs != hostURLs && self.referenceTime == nil else {
-                debugLog("Already \(self.referenceTime == nil ? "started" : "finished")")
-                return
+            guard !self.hosts.isEmpty else {
+                return // Guard against race condition where we receive two times at once.
             }
 
-            debugLog("Starting queue with hosts: \(hostURLs)")
-            self.startTime = CFAbsoluteTimeGetCurrent()
-            self.hostURLs = hostURLs
-            self.hosts = hostURLs.map { url in  SNTPHost(hostURL: url,
-                                                         timeout: self.timeout,
-                                                         onComplete: self.onComplete) }
-            self.hosts.forEach { $0.start() }
-        }
-    }
+            let endTime = CFAbsoluteTimeGetCurrent()
+            debugLog("\(self.results.count) results: \(self.results)")
+            debugLog("Took \(endTime - self.startTime!)s")
+            self.callbacks.forEach { (queue, callback) in
+                dispatch_async(queue) {
+                    callback(result)
+                }
+            }
 
-    func pauseQueue() {
-        dispatch_async(queue) {
-            debugLog("Pausing queue")
-            self.hosts.forEach { $0.close() }
-            self.hostURLs = []
-            self.startTime = nil
-        }
-    }
-
-    func onComplete(result: Result<ReferenceTime, SNTPClientError>) {
-        dispatch_async(queue) {
-            self.results.append(result)
+            self.callbacks = []
             switch result {
-                case let .Success(referenceTime):
-                    self.referenceTime = referenceTime
-                    fallthrough
-                case .Failure where self.results.count == self.hosts.count:
-                    let endTime = CFAbsoluteTimeGetCurrent()
-                    debugLog("\(self.results.count) results: \(self.results)")
-                    debugLog("Took \(endTime - self.startTime!)s")
-                    self.hosts.forEach { $0.close() }
-                    self.callbacks.forEach { (queue, callback) in
-                        dispatch_async(queue) {
-                            callback(result)
-                        }
-                    }
-                    self.callbacks = []
-                default:
-                    break
+                case .Success: self.stopQueue()
+                default: break
             }
         }
     }
 }
 
-private let defaultTimeout: NSTimeInterval = 5
+private let defaultMaxConnections: Int = 3
+private let defaultMaxRetries: Int = 5
+private let defaultTimeout: NSTimeInterval = 30
