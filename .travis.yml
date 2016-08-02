@@ -6,9 +6,10 @@ env:
     - PLATFORM=Mac SDK=macosx SCHEME=TrueTime-Mac
     - PLATFORM=tvOS SDK=appletvsimulator SCHEME=TrueTime-tvOS
 install: 
+  - gem install xcpretty
   - carthage bootstrap --platform "$PLATFORM"
 script:
-  - xctool clean test -sdk "$SDK" -scheme "$SCHEME"
+  - Scripts/test
 cache:
   directories:
-  - Carthage/Build
+    - Carthage/Build

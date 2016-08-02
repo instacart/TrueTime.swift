@@ -52,6 +52,9 @@
 		288A04D01D31A1250032B6FE /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04CE1D31A1250032B6FE /* Nimble.framework */; };
 		288A04D11D31A1250032B6FE /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04CF1D31A1250032B6FE /* Quick.framework */; };
 		288A04EC1D31A87F0032B6FE /* TrueTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; };
+		28902D511D517802006533D1 /* NTPIntegrationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28902D501D517802006533D1 /* NTPIntegrationSpec.swift */; };
+		28902D521D517802006533D1 /* NTPIntegrationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28902D501D517802006533D1 /* NTPIntegrationSpec.swift */; };
+		28902D531D517802006533D1 /* NTPIntegrationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28902D501D517802006533D1 /* NTPIntegrationSpec.swift */; };
 		28AF2F7B1D3CB66100FE536A /* TrueTime.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		28F79E121D3F06EA00437F36 /* Curry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F79E111D3F06EA00437F36 /* Curry.framework */; };
 /* End PBXBuildFile section */
@@ -137,6 +140,7 @@
 		288A04CE1D31A1250032B6FE /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		288A04CF1D31A1250032B6FE /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		288A04D71D31A74D0032B6FE /* TrueTimeExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrueTimeExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		28902D501D517802006533D1 /* NTPIntegrationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTPIntegrationSpec.swift; sourceTree = "<group>"; };
 		28F79E111D3F06EA00437F36 /* Curry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Curry.framework; path = Carthage/Build/iOS/Curry.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -231,6 +235,7 @@
 			children = (
 				280090771D4548A3004C788E /* NTPExtensionsSpec.swift */,
 				280090751D4548A3004C788E /* ArbitraryExtensions.swift */,
+				28902D501D517802006533D1 /* NTPIntegrationSpec.swift */,
 				280090761D4548A3004C788E /* Info.plist */,
 			);
 			path = Tests;
@@ -761,6 +766,7 @@
 			files = (
 				280090791D4548A3004C788E /* ArbitraryExtensions.swift in Sources */,
 				2800907D1D4548A3004C788E /* NTPExtensionsSpec.swift in Sources */,
+				28902D521D517802006533D1 /* NTPIntegrationSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -782,6 +788,7 @@
 			files = (
 				280090781D4548A3004C788E /* ArbitraryExtensions.swift in Sources */,
 				2800907C1D4548A3004C788E /* NTPExtensionsSpec.swift in Sources */,
+				28902D511D517802006533D1 /* NTPIntegrationSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -803,6 +810,7 @@
 			files = (
 				28682B651D4D2F4600D65223 /* ArbitraryExtensions.swift in Sources */,
 				28682B661D4D2F4600D65223 /* NTPExtensionsSpec.swift in Sources */,
+				28902D531D517802006533D1 /* NTPIntegrationSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

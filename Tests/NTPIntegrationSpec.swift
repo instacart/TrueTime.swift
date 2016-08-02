@@ -1,0 +1,67 @@
+//
+//  NTPIntegrationSpec.swift
+//  TrueTime
+//
+//  Created by Michael Sanders on 8/1/16.
+//  Copyright © 2016 Instacart. All rights reserved.
+//
+
+@testable import TrueTime
+import Nimble
+import Quick
+import Result
+
+final class NTPIntegrationSpec: QuickSpec {
+    override func spec() {
+        describe("retrieveReferenceTime") {
+            it("should ignore outliers") {
+                self.testReferenceTimeOutliers()
+            }
+        }
+    }
+}
+
+private extension NTPIntegrationSpec {
+    func testReferenceTimeOutliers() {
+        let clients = (0..<100).map { _ in SNTPClient() }
+        waitUntil(timeout: 60) { done in
+            var results: [Result<ReferenceTime, SNTPClientError>?] = Array(count: clients.count,
+                                                                           repeatedValue: nil)
+            let start = NSDate()
+            let finish = {
+                let end = NSDate()
+                let results = results.filter { $0 != nil }.flatMap { $0 }
+                let times = results.filter { $0.value != nil }.map { $0.value! }
+                let errors = results.filter { $0.error != nil }.map { $0.error! }
+                expect(errors).to(beEmpty())
+                expect(times).notTo(beEmpty())
+
+                let sortedTimes = times.sort {
+                    $0.time.timeIntervalSince1970 < $1.time.timeIntervalSince1970
+                }
+
+                if !sortedTimes.isEmpty {
+                    let medianTime = sortedTimes[sortedTimes.count / 2]
+                    let maxDelta = end.timeIntervalSince1970 - start.timeIntervalSince1970
+                    for time in times {
+                        let delta = abs(time.time.timeIntervalSince1970 -
+                                        medianTime.time.timeIntervalSince1970)
+                        expect(delta) <= maxDelta
+                    }
+                }
+
+                done()
+            }
+
+            for (idx, client) in clients.enumerate() {
+                client.start(hostURLs: [NSURL(string: "time.apple.com")!])
+                client.retrieveReferenceTime { result in
+                    results[idx] = result
+                    if !results.contains({ $0 == nil }) {
+                        finish()
+                    }
+                }
+            }
+        }
+    }
+}

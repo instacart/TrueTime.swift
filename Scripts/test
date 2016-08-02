@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -o nounset -o errexit -o pipefail
+BUILD_LOG="xcodebuild.log"
+
+xcodebuild clean test -sdk "$SDK" -scheme "$SCHEME" | tee "$BUILD_LOG" | xcpretty
+STATUS="${PIPESTATUS[0]}"
+if [ -f "$BUILD_LOG" ]; then curl -sT "$BUILD_LOG" chunk.io; fi
+
+exit "$STATUS"
