@@ -111,12 +111,43 @@ extension ReferenceTime: CustomStringConvertible {
     }
 }
 
+extension ReferenceTime: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        guard let serverResponse = serverResponse, startTime = startTime else {
+            return description
+        }
+
+        return "\(self.dynamicType)(time: \(time), " +
+                                   "uptime: \(uptime.milliseconds) ms, " +
+                                   "serverResponse: \(serverResponse), " +
+                                   "startTime: \(startTime.milliseconds))"
+    }
+}
+
+extension ntp_packet_t: CustomStringConvertible {
+    public var description: String {
+            return "\(self.dynamicType)(client_mode: \(client_mode), " +
+                                       "version_number: \(version_number), " +
+                                       "leap_indicator: \(leap_indicator), " +
+                                       "stratum: \(stratum), " +
+                                       "poll: \(poll), " +
+                                       "precision: \(precision), " +
+                                       "root_delay: \(root_delay), " +
+                                       "root_dispersion: \(root_dispersion), " +
+                                       "reference_id: \(reference_id), " +
+                                       "reference_time: \(reference_time.milliseconds) ms, " +
+                                       "originate_time: \(originate_time.milliseconds) ms, " +
+                                       "receive_time: \(receive_time.milliseconds) ms, " +
+                                       "transmit_time: \(transmit_time.milliseconds) ms)"
+    }
+}
+
 extension ntp_packet_t {
     var timeDescription: String {
         return "\(self.dynamicType)(reference_time: \(reference_time.milliseconds) ms, " +
-                                    "originate_time: \(originate_time.milliseconds) ms, " +
-                                    "receive_time: \(receive_time.milliseconds) ms, " +
-                                    "transmit_time: \(transmit_time.milliseconds) ms)"
+                                   "originate_time: \(originate_time.milliseconds) ms, " +
+                                   "receive_time: \(receive_time.milliseconds) ms, " +
+                                   "transmit_time: \(transmit_time.milliseconds) ms)"
     }
 }
 

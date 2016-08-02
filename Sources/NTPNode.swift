@@ -219,10 +219,13 @@ private extension SNTPConnection {
         let trueTime = NSDate(timeIntervalSince1970: interval)
 
         debugLog("Buffer \(socketAddress) has read data!")
-        debugLog("Start time: \(startTime.milliseconds) ms, response: \(packet.timeDescription)")
+        debugLog("Start time: \(startTime.milliseconds) ms, response: \(packet)")
         debugLog("Clock offset: \(offset) milliseconds")
         debugLog("Round-trip delay: \(delay) milliseconds")
-        onComplete(.Success(ReferenceTime(time: trueTime, uptime: responseTicks)))
+        onComplete(.Success(ReferenceTime(time: trueTime,
+                                          uptime: responseTicks,
+                                          serverResponse: packet,
+                                          startTime: startTime)))
     }
 
     func requestPacket(time: ntp_time_t) -> ntp_packet_t {

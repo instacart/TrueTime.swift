@@ -6,6 +6,7 @@
 //  Copyright © 2016 Instacart. All rights reserved.
 //
 
+import CTrueTime
 import Foundation
 import Result
 
@@ -18,9 +19,17 @@ public enum SNTPClientError: ErrorType {
 public struct ReferenceTime {
     public let time: NSDate
     public let uptime: timeval
+    let serverResponse: ntp_packet_t?
+    let startTime: timeval?
     public init(time: NSDate, uptime: timeval) {
+        self.init(time: time, uptime: uptime, serverResponse: nil, startTime: nil)
+    }
+
+    init(time: NSDate, uptime: timeval, serverResponse: ntp_packet_t?, startTime: timeval?) {
         self.time = time
         self.uptime = uptime
+        self.serverResponse = serverResponse
+        self.startTime = startTime
     }
 }
 
