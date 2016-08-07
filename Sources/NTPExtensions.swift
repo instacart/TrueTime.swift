@@ -67,6 +67,10 @@ extension NSTimeInterval {
         self = Double(timestamp.whole) - Double(secondsFrom1900To1970) +
                Double(timestamp.usec) / Double(USEC_PER_SEC)
     }
+
+    var dispatchTime: dispatch_time_t {
+        return dispatch_time(DISPATCH_TIME_NOW, Int64(self * Double(NSEC_PER_SEC)))
+    }
 }
 
 protocol ByteRepresentable {
@@ -105,12 +109,19 @@ extension sockaddr_in: CustomStringConvertible {
     }
 }
 
+extension SNTPHost: CustomStringConvertible {
+    var description: String {
+        return "\(self.dynamicType)(hostURL: \(hostURL), " +
+                                   "timeout: \(timeout), " +
+                                   "maxRetries: \(maxRetries))"
+    }
+}
+
 extension SNTPConnection: CustomStringConvertible {
     var description: String {
         return "\(self.dynamicType)(socketAddress: \(socketAddress), " +
-                                    "timeout: \(timeout), " +
-                                    "maxRetries: \(maxRetries), " +
-                                    "attempts: \(attempts))"
+                                   "timeout: \(timeout), " +
+                                   "maxRetries: \(maxRetries))"
     }
 }
 
@@ -135,19 +146,19 @@ extension ReferenceTime: CustomDebugStringConvertible {
 
 extension ntp_packet_t: CustomStringConvertible {
     public var description: String {
-            return "\(self.dynamicType)(client_mode: \(client_mode), " +
-                                       "version_number: \(version_number), " +
-                                       "leap_indicator: \(leap_indicator), " +
-                                       "stratum: \(stratum), " +
-                                       "poll: \(poll), " +
-                                       "precision: \(precision), " +
-                                       "root_delay: \(root_delay), " +
-                                       "root_dispersion: \(root_dispersion), " +
-                                       "reference_id: \(reference_id), " +
-                                       "reference_time: \(reference_time.milliseconds) ms, " +
-                                       "originate_time: \(originate_time.milliseconds) ms, " +
-                                       "receive_time: \(receive_time.milliseconds) ms, " +
-                                       "transmit_time: \(transmit_time.milliseconds) ms)"
+        return "\(self.dynamicType)(client_mode: \(client_mode), " +
+                                   "version_number: \(version_number), " +
+                                   "leap_indicator: \(leap_indicator), " +
+                                   "stratum: \(stratum), " +
+                                   "poll: \(poll), " +
+                                   "precision: \(precision), " +
+                                   "root_delay: \(root_delay), " +
+                                   "root_dispersion: \(root_dispersion), " +
+                                   "reference_id: \(reference_id), " +
+                                   "reference_time: \(reference_time.milliseconds) ms, " +
+                                   "originate_time: \(originate_time.milliseconds) ms, " +
+                                   "receive_time: \(receive_time.milliseconds) ms, " +
+                                   "transmit_time: \(transmit_time.milliseconds) ms)"
     }
 }
 
@@ -169,11 +180,40 @@ extension NSError {
         self.init(domain: NSPOSIXErrorDomain, code: Int(errno), userInfo: userInfo)
     }
 
+    static var timeoutError: NSError {
+        return NSError(domain: NSURLErrorDomain, code: NSURLErrorTimedOut, userInfo: [
+            NSLocalizedDescriptionKey: "The request timed out."
+        ])
+    }
+
     static var offlineError: NSError {
         return NSError(domain: NSURLErrorDomain, code: NSURLErrorNotConnectedToInternet, userInfo: [
             NSLocalizedDescriptionKey: "The Internet connection appears to be offline."
         ])
     }
+}
+
+extension dispatch_source_t {
+    func cancel() {
+        dispatch_source_cancel(self)
+    }
+}
+
+// Can't add as static method to dispatch_source_t, as it's defined as a protocol.
+func dispatchTimer(after interval: NSTimeInterval,
+                   queue: dispatch_queue_t,
+                   block: dispatch_block_t) -> dispatch_source_t? {
+    guard let timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue) else {
+        return nil
+    }
+
+    dispatch_source_set_timer(timer,
+                              interval.dispatchTime,
+                              UInt64(interval * Double(NSEC_PER_SEC)),
+                              NSEC_PER_SEC / 10)
+    dispatch_source_set_event_handler(timer, block)
+    dispatch_resume(timer)
+    return timer
 }
 
 func withErrno<X: SignedIntegerType>(@noescape block: () -> X) throws -> X {

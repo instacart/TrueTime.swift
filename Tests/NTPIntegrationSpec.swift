@@ -23,7 +23,7 @@ final class NTPIntegrationSpec: QuickSpec {
 
 private extension NTPIntegrationSpec {
     func testReferenceTimeOutliers() {
-        let clients = (0..<100).map { _ in SNTPClient() }
+        let clients = (0..<100).map { _ in SNTPClient(maxConnections: 10) }
         waitUntil(timeout: 60) { done in
             var results: [Result<ReferenceTime, SNTPClientError>?] = Array(count: clients.count,
                                                                            repeatedValue: nil)
@@ -33,8 +33,8 @@ private extension NTPIntegrationSpec {
                 let results = results.filter { $0 != nil }.flatMap { $0 }
                 let times = results.filter { $0.value != nil }.map { $0.value! }
                 let errors = results.filter { $0.error != nil }.map { $0.error! }
-                expect(errors).to(beEmpty())
-                expect(times).notTo(beEmpty())
+                expect(times).notTo(beEmpty(), description: "Expected times, got: \(errors)")
+                print("Got \(times.count) times for \(results.count) results")
 
                 let sortedTimes = times.sort {
                     $0.time.timeIntervalSince1970 < $1.time.timeIntervalSince1970

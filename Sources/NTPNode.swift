@@ -13,6 +13,31 @@ import Result
 typealias SNTPHostResult = Result<[SNTPConnection], SNTPClientError>
 typealias SNTPHostCallback = (SNTPHostResult) -> Void
 
+private protocol SNTPNode: class {
+    var timeout: NSTimeInterval { get }
+    var started: Bool { get }
+    var canRetry: Bool { get }
+    var lockQueue: dispatch_queue_t { get }
+    var timer: dispatch_source_t? { get set }
+    func timeoutError(error: SNTPClientError)
+}
+
+extension SNTPNode {
+    func startTimer() {
+        cancelTimer()
+        timer = dispatchTimer(after: timeout, queue: lockQueue) {
+            guard self.started else { return }
+            debugLog("Got timeout connecting to \(self)")
+            self.timeoutError(.ConnectionError(underlyingError: .timeoutError))
+        }
+    }
+
+    func cancelTimer() {
+        timer?.cancel()
+        timer = nil
+    }
+}
+
 final class SNTPHost {
     let hostURL: NSURL
     let timeout: NSTimeInterval
@@ -34,32 +59,35 @@ final class SNTPHost {
 
     var isStarted: Bool {
         var started: Bool = false
-        dispatch_sync(hostQueue) {
-            started = self.host != nil
+        dispatch_sync(lockQueue) {
+            started = self.started
         }
         return started
     }
 
     var isResolved: Bool {
         var resolved: Bool = false
-        dispatch_sync(hostQueue) {
+        dispatch_sync(lockQueue) {
             resolved = self.resolved
         }
         return resolved
     }
 
-    var attempts: Int {
-        var attempts: Int = 0
-        dispatch_sync(hostQueue) {
-            attempts = self.underlyingAttempts
+    var canRetry: Bool {
+        var canRetry: Bool = false
+        dispatch_sync(lockQueue) {
+            canRetry = self.attempts < self.maxRetries && !self.didTimeOut
         }
-        return attempts
+        return canRetry
     }
 
-    private let hostQueue: dispatch_queue_t = dispatch_queue_create("com.instacart.sntp-host", nil)
+    private let lockQueue: dispatch_queue_t = dispatch_queue_create("com.instacart.sntp-host", nil)
+    private var attempts: Int = 0
+    private var didTimeOut: Bool = false
     private var host: CFHost?
     private var resolved: Bool = false
-    private var underlyingAttempts: Int = 0
+    private var started: Bool { return self.host != nil }
+    private var timer: dispatch_source_t?
     private static let hostCallback: CFHostClientCallBack = { (host, infoType, error, info)  in
         let client = Unmanaged<SNTPHost>.fromOpaque(COpaquePointer(info)).takeUnretainedValue()
         debugLog("Got CFHostStartInfoResolution callback")
@@ -69,15 +97,12 @@ final class SNTPHost {
 
 extension SNTPHost {
     func resolve() {
-        dispatch_async(hostQueue) {
-            guard self.host == nil else {
-                assertionFailure("Already started")
-                return
-            }
-
+        dispatch_async(lockQueue) {
+            guard self.host == nil else { return }
             self.resolved = false
-            self.underlyingAttempts += 1
+            self.attempts += 1
             self.host = CFHostCreateWithName(nil, self.hostURL.absoluteString).takeUnretainedValue()
+
             var ctx = CFHostClientContext(
                 version: 0,
                 info: UnsafeMutablePointer(Unmanaged.passUnretained(self).toOpaque()),
@@ -93,13 +118,16 @@ extension SNTPHost {
                 var err: CFStreamError = CFStreamError()
                 if !CFHostStartInfoResolution(host, .Addresses, &err) {
                     self.complete(.Failure(.UnresolvableHost(underlyingError: err)))
+                } else {
+                    self.startTimer()
                 }
             }
         }
     }
 
     func stop() {
-        dispatch_async(hostQueue) {
+        dispatch_async(lockQueue) {
+            self.cancelTimer()
             guard let host = self.host else { return }
             CFHostCancelInfoResolution(host, .Addresses)
             CFHostSetClient(host, nil, nil)
@@ -109,12 +137,19 @@ extension SNTPHost {
     }
 }
 
+extension SNTPHost: SNTPNode {
+    func timeoutError(error: SNTPClientError) {
+        self.didTimeOut = true
+        complete(.Failure(error))
+    }
+}
+
 private extension SNTPHost {
     func complete(result: SNTPHostResult) {
         stop()
         switch result {
-            case let .Failure(error) where underlyingAttempts < maxRetries:
-                debugLog("Got error from \(hostURL) (attempt \(underlyingAttempts)), trying " +
+            case let .Failure(error) where attempts < maxRetries && !didTimeOut:
+                debugLog("Got error from \(hostURL) (attempt \(attempts)), trying " +
                          "again. \(error)")
                 resolve()
             case .Failure, .Success:
@@ -125,7 +160,7 @@ private extension SNTPHost {
     }
 
     func connect(host: CFHost) {
-        dispatch_async(hostQueue) {
+        dispatch_async(lockQueue) {
             guard self.host != nil && !self.resolved else {
                 debugLog("Closed")
                 return
@@ -169,26 +204,23 @@ final class SNTPConnection {
 
     var isStarted: Bool {
         var started: Bool = false
-        dispatch_sync(socketQueue) {
+        dispatch_sync(lockQueue) {
             started = self.socket != nil
         }
         return started
     }
 
-    var attempts: Int {
-        var attempts: Int = 0
-        dispatch_sync(socketQueue) {
-            attempts = self.underlyingAttempts
+    var canRetry: Bool {
+        var canRetry: Bool = false
+        dispatch_sync(lockQueue) {
+            canRetry = self.attempts < self.maxRetries && !self.didTimeOut
         }
-        return attempts
+        return canRetry
     }
 
     func start(callbackQueue: dispatch_queue_t, onComplete: ReferenceTimeCallback) {
-        dispatch_async(socketQueue) {
-            guard self.socket == nil else {
-                assertionFailure("Already started")
-                return
-            }
+        dispatch_async(lockQueue) {
+            guard !self.started else { return }
 
             let callbackTypes: [CFSocketCallBackType] = [.DataCallBack, .WriteCallBack]
             var ctx = CFSocketContext(
@@ -199,7 +231,7 @@ final class SNTPConnection {
                 copyDescription: unsafeBitCast(0, CFAllocatorCopyDescriptionCallBack.self)
             )
 
-            self.underlyingAttempts += 1
+            self.attempts += 1
             self.callbackQueue = callbackQueue
             self.onComplete = onComplete
             self.socket = CFSocketCreate(nil,
@@ -213,16 +245,18 @@ final class SNTPConnection {
             if let socket = self.socket {
                 let source = CFSocketCreateRunLoopSource(nil, socket, 0)
                 CFRunLoopAddSource(CFRunLoopGetMain(), source, kCFRunLoopCommonModes)
+                self.startTimer()
             }
         }
     }
 
     func close() {
-        dispatch_async(socketQueue) {
+        dispatch_async(lockQueue) {
             guard let socket = self.socket else { return }
             debugLog("Connection closed \(self.socketAddress)")
             CFSocketInvalidate(socket)
             self.socket = nil
+            self.cancelTimer()
         }
     }
 
@@ -243,15 +277,25 @@ final class SNTPConnection {
         }
     }
 
-    private let socketQueue = dispatch_queue_create("com.instacart.sntp-connection", nil)
+    private let lockQueue: dispatch_queue_t = dispatch_queue_create("com.instacart.sntp-connection",
+                                                                    nil)
+    private var attempts: Int = 0
     private var callbackQueue: dispatch_queue_t?
+    private var didTimeOut: Bool = false
     private var onComplete: ReferenceTimeCallback?
     private var requestTicks: timeval?
     private var socket: CFSocket?
     private var startTime: timeval?
-    private var underlyingAttempts: Int = 0
+    private var started: Bool { return self.socket != nil }
+    private var timer: dispatch_source_t?
 }
 
+extension SNTPConnection: SNTPNode {
+    func timeoutError(error: SNTPClientError) {
+        self.didTimeOut = true
+        complete(.Failure(error))
+    }
+}
 private extension SNTPConnection {
     func complete(result: ReferenceTimeResult) {
         guard let callbackQueue = callbackQueue, onComplete = onComplete else {
@@ -261,8 +305,8 @@ private extension SNTPConnection {
 
         close()
         switch result {
-            case let .Failure(error) where underlyingAttempts < maxRetries:
-                debugLog("Got error from \(socketAddress) (attempt \(underlyingAttempts)), " +
+            case let .Failure(error) where attempts < maxRetries && !didTimeOut:
+                debugLog("Got error from \(socketAddress) (attempt \(attempts)), " +
                          "trying again. \(error)")
                 start(callbackQueue, onComplete: onComplete)
             case .Failure, .Success:
@@ -273,9 +317,9 @@ private extension SNTPConnection {
     }
 
     func requestTime() {
-        dispatch_async(socketQueue) {
+        dispatch_async(lockQueue) {
             guard let socket = self.socket else {
-                assertionFailure("Host not initialized")
+                debugLog("Socket closed")
                 return
             }
 
@@ -292,6 +336,8 @@ private extension SNTPConnection {
                 if err != .Success {
                     let error = NSError(errno: errno)
                     self.complete(.Failure(.ConnectionError(underlyingError: error)))
+                } else {
+                    self.startTimer()
                 }
             }
         }
@@ -299,7 +345,8 @@ private extension SNTPConnection {
 
     func handleResponse(data: NSData) {
         let responseTicks = timeval.uptime()
-        dispatch_async(socketQueue) {
+        dispatch_async(lockQueue) {
+            guard self.started else { return } // Socket closed.
             guard let startTime = self.startTime, requestTicks = self.requestTicks else {
                 assertionFailure("Uninitialized timestamps")
                 return
