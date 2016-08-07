@@ -20,12 +20,12 @@ public struct ReferenceTime {
     public let time: NSDate
     public let uptime: timeval
     let serverResponse: ntp_packet_t?
-    let startTime: timeval?
+    let startTime: ntp_time_t?
     public init(time: NSDate, uptime: timeval) {
         self.init(time: time, uptime: uptime, serverResponse: nil, startTime: nil)
     }
 
-    init(time: NSDate, uptime: timeval, serverResponse: ntp_packet_t?, startTime: timeval?) {
+    init(time: NSDate, uptime: timeval, serverResponse: ntp_packet_t?, startTime: ntp_time_t?) {
         self.time = time
         self.uptime = uptime
         self.serverResponse = serverResponse

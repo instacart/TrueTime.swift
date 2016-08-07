@@ -33,26 +33,44 @@ extension timeval {
     }
 }
 
-extension ntp_time_t {
-    init(_ time: timeval) {
-        precondition(time.tv_sec > 0 && time.tv_usec > 0, "Time must be positive \(time)")
-        self.init(whole: UInt32(time.tv_sec + secondsFrom1900To1970),
-                  // Fractions are 2^32 / second.
-                  // https://en.wikipedia.org/wiki/Network_Time_Protocol#Timestamps
-                  fraction: UInt32(UInt32(time.tv_usec) * UInt32(1<<32 / USEC_PER_SEC)))
+// Represents an amount of time since the NTP epoch, January 1, 1900.
+// https://en.wikipedia.org/wiki/Network_Time_Protocol#Timestamps
+protocol NTPTimeType {
+    associatedtype T: UnsignedIntegerType
+    init(whole: T, fraction: T)
+    var whole: T { get }
+    var fraction: T { get }
+}
+
+protocol NTPTimevalConvertible: NTPTimeType {}
+
+extension NTPTimeType {
+    // Interprets the receiver as an elapsed time in milliseconds.
+    var durationInMilliseconds: Int64 {
+        return whole.toIntMax() * Int64(MSEC_PER_SEC) +
+               fractionInMicroseconds / Int64(USEC_PER_MSEC)
     }
 
-    // Milliseconds since epoch.
-    var milliseconds: Int64 {
-        return (Int64(whole) - secondsFrom1900To1970) * Int64(MSEC_PER_SEC) +
-                usec / Int64(USEC_PER_MSEC)
-    }
-
-    // Fraction converted to microseconds.
-    var usec: Int64 {
-        return Int64(fraction) / Int64(1<<32 / USEC_PER_SEC)
+    var fractionInMicroseconds: Int64 {
+        return fraction.toIntMax() / Int64(1<<32 / USEC_PER_SEC)
     }
 }
+
+extension NTPTimevalConvertible {
+    init(timeSince1970 time: timeval) {
+        precondition(time.tv_sec > 0 && time.tv_usec > 0, "Time must be positive \(time)")
+        self.init(whole: T(UInt64(time.tv_sec + secondsFrom1900To1970)),
+                  fraction: T(UInt64(time.tv_usec) * UInt64(1<<32 / USEC_PER_SEC)))
+    }
+
+    var milliseconds: Int64 {
+        return (whole.toIntMax() - secondsFrom1900To1970) * Int64(MSEC_PER_SEC) +
+                fractionInMicroseconds / Int64(USEC_PER_MSEC)
+    }
+}
+
+extension ntp_time32_t: NTPTimeType {}
+extension ntp_time64_t: NTPTimeType, NTPTimevalConvertible {}
 
 extension NSTimeInterval {
     init(milliseconds: Int64) {
@@ -61,11 +79,6 @@ extension NSTimeInterval {
 
     init(_ timestamp: timeval) {
         self = Double(timestamp.tv_sec) + Double(timestamp.tv_usec) / Double(USEC_PER_SEC)
-    }
-
-    init(_ timestamp: ntp_time_t) {
-        self = Double(timestamp.whole) - Double(secondsFrom1900To1970) +
-               Double(timestamp.usec) / Double(USEC_PER_SEC)
     }
 
     var dispatchTime: dispatch_time_t {

@@ -285,7 +285,7 @@ final class SNTPConnection {
     private var onComplete: ReferenceTimeCallback?
     private var requestTicks: timeval?
     private var socket: CFSocket?
-    private var startTime: timeval?
+    private var startTime: ntp_time_t?
     private var started: Bool { return self.socket != nil }
     private var timer: dispatch_source_t?
 }
@@ -323,12 +323,12 @@ private extension SNTPConnection {
                 return
             }
 
-            self.startTime = timeval.now()
+            self.startTime = ntp_time_t(timeSince1970: timeval.now())
             self.requestTicks = timeval.uptime()
             if let startTime = self.startTime {
-                let time = ntp_time_t(startTime)
-                let packet = self.requestPacket(time).bigEndian
-                debugLog("Sending time: \(NSDate(timeIntervalSince1970: NSTimeInterval(time)))")
+                let packet = self.requestPacket(startTime).bigEndian
+                let interval = NSTimeInterval(milliseconds: startTime.milliseconds)
+                debugLog("Sending time: \(NSDate(timeIntervalSince1970: interval))")
                 let err = CFSocketSendData(socket,
                                            self.socketAddress.bigEndian.data,
                                            packet.data,
@@ -353,7 +353,13 @@ private extension SNTPConnection {
             }
 
             let packet = (data.decode() as ntp_packet_t).nativeEndian
-            guard !packet.isZero else { // Guard against dropped packets.
+            let isValidResponse = !packet.isZero &&
+                                   packet.originate_time.milliseconds == startTime.milliseconds &&
+                                   packet.root_delay.durationInMilliseconds <= 100 &&
+                                   packet.root_dispersion.durationInMilliseconds <= 100 &&
+                                   packet.client_mode == ntpModeServer &&
+                                   packet.stratum < 16
+            guard isValidResponse else { // Guard against outliers.
                 self.complete(.Failure(.InvalidResponse))
                 return
             }
@@ -392,4 +398,5 @@ private extension SNTPConnection {
     }
 }
 
+private let ntpModeServer: UInt8 = 4
 private let defaultNTPPort: Int = 123
