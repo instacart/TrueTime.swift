@@ -193,8 +193,10 @@ private extension SNTPClient {
     var atEnd: Bool {
         let unresolvedHostCount = unresolvedHosts.count
         let unresolvedConnectionCount = connections.count - connectionResults.count
-        debugLog("Unresolved hosts: \(unresolvedHostCount), " +
-                 "unresolved connections: \(unresolvedConnectionCount)")
+        debugLog("Unresolved hosts: \(unresolvedHostCount) \(unresolvedHosts), " +
+                 "unresolved connections: \(unresolvedConnectionCount), " +
+                 "total connections: \(connections.count), " +
+                 "total hosts: \(hosts.count)")
         return unresolvedHostCount == 0 && unresolvedConnectionCount == 0
     }
 
@@ -246,6 +248,7 @@ private extension SNTPClient {
             case let .Success(connections):
                 self.connections += connections
                 throttleConnections()
+                throttleHosts()
             case let .Failure(error):
                 let unresolvedHostURLs = self.unresolvedHosts.map { $0.hostURL }
                 debugLog("Got error resolving host, trying next one: \(error). " +
@@ -263,33 +266,32 @@ private extension SNTPClient {
         switch result {
             case let .Success(referenceTime):
                 self.referenceTime = referenceTime
-                fallthrough
-            case .Failure where atEnd:
                 finish(result)
-            default:
-                break
+            case .Failure:
+                throttleConnections()
+                if atEnd {
+                    finish(result)
+                }
         }
     }
 
     func finish(result: ReferenceTimeResult) {
-        dispatch_async(queue) {
-            guard !self.hosts.isEmpty else {
-                return // Guard against race condition where we receive two responses at once.
-            }
+        guard !hosts.isEmpty else {
+            return // Guard against race condition where we receive two responses at once.
+        }
 
-            let endTime = CFAbsoluteTimeGetCurrent()
-            debugLog("\(self.connectionResults.count) results: \(self.connectionResults)")
-            debugLog("Took \(endTime - self.startTime!)s")
-            self.callbacks.forEach { (queue, callback) in
-                dispatch_async(queue) {
-                    callback(result)
-                }
+        let endTime = CFAbsoluteTimeGetCurrent()
+        debugLog("\(connectionResults.count) results: \(connectionResults)")
+        debugLog("Took \(endTime - startTime!)s")
+        callbacks.forEach { (queue, callback) in
+            dispatch_async(queue) {
+                callback(result)
             }
+        }
 
-            self.callbacks = []
-            if result.value != nil {
-                self.stopQueue()
-            }
+        callbacks = []
+        if result.value != nil {
+            stopQueue()
         }
     }
 }
