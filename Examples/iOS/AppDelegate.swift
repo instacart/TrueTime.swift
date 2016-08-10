@@ -24,8 +24,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             NSURL(string: "1.north-america.pool.ntp.org")!,
             NSURL(string: "2.north-america.pool.ntp.org")!,
             NSURL(string: "3.north-america.pool.ntp.org")!,
-            NSURL(string: "0.us.pool.ntp.org")!,
-            NSURL(string: "1.us.pool.ntp.org")!,
         ])
 
         client.retrieveReferenceTime { result in
