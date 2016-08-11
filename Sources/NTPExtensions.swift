@@ -185,12 +185,12 @@ extension ntp_packet_t {
 }
 
 extension NSError {
-    convenience init(errno: Int32) {
+    convenience init(errno code: Int32) {
         var userInfo: [String: AnyObject]?
-        if let description = String(UTF8String: strerror(errno)) {
+        if let description = String(UTF8String: strerror(code)) {
             userInfo = [NSLocalizedDescriptionKey: description]
         }
-        self.init(domain: NSPOSIXErrorDomain, code: Int(errno), userInfo: userInfo)
+        self.init(domain: NSPOSIXErrorDomain, code: Int(code), userInfo: userInfo)
     }
 
     static var timeoutError: NSError {

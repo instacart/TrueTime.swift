@@ -131,6 +131,31 @@
 		280090801D454A9F004C788E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		280090811D454A9F004C788E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		280090821D454A9F004C788E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		282BD1DE1D5CE2E0000D78A7 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
+		282BD1E01D5CE2E0000D78A7 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		282BD1E11D5CE2E0000D78A7 /* Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
+		282BD1E21D5CE2E0000D78A7 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		282BD1E31D5CE2E0000D78A7 /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Test.xcconfig; sourceTree = "<group>"; };
+		282BD1E51D5CE2E0000D78A7 /* Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Application.xcconfig; sourceTree = "<group>"; };
+		282BD1E61D5CE2E0000D78A7 /* Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Framework.xcconfig; sourceTree = "<group>"; };
+		282BD1E71D5CE2E0000D78A7 /* StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = StaticLibrary.xcconfig; sourceTree = "<group>"; };
+		282BD1E91D5CE2E0000D78A7 /* iOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Application.xcconfig"; sourceTree = "<group>"; };
+		282BD1EA1D5CE2E0000D78A7 /* iOS-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Base.xcconfig"; sourceTree = "<group>"; };
+		282BD1EB1D5CE2E0000D78A7 /* iOS-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Framework.xcconfig"; sourceTree = "<group>"; };
+		282BD1EC1D5CE2E0000D78A7 /* iOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
+		282BD1EE1D5CE2E0000D78A7 /* Mac-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Application.xcconfig"; sourceTree = "<group>"; };
+		282BD1EF1D5CE2E0000D78A7 /* Mac-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Base.xcconfig"; sourceTree = "<group>"; };
+		282BD1F01D5CE2E0000D78A7 /* Mac-DynamicLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-DynamicLibrary.xcconfig"; sourceTree = "<group>"; };
+		282BD1F11D5CE2E0000D78A7 /* Mac-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Framework.xcconfig"; sourceTree = "<group>"; };
+		282BD1F21D5CE2E0000D78A7 /* Mac-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
+		282BD1F51D5CE2E0000D78A7 /* tvOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "tvOS-Application.xcconfig"; sourceTree = "<group>"; };
+		282BD1F61D5CE2E0000D78A7 /* tvOS-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "tvOS-Base.xcconfig"; sourceTree = "<group>"; };
+		282BD1F71D5CE2E0000D78A7 /* tvOS-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "tvOS-Framework.xcconfig"; sourceTree = "<group>"; };
+		282BD1F81D5CE2E0000D78A7 /* tvOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "tvOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
+		282BD1FA1D5CE2E0000D78A7 /* watchOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "watchOS-Application.xcconfig"; sourceTree = "<group>"; };
+		282BD1FB1D5CE2E0000D78A7 /* watchOS-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "watchOS-Base.xcconfig"; sourceTree = "<group>"; };
+		282BD1FC1D5CE2E0000D78A7 /* watchOS-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "watchOS-Framework.xcconfig"; sourceTree = "<group>"; };
+		282BD1FD1D5CE2E0000D78A7 /* watchOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "watchOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
 		28482DC21D314E7B003491D9 /* TrueTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TrueTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28482DCC1D314E7B003491D9 /* TrueTimeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrueTimeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		285047DF1D4D641400DE4CE8 /* TrueTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TrueTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -269,9 +294,99 @@
 			path = iOS;
 			sourceTree = "<group>";
 		};
+		282BD1DB1D5CE2E0000D78A7 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				282BD1DD1D5CE2E0000D78A7 /* Base */,
+				282BD1E81D5CE2E0000D78A7 /* iOS */,
+				282BD1ED1D5CE2E0000D78A7 /* Mac OS X */,
+				282BD1F41D5CE2E0000D78A7 /* tvOS */,
+				282BD1F91D5CE2E0000D78A7 /* watchOS */,
+			);
+			name = Configuration;
+			path = External/xcconfigs;
+			sourceTree = "<group>";
+		};
+		282BD1DD1D5CE2E0000D78A7 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				282BD1DE1D5CE2E0000D78A7 /* Common.xcconfig */,
+				282BD1DF1D5CE2E0000D78A7 /* Configurations */,
+				282BD1E41D5CE2E0000D78A7 /* Targets */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		282BD1DF1D5CE2E0000D78A7 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				282BD1E01D5CE2E0000D78A7 /* Debug.xcconfig */,
+				282BD1E11D5CE2E0000D78A7 /* Profile.xcconfig */,
+				282BD1E21D5CE2E0000D78A7 /* Release.xcconfig */,
+				282BD1E31D5CE2E0000D78A7 /* Test.xcconfig */,
+			);
+			path = Configurations;
+			sourceTree = "<group>";
+		};
+		282BD1E41D5CE2E0000D78A7 /* Targets */ = {
+			isa = PBXGroup;
+			children = (
+				282BD1E51D5CE2E0000D78A7 /* Application.xcconfig */,
+				282BD1E61D5CE2E0000D78A7 /* Framework.xcconfig */,
+				282BD1E71D5CE2E0000D78A7 /* StaticLibrary.xcconfig */,
+			);
+			path = Targets;
+			sourceTree = "<group>";
+		};
+		282BD1E81D5CE2E0000D78A7 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				282BD1E91D5CE2E0000D78A7 /* iOS-Application.xcconfig */,
+				282BD1EA1D5CE2E0000D78A7 /* iOS-Base.xcconfig */,
+				282BD1EB1D5CE2E0000D78A7 /* iOS-Framework.xcconfig */,
+				282BD1EC1D5CE2E0000D78A7 /* iOS-StaticLibrary.xcconfig */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		282BD1ED1D5CE2E0000D78A7 /* Mac OS X */ = {
+			isa = PBXGroup;
+			children = (
+				282BD1EE1D5CE2E0000D78A7 /* Mac-Application.xcconfig */,
+				282BD1EF1D5CE2E0000D78A7 /* Mac-Base.xcconfig */,
+				282BD1F01D5CE2E0000D78A7 /* Mac-DynamicLibrary.xcconfig */,
+				282BD1F11D5CE2E0000D78A7 /* Mac-Framework.xcconfig */,
+				282BD1F21D5CE2E0000D78A7 /* Mac-StaticLibrary.xcconfig */,
+			);
+			path = "Mac OS X";
+			sourceTree = "<group>";
+		};
+		282BD1F41D5CE2E0000D78A7 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				282BD1F51D5CE2E0000D78A7 /* tvOS-Application.xcconfig */,
+				282BD1F61D5CE2E0000D78A7 /* tvOS-Base.xcconfig */,
+				282BD1F71D5CE2E0000D78A7 /* tvOS-Framework.xcconfig */,
+				282BD1F81D5CE2E0000D78A7 /* tvOS-StaticLibrary.xcconfig */,
+			);
+			path = tvOS;
+			sourceTree = "<group>";
+		};
+		282BD1F91D5CE2E0000D78A7 /* watchOS */ = {
+			isa = PBXGroup;
+			children = (
+				282BD1FA1D5CE2E0000D78A7 /* watchOS-Application.xcconfig */,
+				282BD1FB1D5CE2E0000D78A7 /* watchOS-Base.xcconfig */,
+				282BD1FC1D5CE2E0000D78A7 /* watchOS-Framework.xcconfig */,
+				282BD1FD1D5CE2E0000D78A7 /* watchOS-StaticLibrary.xcconfig */,
+			);
+			path = watchOS;
+			sourceTree = "<group>";
+		};
 		28482DB81D314E7B003491D9 = {
 			isa = PBXGroup;
 			children = (
+				282BD1DB1D5CE2E0000D78A7 /* Configuration */,
 				2800905D1D45489D004C788E /* Sources */,
 				280090741D4548A3004C788E /* Tests */,
 				2800907E1D454A9F004C788E /* Examples */,
@@ -878,6 +993,7 @@
 /* Begin XCBuildConfiguration section */
 		280090531D444B64004C788E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282BD1EE1D5CE2E0000D78A7 /* Mac-Application.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -896,6 +1012,7 @@
 		};
 		280090541D444B64004C788E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282BD1EE1D5CE2E0000D78A7 /* Mac-Application.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -914,126 +1031,69 @@
 		};
 		28482DD41D314E7C003491D9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282BD1E01D5CE2E0000D78A7 /* Debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CLANG_STATIC_ANALYZER_MODE = deep;
+				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
 		28482DD51D314E7C003491D9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282BD1E21D5CE2E0000D78A7 /* Release.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CLANG_STATIC_ANALYZER_MODE = deep;
+				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = iphoneos;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
 		28482DD71D314E7C003491D9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282BD1EB1D5CE2E0000D78A7 /* iOS-Framework.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_STATIC_ANALYZER_MODE = deep;
-				CLANG_WARN_ASSIGN_ENUM = YES;
-				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.ntp-swift";
+				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.TrueTime;
 				PRODUCT_NAME = TrueTime;
-				RUN_CLANG_STATIC_ANALYZER = YES;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/External/CTrueTime";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
@@ -1044,11 +1104,10 @@
 		};
 		28482DD81D314E7C003491D9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282BD1EB1D5CE2E0000D78A7 /* iOS-Framework.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_STATIC_ANALYZER_MODE = deep;
-				CLANG_WARN_ASSIGN_ENUM = YES;
-				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1057,13 +1116,11 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.ntp-swift";
+				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.TrueTime;
 				PRODUCT_NAME = TrueTime;
-				RUN_CLANG_STATIC_ANALYZER = YES;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/External/CTrueTime";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
@@ -1074,6 +1131,7 @@
 		};
 		28482DDA1D314E7C003491D9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282BD1E91D5CE2E0000D78A7 /* iOS-Application.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1089,6 +1147,7 @@
 		};
 		28482DDB1D314E7C003491D9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282BD1E91D5CE2E0000D78A7 /* iOS-Application.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1104,11 +1163,13 @@
 		};
 		285047E51D4D641400DE4CE8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282BD1F71D5CE2E0000D78A7 /* tvOS-Framework.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/tvOS";
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1125,7 +1186,9 @@
 		};
 		285047E61D4D641400DE4CE8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282BD1F71D5CE2E0000D78A7 /* tvOS-Framework.xcconfig */;
 			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1146,6 +1209,7 @@
 		};
 		28682B711D4D2F4600D65223 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282BD1F51D5CE2E0000D78A7 /* tvOS-Application.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -1164,6 +1228,7 @@
 		};
 		28682B721D4D2F4600D65223 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282BD1F51D5CE2E0000D78A7 /* tvOS-Application.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -1182,41 +1247,36 @@
 		};
 		287C37B21D4419F800084D47 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282BD1F11D5CE2E0000D78A7 /* Mac-Framework.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_STATIC_ANALYZER_MODE = deep;
-				CLANG_WARN_ASSIGN_ENUM = YES;
-				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.ntp-swift";
+				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.TrueTime;
 				PRODUCT_NAME = TrueTime;
-				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/External/CTrueTime";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		287C37B31D4419F800084D47 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282BD1F11D5CE2E0000D78A7 /* Mac-Framework.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_STATIC_ANALYZER_MODE = deep;
-				CLANG_WARN_ASSIGN_ENUM = YES;
-				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1225,23 +1285,21 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.ntp-swift";
+				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.TrueTime;
 				PRODUCT_NAME = TrueTime;
-				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/External/CTrueTime";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
 		288A04E71D31A74D0032B6FE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282BD1E91D5CE2E0000D78A7 /* iOS-Application.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1258,6 +1316,7 @@
 		};
 		288A04E81D31A74D0032B6FE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282BD1E91D5CE2E0000D78A7 /* iOS-Application.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (

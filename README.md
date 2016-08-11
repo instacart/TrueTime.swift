@@ -59,6 +59,7 @@ $ carthage update
 
 ### Manually
 
+* Run `git submodule update --init`.
 * Run `carthage bootstrap`.
 * Open `TrueTime.xcodeproj`, choose `TrueTimeExample` and hit run. This will build everything and run the sample app.
 
