@@ -9,8 +9,8 @@
 import Foundation
 import Result
 
-typealias SNTPHostResult = Result<[SNTPConnection], SNTPClientError>
-typealias SNTPHostCallback = (SNTPHostResult) -> Void
+typealias SNTPHostResult = Result<[SNTPConnection], NSError>
+typealias SNTPHostCallback = SNTPHostResult -> Void
 
 final class SNTPHost {
     let hostURL: NSURL
@@ -50,7 +50,7 @@ final class SNTPHost {
     var canRetry: Bool {
         var canRetry: Bool = false
         dispatch_sync(lockQueue) {
-            canRetry = self.attempts < self.maxRetries && !self.didTimeOut
+            canRetry = self.attempts < self.maxRetries && !self.didTimeout
         }
         return canRetry
     }
@@ -71,12 +71,12 @@ final class SNTPHost {
             )
 
             if let host = self.host {
-                CFHostSetClient(host, self.dynamicType.hostCallback, &ctx)
+                CFHostSetClient(host, self.hostCallback, &ctx)
                 CFHostScheduleWithRunLoop(host, CFRunLoopGetMain(), kCFRunLoopCommonModes)
 
                 var err: CFStreamError = CFStreamError()
                 if !CFHostStartInfoResolution(host, .Addresses, &err) {
-                    self.complete(.Failure(.UnresolvableHost(underlyingError: err)))
+                    self.complete(.Failure(NSError(trueTimeError: .CannotFindHost)))
                 } else {
                     self.startTimer()
                 }
@@ -98,10 +98,10 @@ final class SNTPHost {
     var timer: dispatch_source_t?
     private let lockQueue: dispatch_queue_t = dispatch_queue_create("com.instacart.sntp-host", nil)
     private var attempts: Int = 0
-    private var didTimeOut: Bool = false
+    private var didTimeout: Bool = false
     private var host: CFHost?
     private var resolved: Bool = false
-    private static let hostCallback: CFHostClientCallBack = { (host, infoType, error, info)  in
+    private let hostCallback: CFHostClientCallBack = { host, infoType, error, info in
         let client = Unmanaged<SNTPHost>.fromOpaque(COpaquePointer(info)).takeUnretainedValue()
         debugLog("Got CFHostStartInfoResolution callback")
         client.connect(host)
@@ -112,8 +112,8 @@ extension SNTPHost: SNTPNode {
     var timerQueue: dispatch_queue_t { return lockQueue }
     var started: Bool { return self.host != nil }
 
-    func timeoutError(error: SNTPClientError) {
-        self.didTimeOut = true
+    func timeoutError(error: NSError) {
+        self.didTimeout = true
         complete(.Failure(error))
     }
 }
@@ -122,7 +122,7 @@ private extension SNTPHost {
     func complete(result: SNTPHostResult) {
         stop()
         switch result {
-            case let .Failure(error) where attempts < maxRetries && !didTimeOut:
+            case let .Failure(error) where attempts < maxRetries && !didTimeout:
                 debugLog("Got error from \(hostURL) (attempt \(attempts)), trying again. \(error)")
                 resolve()
             case .Failure, .Success:
@@ -144,7 +144,7 @@ private extension SNTPHost {
             let addressData = CFHostGetAddressing(host,
                                                   &resolved)?.takeUnretainedValue() as [AnyObject]?
             guard let addresses = addressData as? [NSData] where resolved else {
-                self.complete(.Failure(.UnresolvableHost(underlyingError: nil)))
+                self.complete(.Failure(NSError(trueTimeError: .DNSLookupFailed)))
                 return
             }
 

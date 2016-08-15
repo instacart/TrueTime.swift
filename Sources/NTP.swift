@@ -10,10 +10,12 @@ import CTrueTime
 import Foundation
 import Result
 
-public enum SNTPClientError: ErrorType {
-    case UnresolvableHost(underlyingError: CFStreamError?)
-    case ConnectionError(underlyingError: NSError?)
-    case InvalidResponse
+@objc public enum TrueTimeError: Int {
+    case CannotFindHost
+    case DNSLookupFailed
+    case TimedOut
+    case Offline
+    case BadServerResponse
 }
 
 public struct ReferenceTime {
@@ -42,7 +44,7 @@ public extension ReferenceTime {
     }
 }
 
-public typealias ReferenceTimeResult = Result<ReferenceTime, SNTPClientError>
+public typealias ReferenceTimeResult = Result<ReferenceTime, NSError>
 public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
 
 @objc public final class SNTPClient: NSObject {
@@ -59,6 +61,7 @@ public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
     }
 
     public func start(hostURLs hostURLs: [NSURL]) {
+        precondition(!hostURLs.isEmpty, "Must include at least one host URL")
         reachability.callbackQueue = queue
         reachability.callback = { [weak self] status in
             guard let strongSelf = self else { return }
@@ -66,6 +69,7 @@ public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
                 case .NotReachable:
                     debugLog("Network unreachable")
                     strongSelf.stopQueue()
+                    strongSelf.invokeCallbacks(.Failure(NSError(trueTimeError: .Offline)))
                 case .ReachableViaWWAN, .ReachableViaWiFi:
                     debugLog("Network reachable")
                     dispatch_async(strongSelf.queue) {
@@ -86,15 +90,16 @@ public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
         queue callbackQueue: dispatch_queue_t = dispatch_get_main_queue(),
         callback: ReferenceTimeCallback
     ) {
+        precondition(self.reachability.callback != nil, "Must start client before retrieving time")
         dispatch_async(queue) {
             guard let referenceTime = self.referenceTime else {
                 if !self.reachability.online {
                     dispatch_async(callbackQueue) {
-                        callback(.Failure(.ConnectionError(underlyingError: .offlineError)))
+                        callback(.Failure(NSError(trueTimeError: .Offline)))
                     }
                 } else {
                     self.callbacks.append((callbackQueue, callback))
-                    if !self.hostURLs.isEmpty && self.atEnd { // Retry if we failed last time.
+                    if self.atEnd { // Retry if we failed last time.
                         self.startQueue(hostURLs: self.hostURLs)
                     }
                 }
@@ -147,38 +152,8 @@ extension SNTPClient {
                 case let .Success(time):
                     success(NTPReferenceTime(time))
                 case let .Failure(error):
-                    failure?(error.bridged)
+                    failure?(error)
             }
-        }
-    }
-}
-
-private let bridgedErrorDomain = "com.instacart.TrueTimeErrorDomain"
-private extension SNTPClientError {
-    var bridged: NSError {
-        switch self {
-            case let .ConnectionError(underlyingError):
-                if let underlyingError = underlyingError {
-                    return underlyingError
-                }
-            default:
-                break
-        }
-
-        let (code, description) = metadata
-        return NSError(domain: bridgedErrorDomain,
-                       code: code,
-                       userInfo: [NSLocalizedDescriptionKey: description])
-    }
-
-    var metadata: (Int, String) {
-        switch self {
-            case .UnresolvableHost:
-                return (1, "Unresolvable host name.")
-            case .ConnectionError:
-                return (2, "Failed connecting to NTP server.")
-            case .InvalidResponse:
-                return (3, "Unexpected response from NTP server. Try again later.")
         }
     }
 }
@@ -283,16 +258,19 @@ private extension SNTPClient {
         let endTime = CFAbsoluteTimeGetCurrent()
         debugLog("\(connectionResults.count) results: \(connectionResults)")
         debugLog("Took \(endTime - startTime!)s")
+        invokeCallbacks(result)
+        if result.value != nil {
+            stopQueue()
+        }
+    }
+
+    func invokeCallbacks(result: ReferenceTimeResult) {
         callbacks.forEach { (queue, callback) in
             dispatch_async(queue) {
                 callback(result)
             }
         }
-
         callbacks = []
-        if result.value != nil {
-            stopQueue()
-        }
     }
 }
 

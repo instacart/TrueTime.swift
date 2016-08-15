@@ -62,6 +62,9 @@
 		28902D521D517802006533D1 /* NTPIntegrationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28902D501D517802006533D1 /* NTPIntegrationSpec.swift */; };
 		28902D531D517802006533D1 /* NTPIntegrationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28902D501D517802006533D1 /* NTPIntegrationSpec.swift */; };
 		28AF2F7B1D3CB66100FE536A /* TrueTime.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		28BD08411D6248EC00D9981C /* TrueTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BD083F1D6248EC00D9981C /* TrueTime.m */; };
+		28BD08421D6257DA00D9981C /* TrueTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BD083F1D6248EC00D9981C /* TrueTime.m */; };
+		28BD08431D6257DA00D9981C /* TrueTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BD083F1D6248EC00D9981C /* TrueTime.m */; };
 		28F79E121D3F06EA00437F36 /* Curry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F79E111D3F06EA00437F36 /* Curry.framework */; };
 /* End PBXBuildFile section */
 
@@ -174,6 +177,7 @@
 		288A04CF1D31A1250032B6FE /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		288A04D71D31A74D0032B6FE /* TrueTimeExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrueTimeExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28902D501D517802006533D1 /* NTPIntegrationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTPIntegrationSpec.swift; sourceTree = "<group>"; };
+		28BD083F1D6248EC00D9981C /* TrueTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrueTime.m; sourceTree = "<group>"; };
 		28F79E111D3F06EA00437F36 /* Curry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Curry.framework; path = Carthage/Build/iOS/Curry.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -260,6 +264,7 @@
 				2800905F1D45489D004C788E /* Endian.swift */,
 				280090641D45489D004C788E /* Reachability.swift */,
 				280090651D45489D004C788E /* TrueTime.h */,
+				28BD083F1D6248EC00D9981C /* TrueTime.m */,
 				280090601D45489D004C788E /* Info.plist */,
 			);
 			path = Sources;
@@ -900,6 +905,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2800906E1D45489D004C788E /* NTPNode.swift in Sources */,
+				28BD08411D6248EC00D9981C /* TrueTime.m in Sources */,
 				2800906A1D45489D004C788E /* NTP.swift in Sources */,
 				2866628E1D5B771D002CA06B /* NTPHost.swift in Sources */,
 				280090661D45489D004C788E /* Endian.swift in Sources */,
@@ -927,6 +933,7 @@
 				285047E81D4D67B800DE4CE8 /* NTP.swift in Sources */,
 				285047EB1D4D67B800DE4CE8 /* Endian.swift in Sources */,
 				285047EC1D4D67B800DE4CE8 /* Reachability.swift in Sources */,
+				28BD08431D6257DA00D9981C /* TrueTime.m in Sources */,
 				286662941D5B82BE002CA06B /* NTPHost.swift in Sources */,
 				286662921D5B82BB002CA06B /* NTPConnection.swift in Sources */,
 				285047EA1D4D67B800DE4CE8 /* NTPExtensions.swift in Sources */,
@@ -951,6 +958,7 @@
 				2800906B1D45489D004C788E /* NTP.swift in Sources */,
 				280090671D45489D004C788E /* Endian.swift in Sources */,
 				280090711D45489D004C788E /* Reachability.swift in Sources */,
+				28BD08421D6257DA00D9981C /* TrueTime.m in Sources */,
 				286662931D5B82BD002CA06B /* NTPHost.swift in Sources */,
 				286662911D5B82BA002CA06B /* NTPConnection.swift in Sources */,
 				2800906D1D45489D004C788E /* NTPExtensions.swift in Sources */,
@@ -1063,7 +1071,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				ENABLE_NS_ASSERTIONS = NO;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

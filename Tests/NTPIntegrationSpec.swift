@@ -25,8 +25,7 @@ private extension NTPIntegrationSpec {
     func testReferenceTimeOutliers() {
         let clients = (0..<100).map { _ in SNTPClient(maxConnections: 10) }
         waitUntil(timeout: 60) { done in
-            var results: [Result<ReferenceTime, SNTPClientError>?] = Array(count: clients.count,
-                                                                           repeatedValue: nil)
+            var results: [ReferenceTimeResult?] = Array(count: clients.count, repeatedValue: nil)
             let start = NSDate()
             let finish = {
                 let end = NSDate()

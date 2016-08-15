@@ -13,7 +13,7 @@ protocol SNTPNode: class {
     var started: Bool { get }
     var timerQueue: dispatch_queue_t { get }
     var timer: dispatch_source_t? { get set }
-    func timeoutError(error: SNTPClientError)
+    func timeoutError(error: NSError)
 }
 
 extension SNTPNode {
@@ -22,7 +22,7 @@ extension SNTPNode {
         timer = dispatchTimer(after: timeout, queue: timerQueue) {
             guard self.started else { return }
             debugLog("Got timeout connecting to \(self)")
-            self.timeoutError(.ConnectionError(underlyingError: .timeoutError))
+            self.timeoutError(NSError(trueTimeError: .TimedOut))
         }
     }
 

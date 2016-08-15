@@ -70,7 +70,7 @@ extension NTPTimevalConvertible {
 }
 
 extension ntp_time32_t: NTPTimeType {}
-extension ntp_time64_t: NTPTimeType, NTPTimevalConvertible {}
+extension ntp_time64_t: NTPTimevalConvertible {}
 
 extension NSTimeInterval {
     init(milliseconds: Int64) {
@@ -184,6 +184,30 @@ extension ntp_packet_t {
     }
 }
 
+extension String {
+    var localized: String {
+        return NSBundle.mainBundle().localizedStringForKey(self, value: "", table: "TrueTime")
+    }
+}
+
+extension TrueTimeError: CustomStringConvertible {
+    public var description: String {
+        switch self {
+            case CannotFindHost:
+                return "The connection failed because the host could not be found.".localized
+            case DNSLookupFailed:
+                return "The connection failed because the DNS lookup failed.".localized
+            case TimedOut:
+                return "The connection timed out.".localized
+            case Offline:
+                return "The connection failed because the device is not connected to the " +
+                       "internet.".localized
+            case BadServerResponse:
+                return "The connection received an invalid server response.".localized
+        }
+    }
+}
+
 extension NSError {
     convenience init(errno code: Int32) {
         var userInfo: [String: AnyObject]?
@@ -193,15 +217,9 @@ extension NSError {
         self.init(domain: NSPOSIXErrorDomain, code: Int(code), userInfo: userInfo)
     }
 
-    static var timeoutError: NSError {
-        return NSError(domain: NSURLErrorDomain, code: NSURLErrorTimedOut, userInfo: [
-            NSLocalizedDescriptionKey: "The request timed out."
-        ])
-    }
-
-    static var offlineError: NSError {
-        return NSError(domain: NSURLErrorDomain, code: NSURLErrorNotConnectedToInternet, userInfo: [
-            NSLocalizedDescriptionKey: "The Internet connection appears to be offline."
+    convenience init(trueTimeError: TrueTimeError) {
+        self.init(domain: TrueTimeErrorDomain, code: trueTimeError.rawValue, userInfo: [
+            NSLocalizedDescriptionKey: trueTimeError.description
         ])
     }
 }
@@ -216,6 +234,7 @@ extension dispatch_source_t {
 func dispatchTimer(after interval: NSTimeInterval,
                    queue: dispatch_queue_t,
                    block: dispatch_block_t) -> dispatch_source_t? {
+    precondition(interval >= 0, "Interval must be >= 0 \(interval)")
     guard let timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue) else {
         return nil
     }

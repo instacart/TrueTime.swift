@@ -32,7 +32,7 @@ final class SNTPConnection {
     var canRetry: Bool {
         var canRetry: Bool = false
         dispatch_sync(lockQueue) {
-            canRetry = self.attempts < self.maxRetries && !self.didTimeOut
+            canRetry = self.attempts < self.maxRetries && !self.didTimeout
         }
         return canRetry
     }
@@ -58,7 +58,7 @@ final class SNTPConnection {
                                          SOCK_DGRAM,
                                          IPPROTO_UDP,
                                          callbackTypes.map { $0.rawValue }.reduce(0, combine: |),
-                                         self.dynamicType.dataCallback,
+                                         self.dataCallback,
                                          &ctx)
 
             if let socket = self.socket {
@@ -79,7 +79,7 @@ final class SNTPConnection {
         }
     }
 
-    private static let dataCallback: CFSocketCallBack = { (socket, type, address, data, info)  in
+    private let dataCallback: CFSocketCallBack = { socket, type, address, data, info in
         let client = Unmanaged<SNTPConnection>.fromOpaque(COpaquePointer(info))
                                               .takeUnretainedValue()
         guard let socket = socket where CFSocketIsValid(socket) else { return }
@@ -101,7 +101,7 @@ final class SNTPConnection {
                                                                     nil)
     private var attempts: Int = 0
     private var callbackQueue: dispatch_queue_t?
-    private var didTimeOut: Bool = false
+    private var didTimeout: Bool = false
     private var onComplete: ReferenceTimeCallback?
     private var requestTicks: timeval?
     private var socket: CFSocket?
@@ -112,8 +112,8 @@ extension SNTPConnection: SNTPNode {
     var timerQueue: dispatch_queue_t { return lockQueue }
     var started: Bool { return self.socket != nil }
 
-    func timeoutError(error: SNTPClientError) {
-        self.didTimeOut = true
+    func timeoutError(error: NSError) {
+        self.didTimeout = true
         complete(.Failure(error))
     }
 }
@@ -127,7 +127,7 @@ private extension SNTPConnection {
 
         close()
         switch result {
-            case let .Failure(error) where attempts < maxRetries && !didTimeOut:
+            case let .Failure(error) where attempts < maxRetries && !didTimeout:
                 debugLog("Got error from \(socketAddress) (attempt \(attempts)), " +
                          "trying again. \(error)")
                 start(callbackQueue, onComplete: onComplete)
@@ -156,8 +156,7 @@ private extension SNTPConnection {
                                            packet.data,
                                            self.timeout)
                 if err != .Success {
-                    let error = NSError(errno: errno)
-                    self.complete(.Failure(.ConnectionError(underlyingError: error)))
+                    self.complete(.Failure(NSError(errno: errno)))
                 } else {
                     self.startTimer()
                 }
@@ -182,7 +181,7 @@ private extension SNTPConnection {
                                    packet.client_mode == ntpModeServer &&
                                    packet.stratum < 16
             guard isValidResponse else { // Guard against outliers.
-                self.complete(.Failure(.InvalidResponse))
+                self.complete(.Failure(NSError(trueTimeError: .BadServerResponse)))
                 return
             }
 

@@ -8,8 +8,15 @@
 
 @import Foundation;
 
+NS_ASSUME_NONNULL_BEGIN
+
 //! Project version number for TrueTime.
 FOUNDATION_EXPORT double TrueTimeVersionNumber;
 
 //! Project version string for TrueTime.
 FOUNDATION_EXPORT const unsigned char TrueTimeVersionNumberString[];
+
+//! Domain for TrueTime errors.
+FOUNDATION_EXPORT NSString * const TrueTimeErrorDomain;
+
+NS_ASSUME_NONNULL_END
