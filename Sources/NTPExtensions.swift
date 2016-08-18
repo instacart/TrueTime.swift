@@ -158,20 +158,26 @@ extension ReferenceTime: CustomDebugStringConvertible {
 }
 
 extension ntp_packet_t: CustomStringConvertible {
+    // Avoid memory leak caused by long interpolated strings.
+    // https://openradar.appspot.com/26366199
     public var description: String {
-        return "\(self.dynamicType)(client_mode: \(client_mode), " +
-                                   "version_number: \(version_number), " +
-                                   "leap_indicator: \(leap_indicator), " +
-                                   "stratum: \(stratum), " +
-                                   "poll: \(poll), " +
-                                   "precision: \(precision), " +
-                                   "root_delay: \(root_delay), " +
-                                   "root_dispersion: \(root_dispersion), " +
-                                   "reference_id: \(reference_id), " +
-                                   "reference_time: \(reference_time.milliseconds) ms, " +
-                                   "originate_time: \(originate_time.milliseconds) ms, " +
-                                   "receive_time: \(receive_time.milliseconds) ms, " +
-                                   "transmit_time: \(transmit_time.milliseconds) ms)"
+        let referenceTime = reference_time.milliseconds
+        let originateTime = originate_time.milliseconds
+        let receiveTime = receive_time.milliseconds
+        let transmitTime = transmit_time.milliseconds
+        return "\(self.dynamicType)(client_mode: " + client_mode.description + ", " +
+                                   "version_number: " + version_number.description + ", " +
+                                   "leap_indicator: " + leap_indicator.description + ", " +
+                                   "stratum: " + stratum.description +
+                                   "poll: " + poll.description + ", " +
+                                   "precision: " + precision.description + ", " +
+                                   "root_delay: " + String(root_delay) + ", " +
+                                   "root_dispersion: " + String(root_dispersion) + ", " +
+                                   "reference_id: " + String(reference_id) + ", " +
+                                   "reference_time: " + referenceTime.description + " ms, " +
+                                   "originate_time: " + originateTime.description + " ms, " +
+                                   "receive_time: " + receiveTime.description + " ms, " +
+                                   "transmit_time: " + transmitTime.description + " ms)"
     }
 }
 

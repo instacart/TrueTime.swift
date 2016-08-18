@@ -60,8 +60,9 @@ public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
         self.maxConnections = maxConnections
     }
 
-    public func start(hostURLs hostURLs: [NSURL]) {
+    @nonobjc public func start(hostURLs hostURLs: [NSURL]) {
         precondition(!hostURLs.isEmpty, "Must include at least one host URL")
+        dispatch_async(queue) { self.hostURLs = hostURLs }
         reachability.callbackQueue = queue
         reachability.callback = { [weak self] status in
             guard let strongSelf = self else { return }
@@ -72,9 +73,7 @@ public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
                     strongSelf.invokeCallbacks(.Failure(NSError(trueTimeError: .Offline)))
                 case .ReachableViaWWAN, .ReachableViaWiFi:
                     debugLog("Network reachable")
-                    dispatch_async(strongSelf.queue) {
-                        strongSelf.startQueue(hostURLs: hostURLs)
-                    }
+                    strongSelf.startQueue(hostURLs: strongSelf.hostURLs)
             }
         }
 
@@ -137,6 +136,13 @@ public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
 }
 
 extension SNTPClient {
+    // Avoid leak when bridging to Objective-C.
+    // https://openradar.appspot.com/radar?id=6675608629149696
+    @objc public func start(hostURLs hostURLs: NSArray) {
+        let hostURLs = hostURLs.map { $0 as? NSURL}.filter { $0 != nil }.flatMap { $0 } ?? []
+        start(hostURLs: hostURLs)
+    }
+
     @objc public func retrieveReferenceTime(success success: NTPReferenceTime -> Void,
                                             failure: (NSError -> Void)?) {
         retrieveReferenceTime(success: success,
@@ -176,14 +182,15 @@ private extension SNTPClient {
     }
 
     func startQueue(hostURLs hostURLs: [NSURL]) {
-        guard self.hostURLs != hostURLs && referenceTime == nil else {
-            let started = referenceTime == nil
+        let currentHostURLs = hosts.map { $0.hostURL }
+        let started = referenceTime != nil
+        guard currentHostURLs != hostURLs && !started else {
             debugLog("Already \(started ? "started" : "finished")")
             return
         }
 
+        stopQueue()
         debugLog("Starting queue with hosts: \(hostURLs)")
-        self.hostURLs = hostURLs
         startTime = CFAbsoluteTimeGetCurrent()
         hosts = hostURLs.map { url in  SNTPHost(hostURL: url,
                                                 timeout: timeout,
@@ -198,7 +205,6 @@ private extension SNTPClient {
         hosts.forEach { $0.stop() }
         connections.forEach { $0.close() }
         connections = []
-        hostURLs = []
         hosts = []
         connectionResults = []
         startTime = nil
