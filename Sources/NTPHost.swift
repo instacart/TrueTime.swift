@@ -31,6 +31,10 @@ final class SNTPHost {
         self.callbackQueue = callbackQueue
     }
 
+    deinit {
+        assert(!self.started, "Unclosed host")
+    }
+
     var isStarted: Bool {
         var started: Bool = false
         dispatch_sync(lockQueue) {
@@ -84,8 +88,9 @@ final class SNTPHost {
         }
     }
 
-    func stop() {
-        dispatch_async(lockQueue) {
+    func stop(waitUntilFinished wait: Bool = false) {
+        let fn = wait ? dispatch_sync : dispatch_async
+        fn(lockQueue) {
             self.cancelTimer()
             guard let host = self.host else { return }
             CFHostCancelInfoResolution(host, .Addresses)

@@ -202,8 +202,8 @@ private extension SNTPClient {
 
     func stopQueue() {
         debugLog("Stopping queue")
-        hosts.forEach { $0.stop() }
-        connections.forEach { $0.close() }
+        hosts.forEach { $0.stop(waitUntilFinished: true) }
+        connections.forEach { $0.close(waitUntilFinished: true) }
         connections = []
         hosts = []
         connectionResults = []

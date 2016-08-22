@@ -21,6 +21,10 @@ final class SNTPConnection {
         self.maxRetries = maxRetries
     }
 
+    deinit {
+        assert(!self.started, "Unclosed connection")
+    }
+
     var isStarted: Bool {
         var started: Bool = false
         dispatch_sync(lockQueue) {
@@ -69,8 +73,9 @@ final class SNTPConnection {
         }
     }
 
-    func close() {
-        dispatch_async(lockQueue) {
+    func close(waitUntilFinished wait: Bool = false) {
+        let fn = wait ? dispatch_sync : dispatch_async
+        fn(lockQueue) {
             guard let socket = self.socket else { return }
             debugLog("Connection closed \(self.socketAddress)")
             CFSocketInvalidate(socket)
