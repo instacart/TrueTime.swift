@@ -270,12 +270,6 @@ func withFatalErrno<X: SignedIntegerType>(@noescape block: () -> X) -> X {
     // swiftlint:enable force_try
 }
 
-#if DEBUG
-func debugLog(@autoclosure message: () -> String) { print(message()) }
-#else
-func debugLog(@autoclosure message: () -> String) {}
-#endif
-
 // Number of seconds between Jan 1, 1900 and Jan 1, 1970
 // 70 years plus 17 leap days
 private let secondsFrom1900To1970: Int64 = ((365 * 70) + 17) * 24 * 60 * 60

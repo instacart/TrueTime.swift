@@ -14,6 +14,7 @@ protocol SNTPNode: class {
     var timerQueue: dispatch_queue_t { get }
     var timer: dispatch_source_t? { get set }
     func timeoutError(error: NSError)
+    func debugLog(@autoclosure message: () -> String)
 }
 
 extension SNTPNode {
@@ -21,7 +22,7 @@ extension SNTPNode {
         cancelTimer()
         timer = dispatchTimer(after: timeout, queue: timerQueue) {
             guard self.started else { return }
-            debugLog("Got timeout connecting to \(self)")
+            self.debugLog("Got timeout connecting to \(self)")
             self.timeoutError(NSError(trueTimeError: .TimedOut))
         }
     }

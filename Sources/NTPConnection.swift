@@ -77,13 +77,22 @@ final class SNTPConnection {
         let fn = wait ? dispatch_sync : dispatch_async
         fn(lockQueue) {
             guard let socket = self.socket else { return }
-            debugLog("Connection closed \(self.socketAddress)")
+            self.debugLog("Connection closed \(self.socketAddress)")
             CFSocketInvalidate(socket)
             self.socket = nil
             self.cancelTimer()
         }
     }
 
+#if DEBUG_LOGGING
+    func debugLog(@autoclosure message: () -> String) {
+        logCallback?(message())
+    }
+#else
+    func debugLog(@autoclosure message: () -> String) {}
+#endif
+
+    var logCallback: (String -> Void)?
     private let dataCallback: CFSocketCallBack = { socket, type, address, data, info in
         let client = Unmanaged<SNTPConnection>.fromOpaque(COpaquePointer(info))
                                               .takeUnretainedValue()
@@ -94,7 +103,7 @@ final class SNTPConnection {
             let data = Unmanaged<CFData>.fromOpaque(COpaquePointer(data)).takeUnretainedValue()
             client.handleResponse(data)
         } else if type == .WriteCallBack {
-            debugLog("Buffer \(client.socketAddress) writable - requesting time")
+            client.debugLog("Buffer \(client.socketAddress) writable - requesting time")
             client.requestTime()
         } else {
             assertionFailure("Unexpected socket callback")
@@ -146,7 +155,7 @@ private extension SNTPConnection {
     func requestTime() {
         dispatch_async(lockQueue) {
             guard let socket = self.socket else {
-                debugLog("Socket closed")
+                self.debugLog("Socket closed")
                 return
             }
 
@@ -155,7 +164,7 @@ private extension SNTPConnection {
             if let startTime = self.startTime {
                 let packet = self.requestPacket(startTime).bigEndian
                 let interval = NSTimeInterval(milliseconds: startTime.milliseconds)
-                debugLog("Sending time: \(NSDate(timeIntervalSince1970: interval))")
+                self.debugLog("Sending time: \(NSDate(timeIntervalSince1970: interval))")
                 let err = CFSocketSendData(socket,
                                            self.socketAddress.bigEndian.data,
                                            packet.data,
@@ -203,11 +212,11 @@ private extension SNTPConnection {
             let interval = NSTimeInterval(milliseconds: responseTime + offset)
             let trueTime = NSDate(timeIntervalSince1970: interval)
 
-            debugLog("Buffer \(self.socketAddress) has read data!")
-            debugLog("Start time: \(startTime.milliseconds) ms, " +
-                     "response: \(packet.timeDescription)")
-            debugLog("Clock offset: \(offset) milliseconds")
-            debugLog("Round-trip delay: \(delay) milliseconds")
+            self.debugLog("Buffer \(self.socketAddress) has read data!")
+            self.debugLog("Start time: \(startTime.milliseconds) ms, " +
+                          "response: \(packet.timeDescription)")
+            self.debugLog("Clock offset: \(offset) milliseconds")
+            self.debugLog("Round-trip delay: \(delay) milliseconds")
             self.complete(.Success(ReferenceTime(time: trueTime,
                                                  uptime: responseTicks,
                                                  serverResponse: packet,

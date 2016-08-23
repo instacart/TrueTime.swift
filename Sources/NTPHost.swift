@@ -100,6 +100,15 @@ final class SNTPHost {
         }
     }
 
+#if DEBUG_LOGGING
+    func debugLog(@autoclosure message: () -> String) {
+        logCallback?(message())
+    }
+#else
+    func debugLog(@autoclosure message: () -> String) {}
+#endif
+
+    var logCallback: (String -> Void)?
     var timer: dispatch_source_t?
     private let lockQueue: dispatch_queue_t = dispatch_queue_create("com.instacart.sntp-host", nil)
     private var attempts: Int = 0
@@ -108,7 +117,6 @@ final class SNTPHost {
     private var resolved: Bool = false
     private let hostCallback: CFHostClientCallBack = { host, infoType, error, info in
         let client = Unmanaged<SNTPHost>.fromOpaque(COpaquePointer(info)).takeUnretainedValue()
-        debugLog("Got CFHostStartInfoResolution callback")
         client.connect(host)
     }
 }
@@ -138,9 +146,10 @@ private extension SNTPHost {
     }
 
     func connect(host: CFHost) {
+        debugLog("Got CFHostStartInfoResolution callback")
         dispatch_async(lockQueue) {
             guard self.host != nil && !self.resolved else {
-                debugLog("Closed")
+                self.debugLog("Closed")
                 return
             }
 
@@ -159,7 +168,7 @@ private extension SNTPHost {
                 return addr
             }.filter { addr in addr.sin_addr.s_addr != 0 }
 
-            debugLog("Resolved hosts: \(sockAddresses)")
+            self.debugLog("Resolved hosts: \(sockAddresses)")
             let connections = sockAddresses.map { SNTPConnection(socketAddress: $0,
                                                                  timeout: self.timeout,
                                                                  maxRetries: self.maxRetries) }

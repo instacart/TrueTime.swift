@@ -68,11 +68,11 @@ public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
             guard let strongSelf = self else { return }
             switch status {
                 case .NotReachable:
-                    debugLog("Network unreachable")
+                    strongSelf.debugLog("Network unreachable")
                     strongSelf.stopQueue()
                     strongSelf.invokeCallbacks(.Failure(NSError(trueTimeError: .Offline)))
                 case .ReachableViaWWAN, .ReachableViaWiFi:
-                    debugLog("Network reachable")
+                    strongSelf.debugLog("Network reachable")
                     strongSelf.startQueue(hostURLs: strongSelf.hostURLs)
             }
         }
@@ -111,6 +111,16 @@ public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
         }
     }
 
+#if DEBUG_LOGGING
+    public var logCallback: (String -> Void)? = { message in print(message) }
+    public func debugLog(@autoclosure message: () -> String) {
+        logCallback?(message())
+    }
+#else
+    private func debugLog(@autoclosure message: () -> String) {}
+#endif
+
+    private func debugLogProxy(message: String) { debugLog(message) }
     private let queue: dispatch_queue_t = dispatch_queue_create("com.instacart.sntp-client", nil)
     private let reachability = Reachability()
     private var callbacks: [(dispatch_queue_t, ReferenceTimeCallback)] = []
@@ -198,6 +208,7 @@ private extension SNTPClient {
                                                 onComplete: hostCallback,
                                                 callbackQueue: queue) }
         throttleHosts()
+        hosts.forEach { $0.logCallback = debugLogProxy }
     }
 
     func stopQueue() {
@@ -227,6 +238,7 @@ private extension SNTPClient {
     func hostCallback(result: SNTPHostResult) {
         switch result {
             case let .Success(connections):
+                connections.forEach { $0.logCallback = debugLogProxy }
                 self.connections += connections
                 throttleConnections()
                 throttleHosts()
