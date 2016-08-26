@@ -45,7 +45,6 @@ final class SNTPConnection {
         dispatch_async(lockQueue) {
             guard !self.started else { return }
 
-            let callbackTypes: [CFSocketCallBackType] = [.DataCallBack, .WriteCallBack]
             var ctx = CFSocketContext(
                 version: 0,
                 info: UnsafeMutablePointer(Unmanaged.passUnretained(self).toOpaque()),
@@ -61,12 +60,15 @@ final class SNTPConnection {
                                          PF_INET,
                                          SOCK_DGRAM,
                                          IPPROTO_UDP,
-                                         callbackTypes.map { $0.rawValue }.reduce(0, combine: |),
+                                         self.dynamicType.callbackFlags,
                                          self.dataCallback,
                                          &ctx)
 
             if let socket = self.socket {
-                let source = CFSocketCreateRunLoopSource(nil, socket, 0)
+                self.source = CFSocketCreateRunLoopSource(nil, socket, 0)
+            }
+
+            if let source = self.source {
                 CFRunLoopAddSource(CFRunLoopGetMain(), source, kCFRunLoopCommonModes)
                 self.startTimer()
             }
@@ -76,11 +78,14 @@ final class SNTPConnection {
     func close(waitUntilFinished wait: Bool = false) {
         let fn = wait ? dispatch_sync : dispatch_async
         fn(lockQueue) {
-            guard let socket = self.socket else { return }
-            self.debugLog("Connection closed \(self.socketAddress)")
+            guard let socket = self.socket, source = self.source else { return }
+            CFSocketDisableCallBacks(socket, self.dynamicType.callbackFlags)
             CFSocketInvalidate(socket)
+            CFRunLoopRemoveSource(CFRunLoopGetMain(), source, kCFRunLoopCommonModes)
             self.socket = nil
+            self.source = nil
             self.cancelTimer()
+            self.debugLog("Connection closed \(self.socketAddress)")
         }
     }
 
@@ -111,6 +116,10 @@ final class SNTPConnection {
     }
 
     var timer: dispatch_source_t?
+    private static let callbackTypes: [CFSocketCallBackType] = [.DataCallBack, .WriteCallBack]
+    private static let callbackFlags: CFOptionFlags = callbackTypes.map {
+        $0.rawValue
+    }.reduce(0, combine: |)
     private let lockQueue: dispatch_queue_t = dispatch_queue_create("com.instacart.sntp-connection",
                                                                     nil)
     private var attempts: Int = 0
@@ -119,6 +128,7 @@ final class SNTPConnection {
     private var onComplete: ReferenceTimeCallback?
     private var requestTicks: timeval?
     private var socket: CFSocket?
+    private var source: CFRunLoopSource?
     private var startTime: ntp_time_t?
 }
 

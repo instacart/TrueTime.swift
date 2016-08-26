@@ -69,8 +69,8 @@ public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
             switch status {
                 case .NotReachable:
                     strongSelf.debugLog("Network unreachable")
-                    strongSelf.stopQueue()
                     strongSelf.invokeCallbacks(.Failure(NSError(trueTimeError: .Offline)))
+                    strongSelf.stopQueue()
                 case .ReachableViaWWAN, .ReachableViaWiFi:
                     strongSelf.debugLog("Network reachable")
                     strongSelf.startQueue(hostURLs: strongSelf.hostURLs)
@@ -113,7 +113,7 @@ public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
 
 #if DEBUG_LOGGING
     public var logCallback: (String -> Void)? = { message in print(message) }
-    public func debugLog(@autoclosure message: () -> String) {
+    private func debugLog(@autoclosure message: () -> String) {
         logCallback?(message())
     }
 #else
@@ -277,9 +277,7 @@ private extension SNTPClient {
         debugLog("\(connectionResults.count) results: \(connectionResults)")
         debugLog("Took \(endTime - startTime!)s")
         invokeCallbacks(result)
-        if result.value != nil {
-            stopQueue()
-        }
+        stopQueue()
     }
 
     func invokeCallbacks(result: ReferenceTimeResult) {
