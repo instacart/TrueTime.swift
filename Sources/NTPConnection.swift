@@ -65,6 +65,7 @@ final class SNTPConnection {
                                          &ctx)
 
             if let socket = self.socket {
+                CFSocketSetSocketFlags(socket, kCFSocketCloseOnInvalidate)
                 self.source = CFSocketCreateRunLoopSource(nil, socket, 0)
             }
 
@@ -79,7 +80,13 @@ final class SNTPConnection {
         let fn = wait ? dispatch_sync : dispatch_async
         fn(lockQueue) {
             guard let socket = self.socket, source = self.source else { return }
-            CFSocketDisableCallBacks(socket, self.dynamicType.callbackFlags)
+            let disabledFlags = self.dynamicType.callbackFlags |
+                                kCFSocketAutomaticallyReenableDataCallBack |
+                                kCFSocketAutomaticallyReenableReadCallBack |
+                                kCFSocketAutomaticallyReenableWriteCallBack |
+                                kCFSocketAutomaticallyReenableAcceptCallBack
+            CFSocketDisableCallBacks(socket, disabledFlags)
+            CFSocketSetSocketFlags(socket, CFSocketGetSocketFlags(socket) & disabledFlags)
             CFSocketInvalidate(socket)
             CFRunLoopRemoveSource(CFRunLoopGetMain(), source, kCFRunLoopCommonModes)
             self.socket = nil
