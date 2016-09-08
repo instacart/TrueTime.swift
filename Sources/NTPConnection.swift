@@ -79,6 +79,7 @@ final class SNTPConnection {
     func close(waitUntilFinished wait: Bool = false) {
         let fn = wait ? dispatch_sync : dispatch_async
         fn(lockQueue) {
+            self.cancelTimer()
             guard let socket = self.socket, source = self.source else { return }
             let disabledFlags = self.dynamicType.callbackFlags |
                                 kCFSocketAutomaticallyReenableDataCallBack |
@@ -86,12 +87,10 @@ final class SNTPConnection {
                                 kCFSocketAutomaticallyReenableWriteCallBack |
                                 kCFSocketAutomaticallyReenableAcceptCallBack
             CFSocketDisableCallBacks(socket, disabledFlags)
-            CFSocketSetSocketFlags(socket, CFSocketGetSocketFlags(socket) & disabledFlags)
             CFSocketInvalidate(socket)
             CFRunLoopRemoveSource(CFRunLoopGetMain(), source, kCFRunLoopCommonModes)
             self.socket = nil
             self.source = nil
-            self.cancelTimer()
             self.debugLog("Connection closed \(self.socketAddress)")
         }
     }
