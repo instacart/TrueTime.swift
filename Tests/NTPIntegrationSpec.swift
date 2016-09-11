@@ -23,7 +23,7 @@ final class NTPIntegrationSpec: QuickSpec {
 
 private extension NTPIntegrationSpec {
     func testReferenceTimeOutliers() {
-        let clients = (0..<100).map { _ in SNTPClient(maxConnections: 10) }
+        let clients = (0..<100).map { _ in TrueTimeClient(maxConnections: 10) }
         waitUntil(timeout: 60) { done in
             var results: [ReferenceTimeResult?] = Array(count: clients.count, repeatedValue: nil)
             let start = NSDate()

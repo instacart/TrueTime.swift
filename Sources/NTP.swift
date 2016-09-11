@@ -47,8 +47,8 @@ public extension ReferenceTime {
 public typealias ReferenceTimeResult = Result<ReferenceTime, NSError>
 public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
 
-@objc public final class SNTPClient: NSObject {
-    public static let sharedInstance = SNTPClient()
+@objc public final class TrueTimeClient: NSObject {
+    public static let sharedInstance = TrueTimeClient()
     public let timeout: NSTimeInterval
     public let maxRetries: Int
     public let maxConnections: Int
@@ -60,7 +60,7 @@ public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
         self.maxConnections = maxConnections
     }
 
-    @nonobjc public func start(hostURLs hostURLs: [NSURL]) {
+    @nonobjc public func start(hostURLs hostURLs: [NSURL] = [NSURL(string: "time.apple.com")!]) {
         precondition(!hostURLs.isEmpty, "Must include at least one host URL")
         dispatch_async(queue) { self.hostURLs = hostURLs }
         reachability.callbackQueue = queue
@@ -111,6 +111,14 @@ public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
         }
     }
 
+    public var referenceTime: ReferenceTime? {
+        var referenceTime: ReferenceTime?
+        dispatch_sync(referenceTimeLock) {
+            referenceTime = self.time
+        }
+        return referenceTime
+    }
+
 #if DEBUG_LOGGING
     public var logCallback: (String -> Void)? = { message in print(message) }
     private func debugLog(@autoclosure message: () -> String) {
@@ -122,13 +130,14 @@ public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
 
     private func debugLogProxy(message: String) { debugLog(message) }
     private let queue: dispatch_queue_t = dispatch_queue_create("com.instacart.sntp-client", nil)
+    private let referenceTimeLock: dispatch_queue_t = dispatch_queue_create(nil, nil)
     private let reachability = Reachability()
     private var callbacks: [(dispatch_queue_t, ReferenceTimeCallback)] = []
     private var connections: [SNTPConnection] = []
     private var connectionResults: [ReferenceTimeResult] = []
     private var hostURLs: [NSURL] = []
     private var hosts: [SNTPHost] = []
-    private var referenceTime: ReferenceTime?
+    private var time: ReferenceTime?
     private var startTime: NSTimeInterval?
 }
 
@@ -145,7 +154,7 @@ public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
     public func now() -> NSDate { return underlyingValue.now() }
 }
 
-extension SNTPClient {
+extension TrueTimeClient {
     // Avoid leak when bridging to Objective-C.
     // https://openradar.appspot.com/radar?id=6675608629149696
     @objc public func start(hostURLs hostURLs: NSArray) {
@@ -172,11 +181,15 @@ extension SNTPClient {
             }
         }
     }
+
+    @objc(referenceTime) public var bridgedReferenceTime: NTPReferenceTime? {
+        return self.referenceTime.map(NTPReferenceTime.init)
+    }
 }
 
 // MARK: -
 
-private extension SNTPClient {
+private extension TrueTimeClient {
     var unresolvedHosts: [SNTPHost] {
         return hosts.filter { !$0.isResolved && $0.canRetry }
     }
@@ -193,7 +206,7 @@ private extension SNTPClient {
 
     func startQueue(hostURLs hostURLs: [NSURL]) {
         let currentHostURLs = hosts.map { $0.hostURL }
-        let started = referenceTime != nil
+        let started = time != nil
         guard currentHostURLs != hostURLs && !started else {
             debugLog("Already \(started ? "started" : "finished")")
             return
@@ -258,7 +271,9 @@ private extension SNTPClient {
         connectionResults.append(result)
         switch result {
             case let .Success(referenceTime):
-                self.referenceTime = referenceTime
+                dispatch_async(referenceTimeLock) {
+                    self.time = referenceTime
+                }
                 finish(result)
             case .Failure:
                 throttleConnections()

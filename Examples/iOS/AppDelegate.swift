@@ -16,7 +16,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        let client = SNTPClient.sharedInstance
+        let client = TrueTimeClient.sharedInstance
         client.start(hostURLs: [
             NSURL(string: "time.apple.com")!,
             NSURL(string: "clock.sjc.he.net")!,

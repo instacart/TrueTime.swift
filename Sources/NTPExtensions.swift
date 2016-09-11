@@ -168,7 +168,7 @@ extension ntp_packet_t: CustomStringConvertible {
         return "\(self.dynamicType)(client_mode: " + client_mode.description + ", " +
                                    "version_number: " + version_number.description + ", " +
                                    "leap_indicator: " + leap_indicator.description + ", " +
-                                   "stratum: " + stratum.description +
+                                   "stratum: " + stratum.description + ", " +
                                    "poll: " + poll.description + ", " +
                                    "precision: " + precision.description + ", " +
                                    "root_delay: " + String(root_delay) + ", " +

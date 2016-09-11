@@ -18,23 +18,35 @@ It's pretty simple actually. We make a request to an NTP server that gives us th
 ```swift
 import TrueTime
 
-let client = SNTPClient.sharedInstance
-client.start(hostURLs: [NSURL(string: "time.apple.com")!])
+// At an opportune time (e.g. app start):
+let client = TrueTimeClient.sharedInstance
+client.start()
+
+// You can now use this instead of NSDate():
+let now = client.referenceTime.now()
+
+// To block waiting for fetch, use the following:
 client.retrieveReferenceTime { result in
-	switch result {
-		case let .Success(referenceTime):
-			print("True time: \(referenceTime.now())")
-		case let .Failure(error):
-			print("Error! \(error)")
-	}
+    switch result {
+        case let .Success(referenceTime):
+            let now = referenceTime.now()
+        case let .Failure(error):
+            print("Error! \(error)")
+    }
 }
 ```
 ### Objective-C
 ```objective-c
 @import TrueTime;
 
-SNTPClient *client = [SNTPClient sharedInstance];
+// At an opportune time (e.g. app start):
+TrueTimeClient *client = [TrueTimeClient sharedInstance];
 [client startWithHostURLs:@[[NSURL URLWithString:@"time.apple.com"]]];
+
+// You can now use this instead of [NSDate date]:
+NSDate *now = [[client referenceTime] now];
+
+// To block waiting for fetch, use the following:
 [client retrieveReferenceTimeWithSuccess:^(NTPReferenceTime *referenceTime) {
     NSLog(@"True time: %@", [referenceTime now]);
 } failure:^(NSError *error) {
