@@ -1,4 +1,4 @@
-# TrueTime for Swift [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+# TrueTime for Swift [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Travis CI](https://travis-ci.org/instacart/TrueTime.swift.svg?branch=master)](https://travis-ci.org/instacart/TrueTime.swift)
 
 ![TrueTime](truetime.png "TrueTime for Swift")
 
@@ -23,7 +23,7 @@ let client = TrueTimeClient.sharedInstance
 client.start()
 
 // You can now use this instead of NSDate():
-let now = client.referenceTime.now()
+let now = client.referenceTime?.now()
 
 // To block waiting for fetch, use the following:
 client.retrieveReferenceTime { result in
