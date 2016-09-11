@@ -1,6 +1,6 @@
 [submodule "External/CTrueTime"]
 	path = External/CTrueTime
-	url = git@github.com:instacart/CTrueTime.git
+	url = https://github.com/instacart/CTrueTime.git
 	branch = 1.0.0
 [submodule "External/xcconfigs"]
 	path = External/xcconfigs
