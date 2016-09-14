@@ -204,36 +204,20 @@ private extension SNTPConnection {
             }
 
             let packet = (data.decode() as ntp_packet_t).nativeEndian
-            let isValidResponse = !packet.isZero &&
-                                   packet.originate_time.milliseconds == startTime.milliseconds &&
-                                   packet.root_delay.durationInMilliseconds <= 100 &&
-                                   packet.root_dispersion.durationInMilliseconds <= 100 &&
-                                   packet.client_mode == ntpModeServer &&
-                                   packet.stratum < 16
-            guard isValidResponse else { // Guard against outliers.
+            let responseTime = startTime.milliseconds + (responseTicks.milliseconds -
+                                                         requestTicks.milliseconds)
+
+            guard let response = NTPResponse(packet: packet, responseTime: responseTime) else {
                 self.complete(.Failure(NSError(trueTimeError: .BadServerResponse)))
                 return
             }
 
-            let responseTime = startTime.milliseconds + (responseTicks.milliseconds -
-                                                         requestTicks.milliseconds)
-
-            // https://en.wikipedia.org/wiki/Network_Time_Protocol#Clock_synchronization_algorithm
-            let T = [packet.originate_time.milliseconds,
-                     packet.receive_time.milliseconds,
-                     packet.transmit_time.milliseconds,
-                     responseTime]
-            let offset = ((T[1] - T[0]) + (T[2] - T[3])) / 2
-            let delay = (T[3] - T[0]) - (T[2] - T[1])
-            let interval = NSTimeInterval(milliseconds: responseTime + offset)
-            let trueTime = NSDate(timeIntervalSince1970: interval)
-
             self.debugLog("Buffer \(self.socketAddress) has read data!")
             self.debugLog("Start time: \(startTime.milliseconds) ms, " +
                           "response: \(packet.timeDescription)")
-            self.debugLog("Clock offset: \(offset) milliseconds")
-            self.debugLog("Round-trip delay: \(delay) milliseconds")
-            self.complete(.Success(ReferenceTime(time: trueTime,
+            self.debugLog("Clock offset: \(response.offset) milliseconds")
+            self.debugLog("Round-trip delay: \(response.delay) milliseconds")
+            self.complete(.Success(ReferenceTime(time: response.networkDate,
                                                  uptime: responseTicks,
                                                  serverResponse: packet,
                                                  startTime: startTime)))
@@ -249,4 +233,58 @@ private extension SNTPConnection {
     }
 }
 
-private let ntpModeServer: UInt8 = 4
+private struct NTPResponse {
+    let packet: ntp_packet_t
+    let responseTime: Int64
+    let receiveTime: timeval
+    init?(packet: ntp_packet_t, responseTime: Int64, receiveTime: timeval = .now()) {
+        self.packet = packet
+        self.responseTime = responseTime
+        self.receiveTime = receiveTime
+        if !isValidResponse {
+            return nil
+        }
+    }
+
+    // See https://en.wikipedia.org/wiki/Network_Time_Protocol#Clock_synchronization_algorithm
+    var offset: Int64 {
+        let T = offsetValues
+        return ((T[1] - T[0]) + (T[2] - T[3])) / 2
+    }
+
+    var delay: Int64 {
+        let T = offsetValues
+        return (T[3] - T[0]) - (T[2] - T[1])
+    }
+
+    var networkDate: NSDate {
+        let interval = NSTimeInterval(milliseconds: responseTime + offset)
+        return NSDate(timeIntervalSince1970: interval)
+    }
+
+    private let maxRootDispersion: Int64 = 100
+    private let maxDelayDelta: Int64 = 100
+    private let ntpModeServer: UInt8 = 4
+    private let leapIndicatorUnknown: UInt8 = 3
+}
+
+private extension NTPResponse {
+    var isValidResponse: Bool {
+        return !packet.isZero &&
+                packet.root_delay.durationInMilliseconds < maxRootDispersion &&
+                packet.root_dispersion.durationInMilliseconds < maxRootDispersion &&
+                packet.client_mode == ntpModeServer &&
+                packet.stratum > 0 && packet.stratum < 16 &&
+                packet.leap_indicator != leapIndicatorUnknown &&
+                abs(receiveTime.milliseconds -
+                    packet.originate_time.milliseconds -
+                    delay) < maxDelayDelta
+    }
+
+    var offsetValues: [Int64] {
+        return [packet.originate_time.milliseconds,
+                packet.receive_time.milliseconds,
+                packet.transmit_time.milliseconds,
+                responseTime]
+    }
+}
