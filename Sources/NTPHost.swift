@@ -64,7 +64,7 @@ final class SNTPHost {
             guard self.host == nil else { return }
             self.resolved = false
             self.attempts += 1
-            self.host = CFHostCreateWithName(nil, self.hostURL.absoluteString).takeRetainedValue()
+            self.host = CFHostCreateWithName(nil, self.hostURL.absoluteString!).takeRetainedValue()
 
             var ctx = CFHostClientContext(
                 version: 0,

@@ -634,7 +634,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Instacart;
 				TargetAttributes = {
 					280090491D444B64004C788E = {
@@ -642,15 +642,19 @@
 					};
 					28482DC11D314E7B003491D9 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 					28482DCB1D314E7B003491D9 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 					285047DE1D4D641400DE4CE8 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
 					288A04D61D31A74D0032B6FE = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 59VC75K95Z;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -1045,9 +1049,12 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_STATIC_ANALYZER_MODE = deep;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_TESTABILITY = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1069,7 +1076,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_STATIC_ANALYZER_MODE = deep;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
@@ -1089,6 +1098,7 @@
 			baseConfigurationReference = 282BD1EB1D5CE2E0000D78A7 /* iOS-Framework.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1108,6 +1118,7 @@
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -1116,6 +1127,7 @@
 			baseConfigurationReference = 282BD1EB1D5CE2E0000D78A7 /* iOS-Framework.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1135,6 +1147,7 @@
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -1151,6 +1164,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-iOSTests";
 				PRODUCT_NAME = TrueTimeTests;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -1167,6 +1181,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-iOSTests";
 				PRODUCT_NAME = TrueTimeTests;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -1174,6 +1189,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 282BD1F71D5CE2E0000D78A7 /* tvOS-Framework.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1197,6 +1213,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 282BD1F71D5CE2E0000D78A7 /* tvOS-Framework.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1220,8 +1237,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 282BD1F51D5CE2E0000D78A7 /* tvOS-Application.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/tvOS",
@@ -1239,8 +1256,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 282BD1F51D5CE2E0000D78A7 /* tvOS-Application.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/tvOS",
@@ -1311,6 +1328,7 @@
 			baseConfigurationReference = 282BD1E91D5CE2E0000D78A7 /* iOS-Application.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 59VC75K95Z;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1320,6 +1338,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeExample;
 				PRODUCT_NAME = TrueTimeExample;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -1328,6 +1347,7 @@
 			baseConfigurationReference = 282BD1E91D5CE2E0000D78A7 /* iOS-Application.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 59VC75K95Z;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1337,6 +1357,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeExample;
 				PRODUCT_NAME = TrueTimeExample;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
