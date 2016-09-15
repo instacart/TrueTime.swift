@@ -11,11 +11,11 @@ import Foundation
 import Result
 
 final class SNTPConnection {
-    let socketAddress: sockaddr_in
+    let socketAddress: SocketAddress
     let timeout: NSTimeInterval
     let maxRetries: Int
 
-    required init(socketAddress: sockaddr_in, timeout: NSTimeInterval, maxRetries: Int) {
+    required init(socketAddress: SocketAddress, timeout: NSTimeInterval, maxRetries: Int) {
         self.socketAddress = socketAddress
         self.timeout = timeout
         self.maxRetries = maxRetries
@@ -57,7 +57,7 @@ final class SNTPConnection {
             self.callbackQueue = callbackQueue
             self.onComplete = onComplete
             self.socket = CFSocketCreate(nil,
-                                         PF_INET,
+                                         self.socketAddress.family,
                                          SOCK_DGRAM,
                                          IPPROTO_UDP,
                                          self.dynamicType.callbackFlags,
@@ -182,7 +182,7 @@ private extension SNTPConnection {
                 let interval = NSTimeInterval(milliseconds: startTime.milliseconds)
                 self.debugLog("Sending time: \(NSDate(timeIntervalSince1970: interval))")
                 let err = CFSocketSendData(socket,
-                                           self.socketAddress.bigEndian.data,
+                                           self.socketAddress.networkData,
                                            packet.data,
                                            self.timeout)
                 if err != .Success {

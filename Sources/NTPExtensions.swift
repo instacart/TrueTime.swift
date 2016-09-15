@@ -114,9 +114,22 @@ extension NSData {
 
 extension ntp_packet_t: ByteRepresentable {}
 extension sockaddr_in: ByteRepresentable {}
+extension sockaddr_in6: ByteRepresentable {}
+extension sockaddr_in6: CustomStringConvertible {
+    public var description: String {
+        var buffer = [Int8](count: Int(INET6_ADDRSTRLEN), repeatedValue: 0)
+        var addr = sin6_addr
+        inet_ntop(AF_INET6, &addr, &buffer, socklen_t(INET6_ADDRSTRLEN))
+
+        let host = String.fromCString(buffer) ?? ""
+        let port = Int(sin6_port)
+        return "\(host):\(port)"
+    }
+}
+
 extension sockaddr_in: CustomStringConvertible {
     public var description: String {
-        let host = String(UTF8String: inet_ntoa(sin_addr)) ?? ""
+        let host = String.fromCString(inet_ntoa(sin_addr)) ?? ""
         let port = Int(sin_port)
         return "\(host):\(port)"
     }

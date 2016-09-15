@@ -162,11 +162,10 @@ private extension SNTPHost {
                 return
             }
 
-            let sockAddresses = addresses.map { data -> sockaddr_in in
-                var addr = (data.decode() as sockaddr_in).nativeEndian
-                addr.sin_port = UInt16(port)
-                return addr
-            }.filter { addr in addr.sin_addr.s_addr != 0 }
+            let sockAddresses = addresses.map { data -> SocketAddress? in
+                let storage = UnsafePointer<sockaddr_storage>(data.bytes)
+                return SocketAddress(storage: storage, port: UInt16(port))
+            }.filter { $0 != nil }.flatMap { $0 }
 
             self.debugLog("Resolved hosts: \(sockAddresses)")
             let connections = sockAddresses.map { SNTPConnection(socketAddress: $0,

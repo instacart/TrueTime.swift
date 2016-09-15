@@ -60,6 +60,17 @@ extension ntp_packet_t: NetworkOrderConvertible {
     }
 }
 
+extension sockaddr_in6: NetworkOrderConvertible {
+    var byteSwapped: sockaddr_in6 {
+        return sockaddr_in6(sin6_len: sin6_len,
+                            sin6_family: sin6_family,
+                            sin6_port: sin6_port.byteSwapped,
+                            sin6_flowinfo: sin6_flowinfo.byteSwapped,
+                            sin6_addr: sin6_addr,
+                            sin6_scope_id: sin6_scope_id.byteSwapped)
+    }
+}
+
 extension sockaddr_in: NetworkOrderConvertible {
     var byteSwapped: sockaddr_in {
         return sockaddr_in(sin_len: sin_len,
