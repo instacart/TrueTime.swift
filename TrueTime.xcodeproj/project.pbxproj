@@ -55,6 +55,8 @@
 		287C37D11D44202000084D47 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37D01D44202000084D47 /* Result.framework */; };
 		287C37F01D4422CE00084D47 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37CB1D441FC700084D47 /* Result.framework */; };
 		287C37FB1D44297000084D47 /* Result.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37D01D44202000084D47 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		28804D9B1D8A2B5600FB186F /* SocketAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B93B511D8A05AC00DC91FD /* SocketAddress.swift */; };
+		28804D9C1D8A2B5600FB186F /* SocketAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B93B511D8A05AC00DC91FD /* SocketAddress.swift */; };
 		288A04D01D31A1250032B6FE /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04CE1D31A1250032B6FE /* Nimble.framework */; };
 		288A04D11D31A1250032B6FE /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288A04CF1D31A1250032B6FE /* Quick.framework */; };
 		288A04EC1D31A87F0032B6FE /* TrueTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; };
@@ -62,6 +64,7 @@
 		28902D521D517802006533D1 /* NTPIntegrationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28902D501D517802006533D1 /* NTPIntegrationSpec.swift */; };
 		28902D531D517802006533D1 /* NTPIntegrationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28902D501D517802006533D1 /* NTPIntegrationSpec.swift */; };
 		28AF2F7B1D3CB66100FE536A /* TrueTime.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		28B93B521D8A05AC00DC91FD /* SocketAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B93B511D8A05AC00DC91FD /* SocketAddress.swift */; };
 		28BD08411D6248EC00D9981C /* TrueTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BD083F1D6248EC00D9981C /* TrueTime.m */; };
 		28BD08421D6257DA00D9981C /* TrueTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BD083F1D6248EC00D9981C /* TrueTime.m */; };
 		28BD08431D6257DA00D9981C /* TrueTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BD083F1D6248EC00D9981C /* TrueTime.m */; };
@@ -177,6 +180,7 @@
 		288A04CF1D31A1250032B6FE /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		288A04D71D31A74D0032B6FE /* TrueTimeExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrueTimeExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28902D501D517802006533D1 /* NTPIntegrationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTPIntegrationSpec.swift; sourceTree = "<group>"; };
+		28B93B511D8A05AC00DC91FD /* SocketAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAddress.swift; sourceTree = "<group>"; };
 		28BD083F1D6248EC00D9981C /* TrueTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrueTime.m; sourceTree = "<group>"; };
 		28F79E111D3F06EA00437F36 /* Curry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Curry.framework; path = Carthage/Build/iOS/Curry.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -263,6 +267,7 @@
 				280090621D45489D004C788E /* NTPExtensions.swift */,
 				2800905F1D45489D004C788E /* Endian.swift */,
 				280090641D45489D004C788E /* Reachability.swift */,
+				28B93B511D8A05AC00DC91FD /* SocketAddress.swift */,
 				280090651D45489D004C788E /* TrueTime.h */,
 				28BD083F1D6248EC00D9981C /* TrueTime.m */,
 				280090601D45489D004C788E /* Info.plist */,
@@ -906,6 +911,7 @@
 			files = (
 				2800906E1D45489D004C788E /* NTPNode.swift in Sources */,
 				28BD08411D6248EC00D9981C /* TrueTime.m in Sources */,
+				28B93B521D8A05AC00DC91FD /* SocketAddress.swift in Sources */,
 				2800906A1D45489D004C788E /* NTP.swift in Sources */,
 				2866628E1D5B771D002CA06B /* NTPHost.swift in Sources */,
 				280090661D45489D004C788E /* Endian.swift in Sources */,
@@ -931,6 +937,7 @@
 			files = (
 				285047E91D4D67B800DE4CE8 /* NTPNode.swift in Sources */,
 				285047E81D4D67B800DE4CE8 /* NTP.swift in Sources */,
+				28804D9C1D8A2B5600FB186F /* SocketAddress.swift in Sources */,
 				285047EB1D4D67B800DE4CE8 /* Endian.swift in Sources */,
 				285047EC1D4D67B800DE4CE8 /* Reachability.swift in Sources */,
 				28BD08431D6257DA00D9981C /* TrueTime.m in Sources */,
@@ -956,6 +963,7 @@
 			files = (
 				2800906F1D45489D004C788E /* NTPNode.swift in Sources */,
 				2800906B1D45489D004C788E /* NTP.swift in Sources */,
+				28804D9B1D8A2B5600FB186F /* SocketAddress.swift in Sources */,
 				280090671D45489D004C788E /* Endian.swift in Sources */,
 				280090711D45489D004C788E /* Reachability.swift in Sources */,
 				28BD08421D6257DA00D9981C /* TrueTime.m in Sources */,
