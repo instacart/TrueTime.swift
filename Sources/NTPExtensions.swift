@@ -106,9 +106,7 @@ extension ByteRepresentable {
 
 extension NSData {
     func decode<T: ByteRepresentable>() -> T {
-        var value = T()
-        getBytes(&value, length: sizeofValue(value))
-        return value
+        return UnsafePointer<T>(bytes).memory
     }
 }
 
@@ -254,10 +252,7 @@ func dispatchTimer(after interval: NSTimeInterval,
                    queue: dispatch_queue_t,
                    block: dispatch_block_t) -> dispatch_source_t? {
     precondition(interval >= 0, "Interval must be >= 0 \(interval)")
-    guard let timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue) else {
-        return nil
-    }
-
+    let timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue)
     dispatch_source_set_timer(timer,
                               interval.dispatchTime,
                               UInt64(interval * Double(NSEC_PER_SEC)),
