@@ -52,6 +52,7 @@
 		28682B761D4D308100D65223 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28682B571D4D2F2B00D65223 /* Nimble.framework */; };
 		28682B771D4D308100D65223 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28682B581D4D2F2B00D65223 /* Quick.framework */; };
 		28682B781D4D308100D65223 /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28682B5A1D4D2F2B00D65223 /* SwiftCheck.framework */; };
+		287485591DB140F70020B777 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 287485581DB140F70020B777 /* Default-568h@2x.png */; };
 		287C37D11D44202000084D47 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37D01D44202000084D47 /* Result.framework */; };
 		287C37F01D4422CE00084D47 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37CB1D441FC700084D47 /* Result.framework */; };
 		287C37FB1D44297000084D47 /* Result.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37D01D44202000084D47 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -173,6 +174,7 @@
 		28682B591D4D2F2B00D65223 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/tvOS/Result.framework; sourceTree = "<group>"; };
 		28682B5A1D4D2F2B00D65223 /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/tvOS/SwiftCheck.framework; sourceTree = "<group>"; };
 		28682B731D4D2F4600D65223 /* TrueTime-TVTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TrueTime-TVTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		287485581DB140F70020B777 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		287C37B41D4419F800084D47 /* TrueTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TrueTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		287C37CB1D441FC700084D47 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
 		287C37D01D44202000084D47 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 		2800907F1D454A9F004C788E /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				287485581DB140F70020B777 /* Default-568h@2x.png */,
 				280090801D454A9F004C788E /* AppDelegate.swift */,
 				280090811D454A9F004C788E /* Assets.xcassets */,
 				280090821D454A9F004C788E /* Info.plist */,
@@ -735,6 +738,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				280090841D454A9F004C788E /* Assets.xcassets in Resources */,
+				287485591DB140F70020B777 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
