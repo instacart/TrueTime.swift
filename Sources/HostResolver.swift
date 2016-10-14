@@ -1,5 +1,5 @@
 //
-//  NTPHost.swift
+//  HostResolver.swift
 //  TrueTime
 //
 //  Created by Michael Sanders on 8/10/16.
