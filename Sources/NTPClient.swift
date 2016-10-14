@@ -153,7 +153,7 @@ private extension NTPClient {
     }
 
     func queryAddresses(addresses: [SocketAddress]) {
-        var results: [SocketAddress: [ReferenceTimeResult]] = [:]
+        var results: [String: [ReferenceTimeResult]] = [:]
         connections = NTPConnection.query(addresses: addresses,
                                           config: config,
                                           callbackQueue: queue) { connection, result in
@@ -162,10 +162,11 @@ private extension NTPClient {
                 return
             }
 
-            if results[connection.address] == nil {
-                results[connection.address] = []
+            let host = connection.address.host
+            if results[host] == nil {
+                results[host] = []
             }
-            results[connection.address]?.append(result)
+            results[host]?.append(result)
 
             let responses = Array(results.values)
             let responseCount = responses.map { $0.count }.reduce(0, combine: +)
