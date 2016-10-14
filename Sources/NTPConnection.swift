@@ -219,7 +219,7 @@ private extension SNTPConnection {
             self.debugLog("Round-trip delay: \(response.delay) milliseconds")
             self.complete(.Success(ReferenceTime(time: response.networkDate,
                                                  uptime: responseTicks,
-                                                 serverResponse: packet,
+                                                 serverResponse: response,
                                                  startTime: startTime)))
         }
     }
@@ -233,7 +233,7 @@ private extension SNTPConnection {
     }
 }
 
-private struct NTPResponse {
+struct NTPResponse {
     let packet: ntp_packet_t
     let responseTime: Int64
     let receiveTime: timeval

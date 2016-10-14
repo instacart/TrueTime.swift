@@ -168,6 +168,14 @@ extension ReferenceTime: CustomDebugStringConvertible {
     }
 }
 
+extension NTPResponse: CustomStringConvertible {
+    var description: String {
+        return "\(self.dynamicType)(packet: " + packet.description + ", " +
+                                   "responseTime: " + responseTime.description + "ms, " +
+                                   "receiveTime: " + receiveTime.milliseconds.description + " ms)"
+    }
+}
+
 extension ntp_packet_t: CustomStringConvertible {
     // Avoid memory leak caused by long interpolated strings.
     // https://openradar.appspot.com/26366199
