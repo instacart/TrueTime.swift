@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol SNTPNode: class {
+protocol NTPNode: class {
     var timeout: NSTimeInterval { get }
     var started: Bool { get }
     var timerQueue: dispatch_queue_t { get }
@@ -17,7 +17,7 @@ protocol SNTPNode: class {
     func debugLog(@autoclosure message: () -> String)
 }
 
-extension SNTPNode {
+extension NTPNode {
     func startTimer() {
         cancelTimer()
         timer = dispatchTimer(after: timeout, queue: timerQueue) {

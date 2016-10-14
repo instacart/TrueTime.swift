@@ -133,17 +133,17 @@ extension sockaddr_in: CustomStringConvertible {
     }
 }
 
-extension SNTPHost: CustomStringConvertible {
+extension HostResolver: CustomStringConvertible {
     var description: String {
-        return "\(self.dynamicType)(hostURL: \(hostURL), " +
+        return "\(self.dynamicType)(url: \(url), " +
                                    "timeout: \(timeout), " +
                                    "maxRetries: \(maxRetries))"
     }
 }
 
-extension SNTPConnection: CustomStringConvertible {
+extension NTPConnection: CustomStringConvertible {
     var description: String {
-        return "\(self.dynamicType)(socketAddress: \(socketAddress), " +
+        return "\(self.dynamicType)(socketAddress: \(address), " +
                                    "timeout: \(timeout), " +
                                    "maxRetries: \(maxRetries))"
     }
@@ -291,6 +291,6 @@ func withFatalErrno<X: SignedIntegerType>(@noescape block: () -> X) -> X {
 private let secondsFrom1900To1970: Int64 = ((365 * 70) + 17) * 24 * 60 * 60
 
 // swiftlint:disable variable_name
-private let MSEC_PER_SEC: UInt64 = 1000
-private let USEC_PER_MSEC: UInt64 = 1000
+let MSEC_PER_SEC: UInt64 = 1000
+let USEC_PER_MSEC: UInt64 = 1000
 // swiftlint:enable variable_name

@@ -9,22 +9,57 @@
 import Foundation
 import Result
 
-typealias SNTPHostResult = Result<[SNTPConnection], NSError>
-typealias SNTPHostCallback = SNTPHostResult -> Void
+typealias HostResult = Result<[SocketAddress], NSError>
+typealias HostCallback = (HostResolver, HostResult) -> Void
 
-final class SNTPHost {
-    let hostURL: NSURL
+final class HostResolver {
+    let url: NSURL
     let timeout: NSTimeInterval
-    let onComplete: SNTPHostCallback
+    let onComplete: HostCallback
     let callbackQueue: dispatch_queue_t
     let maxRetries: Int
 
-    required init(hostURL: NSURL,
+    /// Resolves the given hosts in order, returning the first successful
+    /// response or an error if none succeeded.
+    ///
+    /// - parameter urls: URLs to resolve
+    /// - parameter timeout: duration after which to time out
+    /// - parameter maxRetries: max number of times to retry
+    /// - parameter callbackQueue: queue to fire `onComplete` callback
+    /// - parameter onComplete: invoked upon first successfully resolved host
+    ///                         or when all hosts fail
+    static func resolve(urls urls: [NSURL],
+                        timeout: NSTimeInterval,
+                        maxRetries: Int,
+                        callbackQueue: dispatch_queue_t,
+                        onComplete: HostCallback) {
+        precondition(!urls.isEmpty, "Must include at least one URL")
+        let host = HostResolver(url: urls[0],
+                                timeout: timeout,
+                                maxRetries: maxRetries,
+                                onComplete: { host, result in
+            switch result {
+                case .Success: fallthrough
+                case .Failure where urls.count == 1:
+                    onComplete(host, result)
+                case .Failure:
+                    resolve(urls: Array(urls.dropFirst()),
+                            timeout: timeout,
+                            maxRetries: maxRetries,
+                            callbackQueue: callbackQueue,
+                            onComplete: onComplete)
+            }
+        }, callbackQueue: callbackQueue)
+
+        host.resolve()
+    }
+
+    required init(url: NSURL,
                   timeout: NSTimeInterval,
                   maxRetries: Int,
-                  onComplete: SNTPHostCallback,
+                  onComplete: HostCallback,
                   callbackQueue: dispatch_queue_t) {
-        self.hostURL = hostURL
+        self.url = url
         self.timeout = timeout
         self.maxRetries = maxRetries
         self.onComplete = onComplete
@@ -64,7 +99,7 @@ final class SNTPHost {
             guard self.host == nil else { return }
             self.resolved = false
             self.attempts += 1
-            self.host = CFHostCreateWithName(nil, self.hostURL.absoluteString!).takeRetainedValue()
+            self.host = CFHostCreateWithName(nil, self.url.absoluteString!).takeRetainedValue()
 
             var ctx = CFHostClientContext(
                 version: 0,
@@ -110,18 +145,18 @@ final class SNTPHost {
 
     var logCallback: (String -> Void)?
     var timer: dispatch_source_t?
-    private let lockQueue: dispatch_queue_t = dispatch_queue_create("com.instacart.sntp-host", nil)
+    private let lockQueue: dispatch_queue_t = dispatch_queue_create("com.instacart.ntp.host", nil)
     private var attempts: Int = 0
     private var didTimeout: Bool = false
     private var host: CFHost?
     private var resolved: Bool = false
     private let hostCallback: CFHostClientCallBack = { host, infoType, error, info in
-        let client = Unmanaged<SNTPHost>.fromOpaque(COpaquePointer(info)).takeUnretainedValue()
+        let client = Unmanaged<HostResolver>.fromOpaque(COpaquePointer(info)).takeUnretainedValue()
         client.connect(host)
     }
 }
 
-extension SNTPHost: SNTPNode {
+extension HostResolver: NTPNode {
     var timerQueue: dispatch_queue_t { return lockQueue }
     var started: Bool { return self.host != nil }
 
@@ -131,16 +166,16 @@ extension SNTPHost: SNTPNode {
     }
 }
 
-private extension SNTPHost {
-    func complete(result: SNTPHostResult) {
+private extension HostResolver {
+    func complete(result: HostResult) {
         stop()
         switch result {
             case let .Failure(error) where attempts < maxRetries && !didTimeout:
-                debugLog("Got error from \(hostURL) (attempt \(attempts)), trying again. \(error)")
+                debugLog("Got error from \(url) (attempt \(attempts)), trying again. \(error)")
                 resolve()
             case .Failure, .Success:
                 dispatch_async(callbackQueue) {
-                    self.onComplete(result)
+                    self.onComplete(self, result)
                 }
         }
     }
@@ -154,7 +189,7 @@ private extension SNTPHost {
             }
 
             var resolved: DarwinBoolean = false
-            let port = self.hostURL.port?.integerValue ?? defaultNTPPort
+            let port = self.url.port?.integerValue ?? defaultNTPPort
             let addressData = CFHostGetAddressing(host,
                                                   &resolved)?.takeUnretainedValue() as [AnyObject]?
             guard let addresses = addressData as? [NSData] where resolved else {
@@ -162,17 +197,14 @@ private extension SNTPHost {
                 return
             }
 
-            let sockAddresses = addresses.map { data -> SocketAddress? in
+            let socketAddresses = addresses.map { data -> SocketAddress? in
                 let storage = UnsafePointer<sockaddr_storage>(data.bytes)
                 return SocketAddress(storage: storage, port: UInt16(port))
             }.filter { $0 != nil }.flatMap { $0 }
 
-            self.debugLog("Resolved hosts: \(sockAddresses)")
-            let connections = sockAddresses.map { SNTPConnection(socketAddress: $0,
-                                                                 timeout: self.timeout,
-                                                                 maxRetries: self.maxRetries) }
+            self.debugLog("Resolved hosts: \(socketAddresses)")
             self.resolved = true
-            self.complete(.Success(connections))
+            self.complete(.Success(socketAddresses))
         }
     }
 }

@@ -50,10 +50,8 @@ enum SocketAddress {
                 return address.bigEndian.data
         }
     }
-}
 
-extension SocketAddress: CustomStringConvertible {
-    var description: String {
+    var host: String {
         switch self {
             case IPv4(let address):
                 return address.description
@@ -61,4 +59,20 @@ extension SocketAddress: CustomStringConvertible {
                 return address.description
         }
     }
+}
+
+extension SocketAddress: CustomStringConvertible {
+    var description: String {
+        return host
+    }
+}
+
+extension SocketAddress: Hashable {
+    var hashValue: Int {
+        return host.hashValue
+    }
+}
+
+func == (lhs: SocketAddress, rhs: SocketAddress) -> Bool {
+    return lhs.host == rhs.host
 }
