@@ -53,6 +53,9 @@
 		28682B771D4D308100D65223 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28682B581D4D2F2B00D65223 /* Quick.framework */; };
 		28682B781D4D308100D65223 /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28682B5A1D4D2F2B00D65223 /* SwiftCheck.framework */; };
 		287485591DB140F70020B777 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 287485581DB140F70020B777 /* Default-568h@2x.png */; };
+		2874855B1DB1AE720020B777 /* NTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2874855A1DB1AE720020B777 /* NTPResponse.swift */; };
+		2874855C1DB1DFB80020B777 /* NTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2874855A1DB1AE720020B777 /* NTPResponse.swift */; };
+		2874855D1DB1DFB90020B777 /* NTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2874855A1DB1AE720020B777 /* NTPResponse.swift */; };
 		287C37D11D44202000084D47 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37D01D44202000084D47 /* Result.framework */; };
 		287C37F01D4422CE00084D47 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37CB1D441FC700084D47 /* Result.framework */; };
 		287C37FB1D44297000084D47 /* Result.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37D01D44202000084D47 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -178,6 +181,7 @@
 		28682B5A1D4D2F2B00D65223 /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/tvOS/SwiftCheck.framework; sourceTree = "<group>"; };
 		28682B731D4D2F4600D65223 /* TrueTime-TVTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TrueTime-TVTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		287485581DB140F70020B777 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		2874855A1DB1AE720020B777 /* NTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTPResponse.swift; sourceTree = "<group>"; };
 		287C37B41D4419F800084D47 /* TrueTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TrueTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		287C37CB1D441FC700084D47 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
 		287C37D01D44202000084D47 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
@@ -268,10 +272,11 @@
 			children = (
 				280090611D45489D004C788E /* TrueTime.swift */,
 				288334BF1DAF200000A38C7C /* NTPClient.swift */,
-				2866628D1D5B771D002CA06B /* HostResolver.swift */,
 				2866628F1D5B7721002CA06B /* NTPConnection.swift */,
+				2874855A1DB1AE720020B777 /* NTPResponse.swift */,
 				280090621D45489D004C788E /* NTPExtensions.swift */,
 				280090631D45489D004C788E /* TimedOperation.swift */,
+				2866628D1D5B771D002CA06B /* HostResolver.swift */,
 				2800905F1D45489D004C788E /* Endian.swift */,
 				280090641D45489D004C788E /* Reachability.swift */,
 				28B93B511D8A05AC00DC91FD /* SocketAddress.swift */,
@@ -404,7 +409,6 @@
 		28482DB81D314E7B003491D9 = {
 			isa = PBXGroup;
 			children = (
-				288334BD1DAF0E0C00A38C7C /* Default-568h@2x.png */,
 				282BD1DB1D5CE2E0000D78A7 /* Configuration */,
 				2800905D1D45489D004C788E /* Sources */,
 				280090741D4548A3004C788E /* Tests */,
@@ -929,6 +933,7 @@
 				2800906A1D45489D004C788E /* TrueTime.swift in Sources */,
 				2866628E1D5B771D002CA06B /* HostResolver.swift in Sources */,
 				280090661D45489D004C788E /* Endian.swift in Sources */,
+				2874855B1DB1AE720020B777 /* NTPResponse.swift in Sources */,
 				280090701D45489D004C788E /* Reachability.swift in Sources */,
 				286662901D5B7721002CA06B /* NTPConnection.swift in Sources */,
 				2800906C1D45489D004C788E /* NTPExtensions.swift in Sources */,
@@ -956,6 +961,7 @@
 				285047EB1D4D67B800DE4CE8 /* Endian.swift in Sources */,
 				285047EC1D4D67B800DE4CE8 /* Reachability.swift in Sources */,
 				28BD08431D6257DA00D9981C /* TrueTime.m in Sources */,
+				2874855D1DB1DFB90020B777 /* NTPResponse.swift in Sources */,
 				286662941D5B82BE002CA06B /* HostResolver.swift in Sources */,
 				286662921D5B82BB002CA06B /* NTPConnection.swift in Sources */,
 				285047EA1D4D67B800DE4CE8 /* NTPExtensions.swift in Sources */,
@@ -983,6 +989,7 @@
 				280090671D45489D004C788E /* Endian.swift in Sources */,
 				280090711D45489D004C788E /* Reachability.swift in Sources */,
 				28BD08421D6257DA00D9981C /* TrueTime.m in Sources */,
+				2874855C1DB1DFB80020B777 /* NTPResponse.swift in Sources */,
 				286662931D5B82BD002CA06B /* HostResolver.swift in Sources */,
 				286662911D5B82BA002CA06B /* NTPConnection.swift in Sources */,
 				2800906D1D45489D004C788E /* NTPExtensions.swift in Sources */,

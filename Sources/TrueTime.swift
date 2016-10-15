@@ -23,15 +23,34 @@ public struct ReferenceTime {
     public let uptime: timeval
     let serverResponse: NTPResponse?
     let startTime: ntp_time_t?
+    let sampleSize: Int?
+    let pool: NSURL?
+
     public init(time: NSDate, uptime: timeval) {
         self.init(time: time, uptime: uptime, serverResponse: nil, startTime: nil)
     }
 
-    init(time: NSDate, uptime: timeval, serverResponse: NTPResponse?, startTime: ntp_time_t?) {
+    init(time: NSDate,
+         uptime: timeval,
+         serverResponse: NTPResponse?,
+         startTime: ntp_time_t?,
+         sampleSize: Int? = 0,
+         pool: NSURL? = nil) {
         self.time = time
         self.uptime = uptime
         self.serverResponse = serverResponse
         self.startTime = startTime
+        self.sampleSize = sampleSize
+        self.pool = pool
+    }
+
+    init(referenceTime time: ReferenceTime, sampleSize: Int, pool: NSURL) {
+        self.init(time: time.time,
+                  uptime: time.uptime,
+                  serverResponse: time.serverResponse,
+                  startTime: time.startTime,
+                  sampleSize: sampleSize,
+                  pool: pool)
     }
 }
 

@@ -87,13 +87,13 @@ final class NTPClient {
     private var connections: [NTPConnection] = []
     private var currentReferenceTime: ReferenceTime?
     private var finished: Bool = false
+    private var startCallbacks: [(dispatch_queue_t, ReferenceTimeCallback)] = []
+    private var startTime: NSTimeInterval?
     private var poolURLs: [NSURL] = [] {
         didSet {
             invalidate()
         }
     }
-    private var startCallbacks: [(dispatch_queue_t, ReferenceTimeCallback)] = []
-    private var startTime: NSTimeInterval?
 }
 
 private extension NTPClient {
@@ -116,10 +116,9 @@ private extension NTPClient {
         }
 
         startTime = CFAbsoluteTimeGetCurrent()
-        debugLog("Starting queue with pools: \(poolURLs)")
+        debugLog("Resolving pool: \(poolURLs)")
         HostResolver.resolve(urls: poolURLs,
                              timeout: config.timeout,
-                             maxRetries: config.maxRetries,
                              callbackQueue: queue) { host, result in
             guard self.started && !self.finished else {
                 self.debugLog("Got DNS response after queue stopped: \(host), \(result)")
@@ -132,7 +131,7 @@ private extension NTPClient {
 
             switch result {
                 case let .Success(addresses):
-                    self.queryAddresses(addresses)
+                    self.query(addresses: addresses, pool: host.url)
                 case let .Failure(error):
                     self.finish(.Failure(error))
             }
@@ -152,7 +151,7 @@ private extension NTPClient {
         currentReferenceTime = nil
     }
 
-    func queryAddresses(addresses: [SocketAddress]) {
+    func query(addresses addresses: [SocketAddress], pool: NSURL) {
         var results: [String: [ReferenceTimeResult]] = [:]
         connections = NTPConnection.query(addresses: addresses,
                                           config: config,
@@ -163,51 +162,31 @@ private extension NTPClient {
             }
 
             let host = connection.address.host
-            if results[host] == nil {
-                results[host] = []
-            }
-            results[host]?.append(result)
+            results[host] = (results[host] ?? []) + [result]
 
             let responses = Array(results.values)
-            let responseCount = responses.map { $0.count }.reduce(0, combine: +)
+            let sampleSize = responses.map { $0.count }.reduce(0, combine: +)
             let expectedCount = addresses.count * self.config.numberOfSamples
-            let atEnd = responseCount == expectedCount
+            let atEnd = sampleSize == expectedCount
             let times = responses.map {
                 results in results.map { $0.value }.filter { $0 != nil }.flatMap { $0 }
             }
 
-            self.debugLog("Got \(responseCount) out of \(expectedCount)")
+            self.debugLog("Got \(sampleSize) out of \(expectedCount)")
             self.debugLog("Times: \(times)")
 
-            if let time = self.bestTime(fromResponses: times) {
+            if let time = bestTime(fromResponses: times) {
+                let time = ReferenceTime(referenceTime: time, sampleSize: sampleSize, pool: pool)
                 self.debugLog("Got time: \(time)")
                 self.currentReferenceTime = time
                 self.updateProgress(.Success(time))
                 if atEnd {
-                    self.debugLog("Sample size: \(times.flatten().count)")
                     self.finish(.Success((time)))
                 }
             } else if atEnd {
                 self.finish(result)
             }
         }
-    }
-
-    func bestTime(fromResponses times: [[ReferenceTime]]) -> ReferenceTime? {
-        let now = timeval.now()
-        let bestTimes = times.map { (serverTimes: [ReferenceTime]) -> ReferenceTime? in
-            serverTimes.filter { time in
-                if let response = time.serverResponse {
-                    return abs(response.packet.originate_time.milliseconds -
-                               now.milliseconds) < maxResultDispersion
-                }
-                return false
-            }.minElement { $0.serverResponse?.delay < $1.serverResponse?.delay }
-        }.filter { $0 != nil }.flatMap { $0 }.sort {
-            $0.serverResponse?.offset < $1.serverResponse?.offset
-        }
-
-        return bestTimes.isEmpty ? nil : bestTimes[bestTimes.count / 2]
     }
 
     func updateProgress(result: ReferenceTimeResult) {
@@ -244,5 +223,3 @@ private extension NTPClient {
         }
     }
 }
-
-private let maxResultDispersion: Int64 = 10 * Int64(MSEC_PER_SEC)

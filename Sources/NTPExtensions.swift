@@ -136,8 +136,7 @@ extension sockaddr_in: CustomStringConvertible {
 extension HostResolver: CustomStringConvertible {
     var description: String {
         return "\(self.dynamicType)(url: \(url), " +
-                                   "timeout: \(timeout), " +
-                                   "maxRetries: \(maxRetries))"
+                                   "timeout: \(timeout))"
     }
 }
 
@@ -161,17 +160,20 @@ extension ReferenceTime: CustomDebugStringConvertible {
             return description
         }
 
+        let poolDescription = pool?.absoluteString ?? "nil"
         return "\(self.dynamicType)(time: \(time), " +
                                    "uptime: \(uptime.milliseconds) ms, " +
                                    "serverResponse: \(serverResponse), " +
-                                   "startTime: \(startTime.milliseconds))"
+                                   "startTime: \(startTime.milliseconds) ms, " +
+                                   "sampleSize: \(sampleSize ?? 0), " +
+                                   "pool: \(poolDescription))"
     }
 }
 
 extension NTPResponse: CustomStringConvertible {
     var description: String {
         return "\(self.dynamicType)(packet: " + packet.description + ", " +
-                                   "responseTime: " + responseTime.description + "ms, " +
+                                   "responseTime: " + responseTime.description + " ms, " +
                                    "receiveTime: " + receiveTime.milliseconds.description + " ms)"
     }
 }
