@@ -127,6 +127,7 @@ final class NTPConnection {
 
     var logCallback: (String -> Void)?
     private let dataCallback: CFSocketCallBack = { socket, type, address, data, info in
+        guard info != nil else { return }
         let client = Unmanaged<NTPConnection>.fromOpaque(COpaquePointer(info))
                                              .takeUnretainedValue()
         guard let socket = socket where CFSocketIsValid(socket) else { return }
