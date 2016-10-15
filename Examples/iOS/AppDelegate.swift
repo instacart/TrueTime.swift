@@ -29,7 +29,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         client.retrieveReferenceTime { result in
             switch result {
                 case let .Success(referenceTime):
-                    print("Got network time! \(referenceTime.debugDescription)s")
+                    print("Got network time! \(referenceTime.debugDescription)")
                 case let .Failure(error):
                     print("Error! \(error)")
             }

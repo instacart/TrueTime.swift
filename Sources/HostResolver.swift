@@ -1,5 +1,5 @@
 //
-//  NTPHost.swift
+//  HostResolver.swift
 //  TrueTime
 //
 //  Created by Michael Sanders on 8/10/16.
@@ -9,24 +9,59 @@
 import Foundation
 import Result
 
-typealias SNTPHostResult = Result<[SNTPConnection], NSError>
-typealias SNTPHostCallback = SNTPHostResult -> Void
+typealias HostResult = Result<[SocketAddress], NSError>
+typealias HostCallback = (HostResolver, HostResult) -> Void
 
-final class SNTPHost {
-    let hostURL: NSURL
+final class HostResolver {
+    let url: NSURL
     let timeout: NSTimeInterval
-    let onComplete: SNTPHostCallback
+    let onComplete: HostCallback
     let callbackQueue: dispatch_queue_t
-    let maxRetries: Int
+    var logger: LogCallback?
 
-    required init(hostURL: NSURL,
+    /// Resolves the given hosts in order, returning the first resolved
+    /// addresses or an error if none succeeded.
+    ///
+    /// - parameter urls: URLs to resolve
+    /// - parameter timeout: duration after which to time out DNS resolution
+    /// - parameter logger: logging callback for each host
+    /// - parameter callbackQueue: queue to fire `onComplete` callback
+    /// - parameter onComplete: invoked upon first successfully resolved host
+    ///                         or when all hosts fail
+    static func resolve(urls urls: [NSURL],
+                        timeout: NSTimeInterval,
+                        logger: LogCallback?,
+                        callbackQueue: dispatch_queue_t,
+                        onComplete: HostCallback) {
+        precondition(!urls.isEmpty, "Must include at least one URL")
+        let host = HostResolver(url: urls[0],
+                                timeout: timeout,
+                                logger: logger,
+                                callbackQueue: callbackQueue) { host, result in
+            switch result {
+                case .Success: fallthrough
+                case .Failure where urls.count == 1:
+                    onComplete(host, result)
+                case .Failure:
+                    resolve(urls: Array(urls.dropFirst()),
+                            timeout: timeout,
+                            logger: logger,
+                            callbackQueue: callbackQueue,
+                            onComplete: onComplete)
+            }
+        }
+
+        host.resolve()
+    }
+
+    required init(url: NSURL,
                   timeout: NSTimeInterval,
-                  maxRetries: Int,
-                  onComplete: SNTPHostCallback,
-                  callbackQueue: dispatch_queue_t) {
-        self.hostURL = hostURL
+                  logger: LogCallback?,
+                  callbackQueue: dispatch_queue_t,
+                  onComplete: HostCallback) {
+        self.url = url
         self.timeout = timeout
-        self.maxRetries = maxRetries
+        self.logger = logger
         self.onComplete = onComplete
         self.callbackQueue = callbackQueue
     }
@@ -35,43 +70,17 @@ final class SNTPHost {
         assert(!self.started, "Unclosed host")
     }
 
-    var isStarted: Bool {
-        var started: Bool = false
-        dispatch_sync(lockQueue) {
-            started = self.started
-        }
-        return started
-    }
-
-    var isResolved: Bool {
-        var resolved: Bool = false
-        dispatch_sync(lockQueue) {
-            resolved = self.resolved
-        }
-        return resolved
-    }
-
-    var canRetry: Bool {
-        var canRetry: Bool = false
-        dispatch_sync(lockQueue) {
-            canRetry = self.attempts < self.maxRetries && !self.didTimeout
-        }
-        return canRetry
-    }
-
     func resolve() {
         dispatch_async(lockQueue) {
             guard self.host == nil else { return }
             self.resolved = false
-            self.attempts += 1
-            self.host = CFHostCreateWithName(nil, self.hostURL.absoluteString!).takeRetainedValue()
-
+            self.host = CFHostCreateWithName(nil, self.url.absoluteString!).takeRetainedValue()
             var ctx = CFHostClientContext(
                 version: 0,
                 info: UnsafeMutablePointer(Unmanaged.passUnretained(self).toOpaque()),
                 retain: nil,
                 release: nil,
-                copyDescription: unsafeBitCast(0, CFAllocatorCopyDescriptionCallBack.self)
+                copyDescription: defaultCopyDescription
             )
 
             if let host = self.host {
@@ -102,59 +111,49 @@ final class SNTPHost {
 
 #if DEBUG_LOGGING
     func debugLog(@autoclosure message: () -> String) {
-        logCallback?(message())
+        logger?(message())
     }
 #else
     func debugLog(@autoclosure message: () -> String) {}
 #endif
 
-    var logCallback: (String -> Void)?
     var timer: dispatch_source_t?
-    private let lockQueue: dispatch_queue_t = dispatch_queue_create("com.instacart.sntp-host", nil)
-    private var attempts: Int = 0
-    private var didTimeout: Bool = false
+    private let lockQueue: dispatch_queue_t = dispatch_queue_create("com.instacart.dns.host", nil)
     private var host: CFHost?
     private var resolved: Bool = false
     private let hostCallback: CFHostClientCallBack = { host, infoType, error, info in
-        let client = Unmanaged<SNTPHost>.fromOpaque(COpaquePointer(info)).takeUnretainedValue()
+        guard info != nil else { return }
+        let client = Unmanaged<HostResolver>.fromOpaque(COpaquePointer(info)).takeUnretainedValue()
         client.connect(host)
     }
 }
 
-extension SNTPHost: SNTPNode {
+extension HostResolver: TimedOperation {
     var timerQueue: dispatch_queue_t { return lockQueue }
     var started: Bool { return self.host != nil }
 
     func timeoutError(error: NSError) {
-        self.didTimeout = true
         complete(.Failure(error))
     }
 }
 
-private extension SNTPHost {
-    func complete(result: SNTPHostResult) {
+private extension HostResolver {
+    func complete(result: HostResult) {
         stop()
-        switch result {
-            case let .Failure(error) where attempts < maxRetries && !didTimeout:
-                debugLog("Got error from \(hostURL) (attempt \(attempts)), trying again. \(error)")
-                resolve()
-            case .Failure, .Success:
-                dispatch_async(callbackQueue) {
-                    self.onComplete(result)
-                }
+        dispatch_async(callbackQueue) {
+            self.onComplete(self, result)
         }
     }
 
     func connect(host: CFHost) {
         debugLog("Got CFHostStartInfoResolution callback")
         dispatch_async(lockQueue) {
-            guard self.host != nil && !self.resolved else {
+            guard self.started && !self.resolved else {
                 self.debugLog("Closed")
                 return
             }
 
             var resolved: DarwinBoolean = false
-            let port = self.hostURL.port?.integerValue ?? defaultNTPPort
             let addressData = CFHostGetAddressing(host,
                                                   &resolved)?.takeUnretainedValue() as [AnyObject]?
             guard let addresses = addressData as? [NSData] where resolved else {
@@ -162,17 +161,15 @@ private extension SNTPHost {
                 return
             }
 
-            let sockAddresses = addresses.map { data -> SocketAddress? in
+            let port = self.url.port?.integerValue ?? defaultNTPPort
+            let socketAddresses = addresses.map { data -> SocketAddress? in
                 let storage = UnsafePointer<sockaddr_storage>(data.bytes)
                 return SocketAddress(storage: storage, port: UInt16(port))
             }.filter { $0 != nil }.flatMap { $0 }
 
-            self.debugLog("Resolved hosts: \(sockAddresses)")
-            let connections = sockAddresses.map { SNTPConnection(socketAddress: $0,
-                                                                 timeout: self.timeout,
-                                                                 maxRetries: self.maxRetries) }
             self.resolved = true
-            self.complete(.Success(connections))
+            self.debugLog("Resolved hosts: \(socketAddresses)")
+            self.complete(.Success(socketAddresses))
         }
     }
 }

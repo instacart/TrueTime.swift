@@ -1,5 +1,5 @@
 //
-//  NTPNode.swift
+//  TimedOperation.swift
 //  TrueTime
 //
 //  Created by Michael Sanders on 7/18/16.
@@ -8,21 +8,22 @@
 
 import Foundation
 
-protocol SNTPNode: class {
-    var timeout: NSTimeInterval { get }
+protocol TimedOperation: class {
     var started: Bool { get }
-    var timerQueue: dispatch_queue_t { get }
+    var timeout: NSTimeInterval { get }
     var timer: dispatch_source_t? { get set }
-    func timeoutError(error: NSError)
+    var timerQueue: dispatch_queue_t { get }
+
     func debugLog(@autoclosure message: () -> String)
+    func timeoutError(error: NSError)
 }
 
-extension SNTPNode {
+extension TimedOperation {
     func startTimer() {
         cancelTimer()
         timer = dispatchTimer(after: timeout, queue: timerQueue) {
             guard self.started else { return }
-            self.debugLog("Got timeout connecting to \(self)")
+            self.debugLog("Got timeout for \(self)")
             self.timeoutError(NSError(trueTimeError: .TimedOut))
         }
     }

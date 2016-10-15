@@ -10,38 +10,67 @@ import CTrueTime
 import Foundation
 import Result
 
-final class SNTPConnection {
-    let socketAddress: SocketAddress
+typealias NTPConnectionCallback = (NTPConnection, ReferenceTimeResult) -> Void
+
+final class NTPConnection {
+    let address: SocketAddress
     let timeout: NSTimeInterval
     let maxRetries: Int
+    var logger: LogCallback?
 
-    required init(socketAddress: SocketAddress, timeout: NSTimeInterval, maxRetries: Int) {
-        self.socketAddress = socketAddress
+    static func query(addresses addresses: [SocketAddress],
+                      config: NTPConfig,
+                      logger: LogCallback?,
+                      callbackQueue: dispatch_queue_t,
+                      progress: NTPConnectionCallback) -> [NTPConnection] {
+        let connections = addresses.flatMap { address in
+            (0..<config.numberOfSamples).map { _ in
+                NTPConnection(address: address,
+                              timeout: config.timeout,
+                              maxRetries: config.maxRetries,
+                              logger: logger)
+            }
+        }
+
+        var throttleConnections: (() -> Void)? = nil
+        let onComplete: NTPConnectionCallback = { connection, result in
+            progress(connection, result)
+            throttleConnections?()
+        }
+
+        throttleConnections = {
+            let remainingConnections = connections.filter { $0.canRetry }
+            let activeConnections = Array(remainingConnections[0..<min(config.maxConnections,
+                                                                       remainingConnections.count)])
+            activeConnections.forEach { $0.start(callbackQueue, onComplete: onComplete) }
+        }
+        throttleConnections?()
+        return connections
+    }
+
+    required init(address: SocketAddress,
+                  timeout: NSTimeInterval,
+                  maxRetries: Int,
+                  logger: LogCallback?) {
+        self.address = address
         self.timeout = timeout
         self.maxRetries = maxRetries
+        self.logger = logger
     }
 
     deinit {
         assert(!self.started, "Unclosed connection")
     }
 
-    var isStarted: Bool {
-        var started: Bool = false
-        dispatch_sync(lockQueue) {
-            started = self.socket != nil
-        }
-        return started
-    }
-
     var canRetry: Bool {
         var canRetry: Bool = false
         dispatch_sync(lockQueue) {
-            canRetry = self.attempts < self.maxRetries && !self.didTimeout
+            canRetry = self.attempts < self.maxRetries && !self.didTimeout && !self.finished
         }
         return canRetry
     }
 
-    func start(callbackQueue: dispatch_queue_t, onComplete: ReferenceTimeCallback) {
+    func start(callbackQueue: dispatch_queue_t, onComplete: NTPConnectionCallback) {
         dispatch_async(lockQueue) {
             guard !self.started else { return }
 
@@ -50,14 +79,14 @@ final class SNTPConnection {
                 info: UnsafeMutablePointer(Unmanaged.passUnretained(self).toOpaque()),
                 retain: nil,
                 release: nil,
-                copyDescription: unsafeBitCast(0, CFAllocatorCopyDescriptionCallBack.self)
+                copyDescription: defaultCopyDescription
             )
 
             self.attempts += 1
             self.callbackQueue = callbackQueue
             self.onComplete = onComplete
             self.socket = CFSocketCreate(nil,
-                                         self.socketAddress.family,
+                                         self.address.family,
                                          SOCK_DGRAM,
                                          IPPROTO_UDP,
                                          self.dynamicType.callbackFlags,
@@ -91,22 +120,22 @@ final class SNTPConnection {
             CFRunLoopRemoveSource(CFRunLoopGetMain(), source, kCFRunLoopCommonModes)
             self.socket = nil
             self.source = nil
-            self.debugLog("Connection closed \(self.socketAddress)")
+            self.debugLog("Connection closed \(self.address)")
         }
     }
 
 #if DEBUG_LOGGING
     func debugLog(@autoclosure message: () -> String) {
-        logCallback?(message())
+        logger?(message())
     }
 #else
     func debugLog(@autoclosure message: () -> String) {}
 #endif
 
-    var logCallback: (String -> Void)?
     private let dataCallback: CFSocketCallBack = { socket, type, address, data, info in
-        let client = Unmanaged<SNTPConnection>.fromOpaque(COpaquePointer(info))
-                                              .takeUnretainedValue()
+        guard info != nil else { return }
+        let client = Unmanaged<NTPConnection>.fromOpaque(COpaquePointer(info))
+                                             .takeUnretainedValue()
         guard let socket = socket where CFSocketIsValid(socket) else { return }
 
         // Can't use switch here as these aren't defined as an enum.
@@ -114,7 +143,7 @@ final class SNTPConnection {
             let data = Unmanaged<CFData>.fromOpaque(COpaquePointer(data)).takeUnretainedValue()
             client.handleResponse(data)
         } else if type == .WriteCallBack {
-            client.debugLog("Buffer \(client.socketAddress) writable - requesting time")
+            client.debugLog("Buffer \(client.address) writable - requesting time")
             client.requestTime()
         } else {
             assertionFailure("Unexpected socket callback")
@@ -126,19 +155,20 @@ final class SNTPConnection {
     private static let callbackFlags: CFOptionFlags = callbackTypes.map {
         $0.rawValue
     }.reduce(0, combine: |)
-    private let lockQueue: dispatch_queue_t = dispatch_queue_create("com.instacart.sntp-connection",
+    private let lockQueue: dispatch_queue_t = dispatch_queue_create("com.instacart.ntp.connection",
                                                                     nil)
     private var attempts: Int = 0
     private var callbackQueue: dispatch_queue_t?
     private var didTimeout: Bool = false
-    private var onComplete: ReferenceTimeCallback?
+    private var onComplete: NTPConnectionCallback?
     private var requestTicks: timeval?
     private var socket: CFSocket?
     private var source: CFRunLoopSource?
     private var startTime: ntp_time_t?
+    private var finished: Bool = false
 }
 
-extension SNTPConnection: SNTPNode {
+extension NTPConnection: TimedOperation {
     var timerQueue: dispatch_queue_t { return lockQueue }
     var started: Bool { return self.socket != nil }
 
@@ -148,7 +178,7 @@ extension SNTPConnection: SNTPNode {
     }
 }
 
-private extension SNTPConnection {
+private extension NTPConnection {
     func complete(result: ReferenceTimeResult) {
         guard let callbackQueue = callbackQueue, onComplete = onComplete else {
             assertionFailure("Completion callback not initialized")
@@ -158,12 +188,13 @@ private extension SNTPConnection {
         close()
         switch result {
             case let .Failure(error) where attempts < maxRetries && !didTimeout:
-                debugLog("Got error from \(socketAddress) (attempt \(attempts)), " +
+                debugLog("Got error from \(address) (attempt \(attempts)), " +
                          "trying again. \(error)")
                 start(callbackQueue, onComplete: onComplete)
             case .Failure, .Success:
+                finished = true
                 dispatch_async(callbackQueue) {
-                    onComplete(result)
+                    onComplete(self, result)
                 }
         }
     }
@@ -175,14 +206,14 @@ private extension SNTPConnection {
                 return
             }
 
-            self.startTime = ntp_time_t(timeSince1970: timeval.now())
-            self.requestTicks = timeval.uptime()
+            self.startTime = ntp_time_t(timeSince1970: .now())
+            self.requestTicks = .uptime()
             if let startTime = self.startTime {
                 let packet = self.requestPacket(startTime).bigEndian
                 let interval = NSTimeInterval(milliseconds: startTime.milliseconds)
                 self.debugLog("Sending time: \(NSDate(timeIntervalSince1970: interval))")
                 let err = CFSocketSendData(socket,
-                                           self.socketAddress.networkData,
+                                           self.address.networkData,
                                            packet.data,
                                            self.timeout)
                 if err != .Success {
@@ -212,14 +243,14 @@ private extension SNTPConnection {
                 return
             }
 
-            self.debugLog("Buffer \(self.socketAddress) has read data!")
+            self.debugLog("Buffer \(self.address) has read data!")
             self.debugLog("Start time: \(startTime.milliseconds) ms, " +
                           "response: \(packet.timeDescription)")
             self.debugLog("Clock offset: \(response.offset) milliseconds")
             self.debugLog("Round-trip delay: \(response.delay) milliseconds")
             self.complete(.Success(ReferenceTime(time: response.networkDate,
                                                  uptime: responseTicks,
-                                                 serverResponse: packet,
+                                                 serverResponse: response,
                                                  startTime: startTime)))
         }
     }
@@ -230,61 +261,5 @@ private extension SNTPConnection {
         packet.version_number = 3
         packet.transmit_time = time
         return packet
-    }
-}
-
-private struct NTPResponse {
-    let packet: ntp_packet_t
-    let responseTime: Int64
-    let receiveTime: timeval
-    init?(packet: ntp_packet_t, responseTime: Int64, receiveTime: timeval = .now()) {
-        self.packet = packet
-        self.responseTime = responseTime
-        self.receiveTime = receiveTime
-        if !isValidResponse {
-            return nil
-        }
-    }
-
-    // See https://en.wikipedia.org/wiki/Network_Time_Protocol#Clock_synchronization_algorithm
-    var offset: Int64 {
-        let T = offsetValues
-        return ((T[1] - T[0]) + (T[2] - T[3])) / 2
-    }
-
-    var delay: Int64 {
-        let T = offsetValues
-        return (T[3] - T[0]) - (T[2] - T[1])
-    }
-
-    var networkDate: NSDate {
-        let interval = NSTimeInterval(milliseconds: responseTime + offset)
-        return NSDate(timeIntervalSince1970: interval)
-    }
-
-    private let maxRootDispersion: Int64 = 100
-    private let maxDelayDelta: Int64 = 100
-    private let ntpModeServer: UInt8 = 4
-    private let leapIndicatorUnknown: UInt8 = 3
-}
-
-private extension NTPResponse {
-    var isValidResponse: Bool {
-        return !packet.isZero &&
-                packet.root_delay.durationInMilliseconds < maxRootDispersion &&
-                packet.root_dispersion.durationInMilliseconds < maxRootDispersion &&
-                packet.client_mode == ntpModeServer &&
-                packet.stratum > 0 && packet.stratum < 16 &&
-                packet.leap_indicator != leapIndicatorUnknown &&
-                abs(receiveTime.milliseconds -
-                    packet.originate_time.milliseconds -
-                    delay) < maxDelayDelta
-    }
-
-    var offsetValues: [Int64] {
-        return [packet.originate_time.milliseconds,
-                packet.receive_time.milliseconds,
-                packet.transmit_time.milliseconds,
-                responseTime]
     }
 }

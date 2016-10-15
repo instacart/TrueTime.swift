@@ -133,17 +133,16 @@ extension sockaddr_in: CustomStringConvertible {
     }
 }
 
-extension SNTPHost: CustomStringConvertible {
+extension HostResolver: CustomStringConvertible {
     var description: String {
-        return "\(self.dynamicType)(hostURL: \(hostURL), " +
-                                   "timeout: \(timeout), " +
-                                   "maxRetries: \(maxRetries))"
+        return "\(self.dynamicType)(url: \(url), " +
+                                   "timeout: \(timeout))"
     }
 }
 
-extension SNTPConnection: CustomStringConvertible {
+extension NTPConnection: CustomStringConvertible {
     var description: String {
-        return "\(self.dynamicType)(socketAddress: \(socketAddress), " +
+        return "\(self.dynamicType)(socketAddress: \(address), " +
                                    "timeout: \(timeout), " +
                                    "maxRetries: \(maxRetries))"
     }
@@ -161,10 +160,21 @@ extension ReferenceTime: CustomDebugStringConvertible {
             return description
         }
 
+        let poolDescription = pool?.absoluteString ?? "nil"
         return "\(self.dynamicType)(time: \(time), " +
                                    "uptime: \(uptime.milliseconds) ms, " +
                                    "serverResponse: \(serverResponse), " +
-                                   "startTime: \(startTime.milliseconds))"
+                                   "startTime: \(startTime.milliseconds) ms, " +
+                                   "sampleSize: \(sampleSize ?? 0), " +
+                                   "pool: \(poolDescription))"
+    }
+}
+
+extension NTPResponse: CustomStringConvertible {
+    var description: String {
+        return "\(self.dynamicType)(packet: " + packet.description + ", " +
+                                   "responseTime: " + responseTime.description + " ms, " +
+                                   "receiveTime: " + receiveTime.milliseconds.description + " ms)"
     }
 }
 
@@ -278,11 +288,13 @@ func withFatalErrno<X: SignedIntegerType>(@noescape block: () -> X) -> X {
     // swiftlint:enable force_try
 }
 
+let defaultCopyDescription = unsafeBitCast(0, CFAllocatorCopyDescriptionCallBack.self)
+
 // Number of seconds between Jan 1, 1900 and Jan 1, 1970
 // 70 years plus 17 leap days
 private let secondsFrom1900To1970: Int64 = ((365 * 70) + 17) * 24 * 60 * 60
 
 // swiftlint:disable variable_name
-private let MSEC_PER_SEC: UInt64 = 1000
-private let USEC_PER_MSEC: UInt64 = 1000
+let MSEC_PER_SEC: UInt64 = 1000
+let USEC_PER_MSEC: UInt64 = 1000
 // swiftlint:enable variable_name
