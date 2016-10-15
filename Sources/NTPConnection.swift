@@ -55,14 +55,6 @@ final class NTPConnection {
         assert(!self.started, "Unclosed connection")
     }
 
-    var isStarted: Bool {
-        var started: Bool = false
-        dispatch_sync(lockQueue) {
-            started = self.socket != nil
-        }
-        return started
-    }
-
     var canRetry: Bool {
         var canRetry: Bool = false
         dispatch_sync(lockQueue) {
@@ -80,7 +72,7 @@ final class NTPConnection {
                 info: UnsafeMutablePointer(Unmanaged.passUnretained(self).toOpaque()),
                 retain: nil,
                 release: nil,
-                copyDescription: unsafeBitCast(0, CFAllocatorCopyDescriptionCallBack.self)
+                copyDescription: defaultCopyDescription
             )
 
             self.attempts += 1
@@ -169,7 +161,7 @@ final class NTPConnection {
     private var finished: Bool = false
 }
 
-extension NTPConnection: NTPNode {
+extension NTPConnection: TimedOperation {
     var timerQueue: dispatch_queue_t { return lockQueue }
     var started: Bool { return self.socket != nil }
 
