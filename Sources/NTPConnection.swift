@@ -16,16 +16,19 @@ final class NTPConnection {
     let address: SocketAddress
     let timeout: NSTimeInterval
     let maxRetries: Int
+    var logger: LogCallback?
 
     static func query(addresses addresses: [SocketAddress],
                       config: NTPConfig,
+                      logger: LogCallback?,
                       callbackQueue: dispatch_queue_t,
                       progress: NTPConnectionCallback) -> [NTPConnection] {
         let connections = addresses.flatMap { address in
             (0..<config.numberOfSamples).map { _ in
                 NTPConnection(address: address,
                               timeout: config.timeout,
-                              maxRetries: config.maxRetries)
+                              maxRetries: config.maxRetries,
+                              logger: logger)
             }
         }
 
@@ -45,10 +48,14 @@ final class NTPConnection {
         return connections
     }
 
-    required init(address: SocketAddress, timeout: NSTimeInterval, maxRetries: Int) {
+    required init(address: SocketAddress,
+                  timeout: NSTimeInterval,
+                  maxRetries: Int,
+                  logger: LogCallback?) {
         self.address = address
         self.timeout = timeout
         self.maxRetries = maxRetries
+        self.logger = logger
     }
 
     deinit {
@@ -119,13 +126,12 @@ final class NTPConnection {
 
 #if DEBUG_LOGGING
     func debugLog(@autoclosure message: () -> String) {
-        logCallback?(message())
+        logger?(message())
     }
 #else
     func debugLog(@autoclosure message: () -> String) {}
 #endif
 
-    var logCallback: (String -> Void)?
     private let dataCallback: CFSocketCallBack = { socket, type, address, data, info in
         guard info != nil else { return }
         let client = Unmanaged<NTPConnection>.fromOpaque(COpaquePointer(info))

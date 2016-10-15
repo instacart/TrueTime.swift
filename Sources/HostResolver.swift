@@ -17,23 +17,27 @@ final class HostResolver {
     let timeout: NSTimeInterval
     let onComplete: HostCallback
     let callbackQueue: dispatch_queue_t
+    var logger: LogCallback?
 
     /// Resolves the given hosts in order, returning the first resolved
     /// addresses or an error if none succeeded.
     ///
     /// - parameter urls: URLs to resolve
-    /// - parameter timeout: duration after which to time out
+    /// - parameter timeout: duration after which to time out DNS resolution
+    /// - parameter logger: logging callback for each host
     /// - parameter callbackQueue: queue to fire `onComplete` callback
     /// - parameter onComplete: invoked upon first successfully resolved host
     ///                         or when all hosts fail
     static func resolve(urls urls: [NSURL],
                         timeout: NSTimeInterval,
+                        logger: LogCallback?,
                         callbackQueue: dispatch_queue_t,
                         onComplete: HostCallback) {
         precondition(!urls.isEmpty, "Must include at least one URL")
         let host = HostResolver(url: urls[0],
                                 timeout: timeout,
-                                onComplete: { host, result in
+                                logger: logger,
+                                callbackQueue: callbackQueue) { host, result in
             switch result {
                 case .Success: fallthrough
                 case .Failure where urls.count == 1:
@@ -41,20 +45,23 @@ final class HostResolver {
                 case .Failure:
                     resolve(urls: Array(urls.dropFirst()),
                             timeout: timeout,
+                            logger: logger,
                             callbackQueue: callbackQueue,
                             onComplete: onComplete)
             }
-        }, callbackQueue: callbackQueue)
+        }
 
         host.resolve()
     }
 
     required init(url: NSURL,
                   timeout: NSTimeInterval,
-                  onComplete: HostCallback,
-                  callbackQueue: dispatch_queue_t) {
+                  logger: LogCallback?,
+                  callbackQueue: dispatch_queue_t,
+                  onComplete: HostCallback) {
         self.url = url
         self.timeout = timeout
+        self.logger = logger
         self.onComplete = onComplete
         self.callbackQueue = callbackQueue
     }
@@ -104,13 +111,12 @@ final class HostResolver {
 
 #if DEBUG_LOGGING
     func debugLog(@autoclosure message: () -> String) {
-        logCallback?(message())
+        logger?(message())
     }
 #else
     func debugLog(@autoclosure message: () -> String) {}
 #endif
 
-    var logCallback: (String -> Void)?
     var timer: dispatch_source_t?
     private let lockQueue: dispatch_queue_t = dispatch_queue_create("com.instacart.dns.host", nil)
     private var host: CFHost?

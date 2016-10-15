@@ -72,14 +72,14 @@ final class NTPClient {
     }
 
 #if DEBUG_LOGGING
-    var logCallback: (String -> Void)?
     private func debugLog(@autoclosure message: () -> String) {
-        logCallback?(message())
+        logger?(message())
     }
 #else
     private func debugLog(@autoclosure message: () -> String) {}
 #endif
 
+    var logger: LogCallback? = defaultLogger
     private let queue: dispatch_queue_t = dispatch_queue_create("com.instacart.ntp.client", nil)
     private let reachability = Reachability()
     private let referenceTimeLock: dispatch_queue_t = dispatch_queue_create(nil, nil)
@@ -119,6 +119,7 @@ private extension NTPClient {
         debugLog("Resolving pool: \(poolURLs)")
         HostResolver.resolve(urls: poolURLs,
                              timeout: config.timeout,
+                             logger: logger,
                              callbackQueue: queue) { host, result in
             guard self.started && !self.finished else {
                 self.debugLog("Got DNS response after queue stopped: \(host), \(result)")
@@ -155,6 +156,7 @@ private extension NTPClient {
         var results: [String: [ReferenceTimeResult]] = [:]
         connections = NTPConnection.query(addresses: addresses,
                                           config: config,
+                                          logger: logger,
                                           callbackQueue: queue) { connection, result in
             guard self.started && !self.finished else {
                 self.debugLog("Got NTP response after queue stopped: \(result)")
@@ -173,11 +175,11 @@ private extension NTPClient {
             }
 
             self.debugLog("Got \(sampleSize) out of \(expectedCount)")
-            self.debugLog("Times: \(times)")
-
             if let time = bestTime(fromResponses: times) {
                 let time = ReferenceTime(referenceTime: time, sampleSize: sampleSize, pool: pool)
-                self.debugLog("Got time: \(time)")
+                self.debugLog("\(atEnd ? "Final" : "Best") time: \(time), " +
+                              "δ: \(time.serverResponse?.delay ?? 0), " +
+                              "θ: \(time.serverResponse?.offset ?? 0)")
                 self.currentReferenceTime = time
                 self.updateProgress(.Success(time))
                 if atEnd {

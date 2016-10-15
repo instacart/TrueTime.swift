@@ -65,6 +65,7 @@ public extension ReferenceTime {
 
 public typealias ReferenceTimeResult = Result<ReferenceTime, NSError>
 public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
+public typealias LogCallback = String -> Void
 
 @objc public final class TrueTimeClient: NSObject {
     public static let sharedInstance = TrueTimeClient()
@@ -97,9 +98,9 @@ public typealias ReferenceTimeCallback = ReferenceTimeResult -> Void
     }
 
 #if DEBUG_LOGGING
-    public var logCallback: (String -> Void)? = { message in print(message) } {
+    public var logCallback: LogCallback? = defaultLogger {
         didSet {
-            ntp.logCallback = logCallback
+            ntp.logger = logCallback
         }
     }
 #endif
@@ -161,6 +162,7 @@ extension TrueTimeClient {
     }
 }
 
+let defaultLogger: LogCallback = { print($0) }
 private let defaultMaxConnections: Int = 5
 private let defaultMaxRetries: Int = 3
 private let defaultMaxServers: Int = 5
