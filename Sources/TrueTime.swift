@@ -92,7 +92,7 @@ public typealias LogCallback = String -> Void
     public func retrieveReferenceTime(
         queue callbackQueue: dispatch_queue_t = dispatch_get_main_queue(),
         first: ReferenceTimeCallback? = nil,
-        completion: ReferenceTimeCallback
+        completion: ReferenceTimeCallback? = nil
     ) {
         ntp.fetch(queue: callbackQueue, first: first, completion: completion)
     }
@@ -137,6 +137,13 @@ extension TrueTimeClient {
         start(hostURLs: hostURLs)
     }
 
+    @objc public func retrieveFirstReferenceTime(success success: NTPReferenceTime -> Void,
+                                                 failure: (NSError -> Void)?) {
+        retrieveFirstReferenceTime(success: success,
+                                   failure: failure,
+                                   onQueue: dispatch_get_main_queue())
+    }
+
     @objc public func retrieveReferenceTime(success success: NTPReferenceTime -> Void,
                                             failure: (NSError -> Void)?) {
         retrieveReferenceTime(success: success,
@@ -144,21 +151,31 @@ extension TrueTimeClient {
                               onQueue: dispatch_get_main_queue())
     }
 
+    @objc public func retrieveFirstReferenceTime(success success: NTPReferenceTime -> Void,
+                                                 failure: (NSError -> Void)?,
+                                                 onQueue queue: dispatch_queue_t) {
+        retrieveReferenceTime(queue: queue, first: { result in
+            self.mapBridgedResult(result, success: success, failure: failure)
+        })
+    }
+
     @objc public func retrieveReferenceTime(success success: NTPReferenceTime -> Void,
                                             failure: (NSError -> Void)?,
                                             onQueue queue: dispatch_queue_t) {
         retrieveReferenceTime(queue: queue) { result in
-            switch result {
-                case let .Success(time):
-                    success(NTPReferenceTime(time))
-                case let .Failure(error):
-                    failure?(error)
-            }
+            self.mapBridgedResult(result, success: success, failure: failure)
         }
     }
 
     @objc(referenceTime) public var bridgedReferenceTime: NTPReferenceTime? {
         return self.referenceTime.map(NTPReferenceTime.init)
+    }
+
+    private func mapBridgedResult(result: ReferenceTimeResult,
+                                  success: NTPReferenceTime -> Void,
+                                  failure: (NSError -> Void)?) {
+        result.map(NTPReferenceTime.init).analysis(ifSuccess: success,
+                                                   ifFailure: { err in failure?(err) })
     }
 }
 

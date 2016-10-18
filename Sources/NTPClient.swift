@@ -38,8 +38,8 @@ final class NTPClient {
     }
 
     func fetch(queue callbackQueue: dispatch_queue_t,
-               first: ReferenceTimeCallback? = nil,
-               completion: ReferenceTimeCallback? = nil) {
+               first: ReferenceTimeCallback?,
+               completion: ReferenceTimeCallback?) {
         precondition(reachability.callback != nil, "Must start client before retrieving time")
         dispatch_async(queue) {
             if let referenceTime = self.referenceTime {
