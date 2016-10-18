@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 `TrueTime.swift` adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.0](https://github.com/instacart/TrueTime.swift/releases/tag/2.1.0)
+
+- Added: Now supporting full NTP integration.
+- Fixed: Fixed rare crash when resolving hosts.
+
 ## [2.0.0](https://github.com/instacart/TrueTime.swift/releases/tag/2.0.0)
 
 - Added: Now supporting Xcode 8 and Swift 2.3.
