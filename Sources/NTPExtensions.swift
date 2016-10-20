@@ -161,12 +161,12 @@ extension ReferenceTime: CustomDebugStringConvertible {
         }
 
         let poolDescription = pool?.absoluteString ?? "nil"
-        return "\(self.dynamicType)(time: \(time), " +
-                                   "uptime: \(uptime.milliseconds) ms, " +
-                                   "serverResponse: \(serverResponse), " +
-                                   "startTime: \(startTime.milliseconds) ms, " +
-                                   "sampleSize: \(sampleSize ?? 0), " +
-                                   "pool: \(poolDescription))"
+        return "\(self.dynamicType)(time: " + time.description + ", " +
+                                   "uptime: " + uptime.milliseconds.description + " ms, " +
+                                   "serverResponse: " + serverResponse.description + ", " +
+                                   "startTime: " + startTime.milliseconds.description + " ms, " +
+                                   "sampleSize: " + (sampleSize ?? 0).description + ", " +
+                                   "pool: " + poolDescription + ")"
     }
 }
 
@@ -204,7 +204,7 @@ extension ntp_packet_t: CustomStringConvertible {
 
 extension ntp_packet_t {
     var timeDescription: String {
-        return "\(self.dynamicType)(reference_time: \(reference_time.milliseconds) ms, " +
+        return "\(self.dynamicType)(reference_time: + \(reference_time.milliseconds) ms, " +
                                    "originate_time: \(originate_time.milliseconds) ms, " +
                                    "receive_time: \(receive_time.milliseconds) ms, " +
                                    "transmit_time: \(transmit_time.milliseconds) ms)"
