@@ -77,10 +77,10 @@ final class HostResolver {
             self.host = CFHostCreateWithName(nil, self.url.absoluteString!).takeRetainedValue()
             var ctx = CFHostClientContext(
                 version: 0,
-                info: UnsafeMutablePointer(Unmanaged.passUnretained(self).toOpaque()),
+                info: UnsafeMutablePointer(Unmanaged.passRetained(self).toOpaque()),
                 retain: nil,
                 release: nil,
-                copyDescription: defaultCopyDescription
+                copyDescription: nil
             )
 
             if let host = self.host {
@@ -123,8 +123,10 @@ final class HostResolver {
     private var resolved: Bool = false
     private let hostCallback: CFHostClientCallBack = { host, infoType, error, info in
         guard info != nil else { return }
-        let client = Unmanaged<HostResolver>.fromOpaque(COpaquePointer(info)).takeUnretainedValue()
+        let retainedClient = Unmanaged<HostResolver>.fromOpaque(COpaquePointer(info))
+        let client = retainedClient.takeUnretainedValue()
         client.connect(host)
+        retainedClient.release()
     }
 }
 

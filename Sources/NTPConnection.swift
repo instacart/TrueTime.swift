@@ -76,10 +76,10 @@ final class NTPConnection {
 
             var ctx = CFSocketContext(
                 version: 0,
-                info: UnsafeMutablePointer(Unmanaged.passUnretained(self).toOpaque()),
+                info: UnsafeMutablePointer(Unmanaged.passRetained(self).toOpaque()),
                 retain: nil,
                 release: nil,
-                copyDescription: defaultCopyDescription
+                copyDescription: nil
             )
 
             self.attempts += 1
@@ -134,14 +134,15 @@ final class NTPConnection {
 
     private let dataCallback: CFSocketCallBack = { socket, type, address, data, info in
         guard info != nil else { return }
-        let client = Unmanaged<NTPConnection>.fromOpaque(COpaquePointer(info))
-                                             .takeUnretainedValue()
+        let retainedClient = Unmanaged<NTPConnection>.fromOpaque(COpaquePointer(info))
+        let client = retainedClient.takeUnretainedValue()
         guard let socket = socket where CFSocketIsValid(socket) else { return }
 
         // Can't use switch here as these aren't defined as an enum.
         if type == .DataCallBack {
             let data = Unmanaged<CFData>.fromOpaque(COpaquePointer(data)).takeUnretainedValue()
             client.handleResponse(data)
+            retainedClient.release()
         } else if type == .WriteCallBack {
             client.debugLog("Buffer \(client.address) writable - requesting time")
             client.requestTime()
