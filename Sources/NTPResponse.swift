@@ -45,15 +45,8 @@ struct NTPResponse {
 }
 
 func bestTime(fromResponses times: [[ReferenceTime]]) -> ReferenceTime? {
-    let now = timeval.now()
     let bestTimes = times.map { (serverTimes: [ReferenceTime]) -> ReferenceTime? in
-        serverTimes.filter { time in
-            if let response = time.serverResponse {
-                return abs(response.packet.originate_time.milliseconds -
-                           now.milliseconds) < maxResultDispersion
-            }
-            return false
-        }.minElement { $0.serverResponse?.delay < $1.serverResponse?.delay }
+        serverTimes.minElement { $0.serverResponse?.delay < $1.serverResponse?.delay }
     }.filter { $0 != nil }.flatMap { $0 }.sort {
         $0.serverResponse?.offset < $1.serverResponse?.offset
     }
@@ -81,5 +74,3 @@ private extension NTPResponse {
                 responseTime]
     }
 }
-
-private let maxResultDispersion: Int64 = 10 * Int64(MSEC_PER_SEC)
