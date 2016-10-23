@@ -13,6 +13,7 @@ import TrueTime
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
+    var referenceTime: ReferenceTime?
 
     func application(application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -29,7 +30,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         client.retrieveReferenceTime { result in
             switch result {
                 case let .Success(referenceTime):
+                    self.referenceTime = referenceTime
                     print("Got network time! \(referenceTime.debugDescription)")
+                    print("Current time \(referenceTime.now())")
                 case let .Failure(error):
                     print("Error! \(error)")
             }
@@ -40,5 +43,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.makeKeyAndVisible()
         self.window?.rootViewController = UIViewController()
         return true
+    }
+
+    func applicationDidBecomeActive(application: UIApplication) {
+        if let referenceTime = referenceTime {
+            print("Current time \(referenceTime.now())")
+        }
     }
 }
