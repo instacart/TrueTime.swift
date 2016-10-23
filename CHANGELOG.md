@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 `TrueTime.swift` adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.1](https://github.com/instacart/TrueTime.swift/releases/tag/2.1.1)
+
+- Fixed: Addressed memory leak due to long interpolated strings in Swift 2.3.
+- Fixed: Updated dispersion check and uptime function for more accurate times.
+
 ## [2.1.0](https://github.com/instacart/TrueTime.swift/releases/tag/2.1.0)
 
 - Added: Now supporting full NTP integration.
