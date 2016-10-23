@@ -14,7 +14,7 @@ public extension timeval {
         let now = timeval.now()
         var boottime = timeval()
         var mib: [CInt] = [CTL_KERN, KERN_BOOTTIME]
-        var size = sizeofValue(boottime)
+        var size = strideofValue(boottime)
         withFatalErrno { sysctl(&mib, 2, &boottime, &size, nil, 0) }
         return timeval(tv_sec: now.tv_sec - boottime.tv_sec,
                        tv_usec: now.tv_usec - boottime.tv_usec)
