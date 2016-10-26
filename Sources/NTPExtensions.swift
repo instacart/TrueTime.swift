@@ -19,6 +19,10 @@ public extension timeval {
         return timeval(tv_sec: now.tv_sec - boottime.tv_sec,
                        tv_usec: now.tv_usec - boottime.tv_usec)
     }
+
+    var milliseconds: Int64 {
+        return Int64(tv_sec) * Int64(MSEC_PER_SEC) + Int64(tv_usec) / Int64(USEC_PER_MSEC)
+    }
 }
 
 extension timeval {
@@ -26,10 +30,6 @@ extension timeval {
         var tv = timeval()
         withFatalErrno { gettimeofday(&tv, nil) }
         return tv
-    }
-
-    var milliseconds: Int64 {
-        return Int64(tv_sec) * Int64(MSEC_PER_SEC) + Int64(tv_usec) / Int64(USEC_PER_MSEC)
     }
 }
 
