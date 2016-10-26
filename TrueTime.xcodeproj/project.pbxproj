@@ -75,6 +75,7 @@
 		28BD08411D6248EC00D9981C /* TrueTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BD083F1D6248EC00D9981C /* TrueTime.m */; };
 		28BD08421D6257DA00D9981C /* TrueTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BD083F1D6248EC00D9981C /* TrueTime.m */; };
 		28BD08431D6257DA00D9981C /* TrueTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BD083F1D6248EC00D9981C /* TrueTime.m */; };
+		28F30A3F1DC1374D00CCF4F0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F30A3D1DC1374700CCF4F0 /* ViewController.swift */; };
 		28F79E121D3F06EA00437F36 /* Curry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F79E111D3F06EA00437F36 /* Curry.framework */; };
 /* End PBXBuildFile section */
 
@@ -192,6 +193,7 @@
 		28902D501D517802006533D1 /* NTPIntegrationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTPIntegrationSpec.swift; sourceTree = "<group>"; };
 		28B93B511D8A05AC00DC91FD /* SocketAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAddress.swift; sourceTree = "<group>"; };
 		28BD083F1D6248EC00D9981C /* TrueTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrueTime.m; sourceTree = "<group>"; };
+		28F30A3D1DC1374700CCF4F0 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		28F79E111D3F06EA00437F36 /* Curry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Curry.framework; path = Carthage/Build/iOS/Curry.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -311,6 +313,7 @@
 			children = (
 				287485581DB140F70020B777 /* Default-568h@2x.png */,
 				280090801D454A9F004C788E /* AppDelegate.swift */,
+				28F30A3D1DC1374700CCF4F0 /* ViewController.swift */,
 				280090811D454A9F004C788E /* Assets.xcassets */,
 				280090821D454A9F004C788E /* Info.plist */,
 			);
@@ -1001,6 +1004,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28F30A3F1DC1374D00CCF4F0 /* ViewController.swift in Sources */,
 				280090831D454A9F004C788E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1090,6 +1094,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_SWIFT_FLAGS = "-D DEBUG_LOGGING";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-D DEBUG_LOGGING";
+				SDKROOT = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 2.3;
@@ -1115,6 +1120,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 2.3;
@@ -1358,6 +1364,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Examples/iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeExample;
 				PRODUCT_NAME = TrueTimeExample;
@@ -1377,6 +1384,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Examples/iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeExample;
 				PRODUCT_NAME = TrueTimeExample;
