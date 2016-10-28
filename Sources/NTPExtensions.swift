@@ -84,6 +84,10 @@ extension NSTimeInterval {
     var dispatchTime: dispatch_time_t {
         return dispatch_time(DISPATCH_TIME_NOW, Int64(self * Double(NSEC_PER_SEC)))
     }
+
+    var dispatchInterval: UInt64 {
+        return UInt64(self * Double(NSEC_PER_SEC))
+    }
 }
 
 protocol ByteRepresentable {
@@ -148,14 +152,14 @@ extension NTPConnection: CustomStringConvertible {
     }
 }
 
-extension ReferenceTime: CustomStringConvertible {
-    public var description: String {
+extension FrozenReferenceTime: CustomStringConvertible {
+    var description: String {
         return "\(self.dynamicType)(time: \(time), uptime: \(uptime.milliseconds) ms)"
     }
 }
 
-extension ReferenceTime: CustomDebugStringConvertible {
-    public var debugDescription: String {
+extension FrozenReferenceTime: CustomDebugStringConvertible {
+    var debugDescription: String {
         guard let serverResponse = serverResponse, startTime = startTime else {
             return description
         }
@@ -231,6 +235,8 @@ extension TrueTimeError: CustomStringConvertible {
                        "internet.".localized
             case BadServerResponse:
                 return "The connection received an invalid server response.".localized
+            case NoValidPacket:
+                return "No valid NTP packet was found.".localized
         }
     }
 }
@@ -259,13 +265,14 @@ extension dispatch_source_t {
 
 // Can't add as static method to dispatch_source_t, as it's defined as a protocol.
 func dispatchTimer(after interval: NSTimeInterval,
+                   repeating: Bool = false,
                    queue: dispatch_queue_t,
                    block: dispatch_block_t) -> dispatch_source_t? {
     precondition(interval >= 0, "Interval must be >= 0 \(interval)")
     let timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue)
     dispatch_source_set_timer(timer,
                               interval.dispatchTime,
-                              UInt64(interval * Double(NSEC_PER_SEC)),
+                              !repeating ? DISPATCH_TIME_FOREVER : interval.dispatchInterval,
                               NSEC_PER_SEC / 10)
     dispatch_source_set_event_handler(timer, block)
     dispatch_resume(timer)

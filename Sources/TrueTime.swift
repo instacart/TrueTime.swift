@@ -16,50 +16,35 @@ import Result
     case TimedOut
     case Offline
     case BadServerResponse
+    case NoValidPacket
 }
 
-public struct ReferenceTime {
-    public let time: NSDate
-    public let uptime: timeval
-    let serverResponse: NTPResponse?
-    let startTime: ntp_time_t?
-    let sampleSize: Int?
-    let pool: NSURL?
+@objc(NTPReferenceTime)
+public final class ReferenceTime: NSObject, ReferenceTimeContainer {
+    public var time: NSDate { return underlyingValue.time }
+    public var uptime: timeval { return underlyingValue.uptime }
+    public func now() -> NSDate { return underlyingValue.now() }
 
-    public init(time: NSDate, uptime: timeval) {
-        self.init(time: time, uptime: uptime, serverResponse: nil, startTime: nil)
+    public convenience init(time: NSDate, uptime: timeval) {
+        self.init(FrozenReferenceTime(time: time, uptime: uptime))
     }
 
-    init(time: NSDate,
-         uptime: timeval,
-         serverResponse: NTPResponse?,
-         startTime: ntp_time_t?,
-         sampleSize: Int? = 0,
-         pool: NSURL? = nil) {
-        self.time = time
-        self.uptime = uptime
-        self.serverResponse = serverResponse
-        self.startTime = startTime
-        self.sampleSize = sampleSize
-        self.pool = pool
+    init(_ underlyingValue: FrozenReferenceTime) {
+        self.underlyingValueLock = GCDLock(value: underlyingValue)
     }
 
-    init(referenceTime time: ReferenceTime, sampleSize: Int, pool: NSURL) {
-        self.init(time: time.time,
-                  uptime: time.uptime,
-                  serverResponse: time.serverResponse,
-                  startTime: time.startTime,
-                  sampleSize: sampleSize,
-                  pool: pool)
+    public override var description: String {
+        return "\(self.dynamicType)(underlyingValue: \(underlyingValue)"
     }
-}
 
-public extension ReferenceTime {
-    func now() -> NSDate {
-        let currentUptime = timeval.uptime()
-        let interval = NSTimeInterval(milliseconds: currentUptime.milliseconds -
-                                                    uptime.milliseconds)
-        return time.dateByAddingTimeInterval(interval)
+    public override var debugDescription: String {
+        return "\(self.dynamicType)(underlyingValue: \(underlyingValue.debugDescription)"
+    }
+
+    private let underlyingValueLock: GCDLock<FrozenReferenceTime>
+    var underlyingValue: FrozenReferenceTime {
+        get { return underlyingValueLock.read() }
+        set { underlyingValueLock.write(newValue) }
     }
 }
 
@@ -94,7 +79,7 @@ public typealias LogCallback = String -> Void
         first: ReferenceTimeCallback? = nil,
         completion: ReferenceTimeCallback? = nil
     ) {
-        ntp.fetch(queue: callbackQueue, first: first, completion: completion)
+        ntp.fetchIfNeeded(queue: callbackQueue, first: first, completion: completion)
     }
 
 #if DEBUG_LOGGING
@@ -116,19 +101,6 @@ public typealias LogCallback = String -> Void
     private lazy var ntp: NTPClient = NTPClient(config: self.config)
 }
 
-// MARK: - Objective-C Bridging
-
-@objc public final class NTPReferenceTime: NSObject {
-    public init(_ referenceTime: ReferenceTime) {
-        self.underlyingValue = referenceTime
-    }
-
-    public let underlyingValue: ReferenceTime
-    public var time: NSDate { return underlyingValue.time }
-    public var uptime: timeval { return underlyingValue.uptime }
-    public func now() -> NSDate { return underlyingValue.now() }
-}
-
 extension TrueTimeClient {
     // Avoid leak when bridging to Objective-C.
     // https://openradar.appspot.com/radar?id=6675608629149696
@@ -137,21 +109,21 @@ extension TrueTimeClient {
         start(hostURLs: hostURLs)
     }
 
-    @objc public func retrieveFirstReferenceTime(success success: NTPReferenceTime -> Void,
+    @objc public func retrieveFirstReferenceTime(success success: ReferenceTime -> Void,
                                                  failure: (NSError -> Void)?) {
         retrieveFirstReferenceTime(success: success,
                                    failure: failure,
                                    onQueue: dispatch_get_main_queue())
     }
 
-    @objc public func retrieveReferenceTime(success success: NTPReferenceTime -> Void,
+    @objc public func retrieveReferenceTime(success success: ReferenceTime -> Void,
                                             failure: (NSError -> Void)?) {
         retrieveReferenceTime(success: success,
                               failure: failure,
                               onQueue: dispatch_get_main_queue())
     }
 
-    @objc public func retrieveFirstReferenceTime(success success: NTPReferenceTime -> Void,
+    @objc public func retrieveFirstReferenceTime(success success: ReferenceTime -> Void,
                                                  failure: (NSError -> Void)?,
                                                  onQueue queue: dispatch_queue_t) {
         retrieveReferenceTime(queue: queue, first: { result in
@@ -159,7 +131,7 @@ extension TrueTimeClient {
         })
     }
 
-    @objc public func retrieveReferenceTime(success success: NTPReferenceTime -> Void,
+    @objc public func retrieveReferenceTime(success success: ReferenceTime -> Void,
                                             failure: (NSError -> Void)?,
                                             onQueue queue: dispatch_queue_t) {
         retrieveReferenceTime(queue: queue) { result in
@@ -167,15 +139,10 @@ extension TrueTimeClient {
         }
     }
 
-    @objc(referenceTime) public var bridgedReferenceTime: NTPReferenceTime? {
-        return self.referenceTime.map(NTPReferenceTime.init)
-    }
-
     private func mapBridgedResult(result: ReferenceTimeResult,
-                                  success: NTPReferenceTime -> Void,
+                                  success: ReferenceTime -> Void,
                                   failure: (NSError -> Void)?) {
-        result.map(NTPReferenceTime.init).analysis(ifSuccess: success,
-                                                   ifFailure: { err in failure?(err) })
+        result.analysis(ifSuccess: success, ifFailure: { err in failure?(err) })
     }
 }
 

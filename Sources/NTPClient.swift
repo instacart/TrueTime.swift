@@ -25,34 +25,41 @@ final class NTPClient {
 
     func start(pools poolURLs: [NSURL]) {
         precondition(!poolURLs.isEmpty, "Must include at least one pool URL")
-        precondition(reachability.callback == nil, "Already started")
-        dispatch_async(queue) { self.poolURLs = poolURLs }
-        reachability.callbackQueue = queue
-        reachability.callback = updateReachability
-        reachability.startMonitoring()
+        dispatch_async(queue) {
+            precondition(self.reachability.callback == nil, "Already started")
+            self.poolURLs = poolURLs
+            self.reachability.callbackQueue = self.queue
+            self.reachability.callback = self.updateReachability
+            self.reachability.startMonitoring()
+            self.startTimer()
+        }
     }
 
     func pause() {
-        reachability.stopMonitoring()
-        dispatch_async(queue, stopQueue)
+        dispatch_async(queue) {
+            self.cancelTimer()
+            self.reachability.stopMonitoring()
+            self.stopQueue()
+        }
     }
 
-    func fetch(queue callbackQueue: dispatch_queue_t,
-               first: ReferenceTimeCallback?,
-               completion: ReferenceTimeCallback?) {
-        precondition(reachability.callback != nil, "Must start client before retrieving time")
+    func fetchIfNeeded(queue callbackQueue: dispatch_queue_t,
+                       first: ReferenceTimeCallback?,
+                       completion: ReferenceTimeCallback?) {
         dispatch_async(queue) {
-            if let referenceTime = self.referenceTime {
+            precondition(self.reachability.callback != nil,
+                         "Must start client before retrieving time")
+            if let time = self.referenceTime {
                 dispatch_async(callbackQueue) {
-                    first?(.Success(referenceTime))
+                    first?(.Success(time))
                 }
             } else if let first = first {
                 self.startCallbacks.append((callbackQueue, first))
             }
 
-            if let referenceTime = self.referenceTime where self.finished {
+            if let time = self.referenceTime where self.finished {
                 dispatch_async(callbackQueue) {
-                    completion?(.Success(referenceTime))
+                    completion?(.Success(time))
                 }
             } else {
                 if let completion = completion {
@@ -63,29 +70,25 @@ final class NTPClient {
         }
     }
 
+    private let referenceTimeLock: GCDLock<ReferenceTime?> = GCDLock(value: nil)
     var referenceTime: ReferenceTime? {
-        var referenceTime: ReferenceTime?
-        dispatch_sync(referenceTimeLock) {
-            referenceTime = self.currentReferenceTime
-        }
-        return referenceTime
+        get { return referenceTimeLock.read() }
+        set { referenceTimeLock.write(newValue) }
     }
 
-#if DEBUG_LOGGING
     private func debugLog(@autoclosure message: () -> String) {
+#if DEBUG_LOGGING
         logger?(message())
-    }
-#else
-    private func debugLog(@autoclosure message: () -> String) {}
 #endif
+    }
 
     var logger: LogCallback? = defaultLogger
+    private var timer: dispatch_source_t?
     private let queue: dispatch_queue_t = dispatch_queue_create("com.instacart.ntp.client", nil)
     private let reachability = Reachability()
-    private let referenceTimeLock: dispatch_queue_t = dispatch_queue_create(nil, nil)
     private var completionCallbacks: [(dispatch_queue_t, ReferenceTimeCallback)] = []
     private var connections: [NTPConnection] = []
-    private var currentReferenceTime: ReferenceTime?
+    private var invalidated: Bool = false
     private var finished: Bool = false
     private var startCallbacks: [(dispatch_queue_t, ReferenceTimeCallback)] = []
     private var startTime: NSTimeInterval?
@@ -102,11 +105,28 @@ private extension NTPClient {
         switch status {
             case .NotReachable:
                 debugLog("Network unreachable")
+                cancelTimer()
                 finish(.Failure(NSError(trueTimeError: .Offline)))
             case .ReachableViaWWAN, .ReachableViaWiFi:
                 debugLog("Network reachable")
+                startTimer()
                 startQueue(poolURLs: poolURLs)
         }
+    }
+
+    func startTimer() {
+        cancelTimer()
+        if let referenceTime = referenceTime {
+            let remainingInterval = max(0, referenceTime.maxUptimeInterval -
+                                           referenceTime.uptimeInterval)
+            timer = dispatchTimer(after: remainingInterval, queue: queue, block: invalidate)
+
+        }
+    }
+
+    func cancelTimer() {
+        timer?.cancel()
+        timer = nil
     }
 
     func startQueue(poolURLs poolURLs: [NSURL]) {
@@ -149,11 +169,15 @@ private extension NTPClient {
     func invalidate() {
         stopQueue()
         finished = false
-        currentReferenceTime = nil
+        if let referenceTime = referenceTime where reachability.status != .NotReachable &&
+                                                   !poolURLs.isEmpty {
+            debugLog("Invalidated time \(referenceTime.debugDescription)")
+            startQueue(poolURLs: poolURLs)
+        }
     }
 
     func query(addresses addresses: [SocketAddress], pool: NSURL) {
-        var results: [String: [ReferenceTimeResult]] = [:]
+        var results: [String: [FrozenReferenceTimeResult]] = [:]
         connections = NTPConnection.query(addresses: addresses,
                                           config: config,
                                           logger: logger,
@@ -176,17 +200,26 @@ private extension NTPClient {
 
             self.debugLog("Got \(sampleSize) out of \(expectedCount)")
             if let time = bestTime(fromResponses: times) {
-                let time = ReferenceTime(referenceTime: time, sampleSize: sampleSize, pool: pool)
+                let time = FrozenReferenceTime(referenceTime: time,
+                                               sampleSize: sampleSize,
+                                               pool: pool)
                 self.debugLog("\(atEnd ? "Final" : "Best") time: \(time), " +
                               "δ: \(time.serverResponse?.delay ?? 0), " +
                               "θ: \(time.serverResponse?.offset ?? 0)")
-                self.currentReferenceTime = time
-                self.updateProgress(.Success(time))
+
+                let referenceTime = self.referenceTime ?? ReferenceTime(time)
+                if self.referenceTime == nil {
+                    self.referenceTime = referenceTime
+                } else {
+                    referenceTime.underlyingValue = time
+                }
+
+                self.updateProgress(.Success(referenceTime))
                 if atEnd {
-                    self.finish(.Success((time)))
+                    self.finish(.Success(referenceTime))
                 }
             } else if atEnd {
-                self.finish(result)
+                self.finish(.Failure(result.error ?? NSError(trueTimeError: .NoValidPacket)))
             }
         }
     }
@@ -217,6 +250,7 @@ private extension NTPClient {
         logDuration(endTime, to: "get last result")
         finished = result.value != nil
         stopQueue()
+        startTimer()
     }
 
     func logDuration(endTime: CFAbsoluteTime, to description: String) {

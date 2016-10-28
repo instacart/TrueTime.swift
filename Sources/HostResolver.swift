@@ -109,13 +109,11 @@ final class HostResolver {
         }
     }
 
-#if DEBUG_LOGGING
     func debugLog(@autoclosure message: () -> String) {
+#if DEBUG_LOGGING
         logger?(message())
-    }
-#else
-    func debugLog(@autoclosure message: () -> String) {}
 #endif
+    }
 
     var timer: dispatch_source_t?
     private let lockQueue: dispatch_queue_t = dispatch_queue_create("com.instacart.dns.host", nil)
