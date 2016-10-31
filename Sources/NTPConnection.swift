@@ -10,7 +10,7 @@ import CTrueTime
 import Foundation
 import Result
 
-typealias NTPConnectionCallback = (NTPConnection, ReferenceTimeResult) -> Void
+typealias NTPConnectionCallback = (NTPConnection, FrozenReferenceTimeResult) -> Void
 
 final class NTPConnection {
     let address: SocketAddress
@@ -124,13 +124,11 @@ final class NTPConnection {
         }
     }
 
-#if DEBUG_LOGGING
     func debugLog(@autoclosure message: () -> String) {
+#if DEBUG_LOGGING
         logger?(message())
-    }
-#else
-    func debugLog(@autoclosure message: () -> String) {}
 #endif
+    }
 
     private let dataCallback: CFSocketCallBack = { socket, type, address, data, info in
         guard info != nil else { return }
@@ -180,7 +178,7 @@ extension NTPConnection: TimedOperation {
 }
 
 private extension NTPConnection {
-    func complete(result: ReferenceTimeResult) {
+    func complete(result: FrozenReferenceTimeResult) {
         guard let callbackQueue = callbackQueue, onComplete = onComplete else {
             assertionFailure("Completion callback not initialized")
             return
@@ -249,10 +247,10 @@ private extension NTPConnection {
                           "response: \(packet.timeDescription)")
             self.debugLog("Clock offset: \(response.offset) milliseconds")
             self.debugLog("Round-trip delay: \(response.delay) milliseconds")
-            self.complete(.Success(ReferenceTime(time: response.networkDate,
-                                                 uptime: responseTicks,
-                                                 serverResponse: response,
-                                                 startTime: startTime)))
+            self.complete(.Success(FrozenReferenceTime(time: response.networkDate,
+                                                       uptime: responseTicks,
+                                                       serverResponse: response,
+                                                       startTime: startTime)))
         }
     }
 

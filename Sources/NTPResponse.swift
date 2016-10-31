@@ -44,8 +44,8 @@ struct NTPResponse {
     private let leapIndicatorUnknown: UInt8 = 3
 }
 
-func bestTime(fromResponses times: [[ReferenceTime]]) -> ReferenceTime? {
-    let bestTimes = times.map { (serverTimes: [ReferenceTime]) -> ReferenceTime? in
+func bestTime(fromResponses times: [[FrozenReferenceTime]]) -> FrozenReferenceTime? {
+    let bestTimes = times.map { (serverTimes: [FrozenReferenceTime]) -> FrozenReferenceTime? in
         serverTimes.minElement { $0.serverResponse?.delay < $1.serverResponse?.delay }
     }.filter { $0 != nil }.flatMap { $0 }.sort {
         $0.serverResponse?.offset < $1.serverResponse?.offset
