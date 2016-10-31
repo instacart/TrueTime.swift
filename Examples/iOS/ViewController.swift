@@ -10,18 +10,18 @@ import UIKit
 import TrueTime
 
 final class ExampleViewController: UIViewController {
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        NSNotificationCenter.defaultCenter().addObserver(
+        NotificationCenter.default.addObserver(
             self,
             selector: #selector(startTimer),
-            name: UIApplicationDidBecomeActiveNotification,
+            name: NSNotification.Name.UIApplicationDidBecomeActive,
             object: nil
         )
-        NSNotificationCenter.defaultCenter().addObserver(
+        NotificationCenter.default.addObserver(
             self,
             selector: #selector(cancelTimer),
-            name: UIApplicationWillResignActiveNotification,
+            name: NSNotification.Name.UIApplicationWillResignActive,
             object: nil
         )
     }
@@ -31,35 +31,35 @@ final class ExampleViewController: UIViewController {
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         label.frame = view.bounds.insetBy(dx: 15, dy: 15)
-        label.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        label.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(label)
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         refresh()
         startTimer()
 
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         cancelTimer()
     }
 
-    private var referenceTime: ReferenceTime?
-    private var timer: NSTimer?
-    private lazy var label: UILabel = {
+    fileprivate var referenceTime: ReferenceTime?
+    fileprivate var timer: Timer?
+    fileprivate lazy var label: UILabel = {
         let label = UILabel()
-        label.textColor = .blackColor()
-        label.textAlignment = .Center
-        label.font = UIFont.systemFontOfSize(14)
+        label.textColor = .black
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 14)
         label.numberOfLines = 0
         return label
     }()
@@ -67,7 +67,7 @@ final class ExampleViewController: UIViewController {
 
 private extension ExampleViewController {
     @objc func startTimer() {
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.5, repeats: true) { [weak self] _ in
+        timer = .scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             self?.tick()
         }
     }
@@ -80,17 +80,17 @@ private extension ExampleViewController {
     func tick() {
         if let referenceTime = referenceTime {
             let trueTime = referenceTime.now()
-            label.text = "\(trueTime)\n\n\(referenceTime.debugDescription)"
+            label.text = "\(trueTime)\n\n\(referenceTime)"
         }
     }
 
     func refresh() {
         TrueTimeClient.sharedInstance.retrieveReferenceTime { result in
             switch result {
-                case let .Success(referenceTime):
+                case let .success(referenceTime):
                     self.referenceTime = referenceTime
-                    print("Got network time! \(referenceTime.debugDescription)")
-                case let .Failure(error):
+                    print("Got network time! \(referenceTime)")
+                case let .failure(error):
                     print("Error! \(error)")
             }
         }

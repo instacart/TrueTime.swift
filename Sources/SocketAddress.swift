@@ -9,25 +9,23 @@
 import Foundation
 
 enum SocketAddress {
-    case IPv4(sockaddr_in)
-    case IPv6(sockaddr_in6)
+    case iPv4(sockaddr_in)
+    case iPv6(sockaddr_in6)
 
     init?(storage: UnsafePointer<sockaddr_storage>, port: UInt16? = nil) {
-        guard storage != nil else {
-            return nil
-        }
-
-        switch Int32(storage.memory.ss_family) {
+        switch Int32(storage.pointee.ss_family) {
             case AF_INET:
-                let addrPointer = UnsafeMutablePointer<sockaddr_in>(storage)
-                var addr = addrPointer.memory.nativeEndian
-                addr.sin_port = port ?? addr.sin_port
-                self = IPv4(addr)
+                self = storage.withMemoryRebound(to: sockaddr_in.self, capacity: 1) { pointer in
+                    var addr = pointer.pointee.nativeEndian
+                    addr.sin_port = port ?? addr.sin_port
+                    return .iPv4(addr)
+                }
             case AF_INET6:
-                let addrPointer = UnsafeMutablePointer<sockaddr_in6>(storage)
-                var addr = addrPointer.memory.nativeEndian
-                addr.sin6_port = port ?? addr.sin6_port
-                self = IPv6(addr)
+                self = storage.withMemoryRebound(to: sockaddr_in6.self, capacity: 1) { pointer in
+                    var addr = pointer.pointee.nativeEndian
+                    addr.sin6_port = port ?? addr.sin6_port
+                    return .iPv6(addr)
+                }
             default:
                 return nil
         }
@@ -35,28 +33,24 @@ enum SocketAddress {
 
     var family: Int32 {
         switch self {
-            case .IPv4:
+            case .iPv4:
                 return PF_INET
-            case .IPv6:
+            case .iPv6:
                 return PF_INET6
         }
     }
 
-    var networkData: NSData {
+    var networkData: Data {
         switch self {
-            case IPv4(let address):
-                return address.bigEndian.data
-            case IPv6(let address):
-                return address.bigEndian.data
+            case .iPv4(let address): return address.bigEndian.data as Data
+            case .iPv6(let address): return address.bigEndian.data as Data
         }
     }
 
     var host: String {
         switch self {
-            case IPv4(let address):
-                return address.description
-            case IPv6(let address):
-                return address.description
+            case .iPv4(let address): return address.description
+            case .iPv6(let address): return address.description
         }
     }
 }

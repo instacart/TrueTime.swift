@@ -17,5 +17,5 @@ Pod::Spec.new do |s|
   s.public_header_files = 'Sources/*.h'
   s.pod_target_xcconfig = { 'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/TrueTime/Sources/CTrueTime/**' }
   s.preserve_paths  = 'Sources/CTrueTime/module.modulemap'
-  s.dependency 'Result', '~> 2.1'
+  s.dependency 'Result', '~> 3.0'
 end

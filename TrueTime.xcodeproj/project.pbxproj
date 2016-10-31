@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2800902E1D444AD5004C788E /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2800902D1D444AD5004C788E /* SwiftCheck.framework */; };
 		2800904F1D444B64004C788E /* TrueTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37B41D4419F800084D47 /* TrueTime.framework */; };
-		280090551D444B85004C788E /* Curry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2800902F1D444AE5004C788E /* Curry.framework */; };
 		280090561D444B85004C788E /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 280090301D444AE5004C788E /* Nimble.framework */; };
 		280090571D444B85004C788E /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 280090311D444AE5004C788E /* Quick.framework */; };
 		280090581D444B85004C788E /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 280090321D444AE5004C788E /* SwiftCheck.framework */; };
@@ -48,7 +47,6 @@
 		286662941D5B82BE002CA06B /* HostResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2866628D1D5B771D002CA06B /* HostResolver.swift */; };
 		28682B651D4D2F4600D65223 /* ArbitraryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090751D4548A3004C788E /* ArbitraryExtensions.swift */; };
 		28682B661D4D2F4600D65223 /* NTPExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090771D4548A3004C788E /* NTPExtensionsSpec.swift */; };
-		28682B751D4D308100D65223 /* Curry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28682B561D4D2F2B00D65223 /* Curry.framework */; };
 		28682B761D4D308100D65223 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28682B571D4D2F2B00D65223 /* Nimble.framework */; };
 		28682B771D4D308100D65223 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28682B581D4D2F2B00D65223 /* Quick.framework */; };
 		28682B781D4D308100D65223 /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28682B5A1D4D2F2B00D65223 /* SwiftCheck.framework */; };
@@ -82,7 +80,6 @@
 		28EBCA011DC2CE6900CE788E /* GCDLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EBC9FF1DC2CE6900CE788E /* GCDLock.swift */; };
 		28EBCA021DC2CE6900CE788E /* GCDLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EBC9FF1DC2CE6900CE788E /* GCDLock.swift */; };
 		28F30A3F1DC1374D00CCF4F0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F30A3D1DC1374700CCF4F0 /* ViewController.swift */; };
-		28F79E121D3F06EA00437F36 /* Curry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F79E111D3F06EA00437F36 /* Curry.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,7 +130,6 @@
 
 /* Begin PBXFileReference section */
 		2800902D1D444AD5004C788E /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/iOS/SwiftCheck.framework; sourceTree = "<group>"; };
-		2800902F1D444AE5004C788E /* Curry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Curry.framework; path = Carthage/Build/Mac/Curry.framework; sourceTree = "<group>"; };
 		280090301D444AE5004C788E /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/Mac/Nimble.framework; sourceTree = "<group>"; };
 		280090311D444AE5004C788E /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/Mac/Quick.framework; sourceTree = "<group>"; };
 		280090321D444AE5004C788E /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/Mac/SwiftCheck.framework; sourceTree = "<group>"; };
@@ -181,7 +177,6 @@
 		285047DF1D4D641400DE4CE8 /* TrueTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TrueTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2866628D1D5B771D002CA06B /* HostResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostResolver.swift; sourceTree = "<group>"; };
 		2866628F1D5B7721002CA06B /* NTPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTPConnection.swift; sourceTree = "<group>"; };
-		28682B561D4D2F2B00D65223 /* Curry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Curry.framework; path = Carthage/Build/tvOS/Curry.framework; sourceTree = "<group>"; };
 		28682B571D4D2F2B00D65223 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/tvOS/Nimble.framework; sourceTree = "<group>"; };
 		28682B581D4D2F2B00D65223 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/tvOS/Quick.framework; sourceTree = "<group>"; };
 		28682B591D4D2F2B00D65223 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/tvOS/Result.framework; sourceTree = "<group>"; };
@@ -202,7 +197,6 @@
 		28BD083F1D6248EC00D9981C /* TrueTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrueTime.m; sourceTree = "<group>"; };
 		28EBC9FF1DC2CE6900CE788E /* GCDLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDLock.swift; sourceTree = "<group>"; };
 		28F30A3D1DC1374700CCF4F0 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		28F79E111D3F06EA00437F36 /* Curry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Curry.framework; path = Carthage/Build/iOS/Curry.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,7 +206,6 @@
 			files = (
 				280090571D444B85004C788E /* Quick.framework in Frameworks */,
 				280090561D444B85004C788E /* Nimble.framework in Frameworks */,
-				280090551D444B85004C788E /* Curry.framework in Frameworks */,
 				280090581D444B85004C788E /* SwiftCheck.framework in Frameworks */,
 				2800904F1D444B64004C788E /* TrueTime.framework in Frameworks */,
 			);
@@ -234,7 +227,6 @@
 				288A04D01D31A1250032B6FE /* Nimble.framework in Frameworks */,
 				288A04D11D31A1250032B6FE /* Quick.framework in Frameworks */,
 				2800902E1D444AD5004C788E /* SwiftCheck.framework in Frameworks */,
-				28F79E121D3F06EA00437F36 /* Curry.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,7 +243,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				285047EE1D4D688000DE4CE8 /* TrueTime.framework in Frameworks */,
-				28682B751D4D308100D65223 /* Curry.framework in Frameworks */,
 				28682B761D4D308100D65223 /* Nimble.framework in Frameworks */,
 				28682B771D4D308100D65223 /* Quick.framework in Frameworks */,
 				28682B781D4D308100D65223 /* SwiftCheck.framework in Frameworks */,
@@ -448,7 +439,6 @@
 		28682B551D4D2F0600D65223 /* tvOS */ = {
 			isa = PBXGroup;
 			children = (
-				28682B561D4D2F2B00D65223 /* Curry.framework */,
 				28682B571D4D2F2B00D65223 /* Nimble.framework */,
 				28682B581D4D2F2B00D65223 /* Quick.framework */,
 				28682B591D4D2F2B00D65223 /* Result.framework */,
@@ -462,7 +452,6 @@
 			children = (
 				2800902D1D444AD5004C788E /* SwiftCheck.framework */,
 				287C37D01D44202000084D47 /* Result.framework */,
-				28F79E111D3F06EA00437F36 /* Curry.framework */,
 				288A04CE1D31A1250032B6FE /* Nimble.framework */,
 				288A04CF1D31A1250032B6FE /* Quick.framework */,
 			);
@@ -472,7 +461,6 @@
 		287C37CE1D44201000084D47 /* Mac */ = {
 			isa = PBXGroup;
 			children = (
-				2800902F1D444AE5004C788E /* Curry.framework */,
 				280090301D444AE5004C788E /* Nimble.framework */,
 				280090311D444AE5004C788E /* Quick.framework */,
 				280090321D444AE5004C788E /* SwiftCheck.framework */,
@@ -673,7 +661,7 @@
 					};
 					28482DC11D314E7B003491D9 = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0810;
 					};
 					28482DCB1D314E7B003491D9 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -685,7 +673,7 @@
 					288A04D61D31A74D0032B6FE = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 59VC75K95Z;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0810;
 					};
 				};
 			};
@@ -792,7 +780,6 @@
 				"$(SRCROOT)/Carthage/Build/Mac/Nimble.framework",
 				"$(SRCROOT)/Carthage/Build/Mac/SwiftCheck.framework",
 				"$(SRCROOT)/Carthage/Build/Mac/Result.framework",
-				"$(SRCROOT)/Carthage/Build/Mac/Curry.framework",
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (
@@ -852,7 +839,6 @@
 				"$(SRCROOT)/Carthage/Build/tvOS/Quick.framework",
 				"$(SRCROOT)/Carthage/Build/tvOS/Nimble.framework",
 				"$(SRCROOT)/Carthage/Build/tvOS/SwiftCheck.framework",
-				"$(SRCROOT)/Carthage/Build/tvOS/Curry.framework",
 				"$(SRCROOT)/Carthage/Build/tvOS/Result.framework",
 			);
 			name = "Copy Carthage Frameworks";
@@ -886,7 +872,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Quick.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftCheck.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Curry.framework",
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (
@@ -1063,7 +1048,7 @@
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-MacTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1082,7 +1067,7 @@
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-MacTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1106,14 +1091,14 @@
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_SWIFT_FLAGS = "-D DEBUG_LOGGING";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-D DEBUG_LOGGING";
 				SDKROOT = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Debug;
 		};
@@ -1134,12 +1119,12 @@
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Release;
 		};
@@ -1212,7 +1197,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-iOSTests";
 				PRODUCT_NAME = TrueTimeTests;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)";
-				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -1229,7 +1213,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-iOSTests";
 				PRODUCT_NAME = TrueTimeTests;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)";
-				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -1385,7 +1368,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeExample;
 				PRODUCT_NAME = TrueTimeExample;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -1405,7 +1387,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeExample;
 				PRODUCT_NAME = TrueTimeExample;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
