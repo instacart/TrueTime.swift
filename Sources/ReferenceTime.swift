@@ -66,7 +66,7 @@ extension ReferenceTimeContainer {
     }
 
     var maxUptimeInterval: NSTimeInterval {
-        return 1024
+        return 512
     }
 
     var shouldInvalidate: Bool {
