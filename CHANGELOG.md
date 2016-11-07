@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 `TrueTime.swift` adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.0](https://github.com/instacart/TrueTime.swift/releases/tag/3.0.0)
+
+- Added: Now polls at regular intervals and automatically updates reference
+  times.
+- Fixed: Addressed assertion getting hit on certain devices when requesting
+  network time. 
+
 ## [2.1.1](https://github.com/instacart/TrueTime.swift/releases/tag/2.1.1)
 
 - Fixed: Addressed memory leak due to long interpolated strings in Swift 2.3.
