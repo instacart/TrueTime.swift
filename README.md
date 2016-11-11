@@ -56,7 +56,7 @@ NSDate *now = [[client referenceTime] now];
 }];
 ```
 
-## Installation
+## Installation Options
 
 TrueTime is currently compatible with iOS 8 and up, macOS 10.9 and tvOS 9.
 
@@ -80,11 +80,22 @@ $ carthage update
 * Open `TrueTime.xcodeproj`, choose `TrueTimeExample` and hit run. This will build everything and run the sample app.
 
 ### Manually using submodules
+#### (works alongside Cocoapods)
 
 * Add TrueTime as a submodule:
 
 ```
 $ git submodule add https://github.com/instacart/TrueTime.swift.git
+```
+
+* Navigate to the TrueTime directory and add its dependencies
+```
+$ carthage bootstrap
+```
+
+* Install Swift Lint if missing
+```
+$ brew install swiftlint
 ```
 
 * Drag `TrueTime.xcodeproj` into the Project Navigator
