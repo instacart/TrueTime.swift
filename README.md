@@ -60,12 +60,12 @@ NSDate *now = [[client referenceTime] now];
 
 TrueTime is currently compatible with iOS 8 and up, macOS 10.9 and tvOS 9.
 
-### [Carthage](https://github.com/Carthage/Carthage)
+### [Carthage](https://github.com/Carthage/Carthage) (recommended)
 
 Add this to your `Cartfile`:
 
 ```
-github "instacart/TrueTime.swift"
+github "instacart/TrueTime.swift" ~> 3.0
 ```
 
 Then run:
@@ -73,14 +73,27 @@ Then run:
 $ carthage update
 ```
 
+### CocoaPods
+
+Add this to your `Podfile`:
+
+```
+pod 'TrueTime', '~> 3.0'
+```
+
+Then run:
+```
+$ pod install
+```
+
 ### Manually
 
 * Run `git submodule update --init`.
 * Run `carthage bootstrap`.
+* Run `brew install swiftlint` if not already installed.
 * Open `TrueTime.xcodeproj`, choose `TrueTimeExample` and hit run. This will build everything and run the sample app.
 
-### Manually using submodules
-#### (works alongside Cocoapods)
+### Manually using git submodules
 
 * Add TrueTime as a submodule:
 
@@ -88,20 +101,12 @@ $ carthage update
 $ git submodule add https://github.com/instacart/TrueTime.swift.git
 ```
 
-* Navigate to the TrueTime directory and add its dependencies
-```
-$ carthage bootstrap
-```
-
-* Install Swift Lint if missing
-```
-$ brew install swiftlint
-```
-
-* Drag `TrueTime.xcodeproj` into the Project Navigator
+* Follow the above instructions for bootstrapping manually.
+* Drag `TrueTime.xcodeproj` into the Project Navigator.
 * Go to `Project > Targets > Build Phases > Link Binary With Libraries`, click `+` and select the `TrueTime` target.
 
 ## Notes / Tips
+
 * Since `NSDates` are just Unix timestamps, it's safe to hold onto values returned by `ReferenceTime.now()` or persist them to disk without having to adjust them later.
 * Reachability events are automatically accounted for to pause/start requests.
 * UDP requests are executed in parallel, with a default limit of 5 parallel calls. If one fails, we'll retry up to 3 times by default.
