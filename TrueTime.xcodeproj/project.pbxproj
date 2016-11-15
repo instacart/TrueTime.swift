@@ -1164,7 +1164,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.TrueTime;
 				PRODUCT_NAME = TrueTime;
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/External/CTrueTime";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/Sources/CTrueTime";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1192,7 +1192,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.TrueTime;
 				PRODUCT_NAME = TrueTime;
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/External/CTrueTime";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/Sources/CTrueTime";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1251,7 +1251,7 @@
 				PRODUCT_NAME = TrueTime;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/External/CTrueTime";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/Sources/CTrueTime";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
@@ -1274,7 +1274,7 @@
 				PRODUCT_NAME = TrueTime;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/External/CTrueTime";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/Sources/CTrueTime";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
@@ -1338,7 +1338,7 @@
 				PRODUCT_NAME = TrueTime;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/External/CTrueTime";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/Sources/CTrueTime";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 			};
 			name = Debug;
@@ -1364,7 +1364,7 @@
 				PRODUCT_NAME = TrueTime;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/External/CTrueTime";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/Sources/CTrueTime";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 			};
 			name = Release;
