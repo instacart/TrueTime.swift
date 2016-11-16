@@ -66,12 +66,4 @@ extension FrozenTime {
     func now() -> Date {
         return time.addingTimeInterval(uptimeInterval)
     }
-
-    var maxUptimeInterval: TimeInterval {
-        return 512
-    }
-
-    var shouldInvalidate: Bool {
-        return uptimeInterval > maxUptimeInterval
-    }
 }

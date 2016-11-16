@@ -54,12 +54,14 @@ public typealias LogCallback = (String) -> Void
                          maxRetries: Int = defaultMaxRetries,
                          maxConnections: Int = defaultMaxConnections,
                          maxServers: Int = defaultMaxServers,
-                         numberOfSamples: Int = defaultNumberOfSamples) {
+                         numberOfSamples: Int = defaultNumberOfSamples,
+                         pollInterval: TimeInterval = defaultPollInterval) {
         config = NTPConfig(timeout: timeout,
                            maxRetries: maxRetries,
                            maxConnections: maxConnections,
                            maxServers: maxServers,
-                           numberOfSamples: numberOfSamples)
+                           numberOfSamples: numberOfSamples,
+                           pollInterval: pollInterval)
     }
 
     public func start(hostURLs pools: [URL] = [URL(string: "time.apple.com")!]) {
@@ -138,4 +140,5 @@ private let defaultMaxConnections: Int = 5
 private let defaultMaxRetries: Int = 3
 private let defaultMaxServers: Int = 5
 private let defaultNumberOfSamples: Int = 4
+private let defaultPollInterval: TimeInterval = 512
 private let defaultTimeout: TimeInterval = 8
