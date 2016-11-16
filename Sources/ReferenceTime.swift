@@ -64,12 +64,4 @@ extension ReferenceTimeContainer {
         let currentUptime = timeval.uptime()
         return NSTimeInterval(milliseconds: currentUptime.milliseconds - uptime.milliseconds)
     }
-
-    var maxUptimeInterval: NSTimeInterval {
-        return 512
-    }
-
-    var shouldInvalidate: Bool {
-        return uptimeInterval > maxUptimeInterval
-    }
 }

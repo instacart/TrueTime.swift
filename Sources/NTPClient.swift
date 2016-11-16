@@ -15,6 +15,7 @@ struct NTPConfig {
     let maxConnections: Int
     let maxServers: Int
     let numberOfSamples: Int
+    let pollInterval: NSTimeInterval
 }
 
 final class NTPClient {
@@ -117,7 +118,7 @@ private extension NTPClient {
     func startTimer() {
         cancelTimer()
         if let referenceTime = referenceTime {
-            let remainingInterval = max(0, referenceTime.maxUptimeInterval -
+            let remainingInterval = max(0, config.pollInterval -
                                            referenceTime.uptimeInterval)
             timer = dispatchTimer(after: remainingInterval, queue: queue, block: invalidate)
 
