@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 `TrueTime.swift` adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.0.0](https://github.com/instacart/TrueTime.swift/releases/tag/4.0.0)
+
+- Added: Swift 3 support.
+- Added: Support for configuring polling interval.
+- Changed: `retrieveReferenceTime` has been renamed to `fetchIfNeeded`.
+- Changed: Dropped support for Mac OS 10.9.
+
 ## [3.1.0](https://github.com/instacart/TrueTime.swift/releases/tag/3.1.0)
 
 - Added: Now supporting CocoaPods.

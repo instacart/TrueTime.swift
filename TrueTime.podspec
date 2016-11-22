@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'TrueTime'
-  s.version = '3.1.0'
+  s.version = '4.0.0'
   s.summary = 'NTP library for Swift. Get the true time impervious to device clock changes.'
 
   s.homepage = 'https://github.com/instacart/TrueTime.swift'
@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
   s.ios.deployment_target = '8.0'
-  s.osx.deployment_target = '10.9'
+  s.osx.deployment_target = '10.10'
   s.tvos.deployment_target = '9.0'
 
   s.source_files = 'Sources/*.{swift,h,m}', 'Sources/CTrueTime/*.h'
