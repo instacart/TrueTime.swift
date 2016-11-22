@@ -30,9 +30,9 @@ let now = client.referenceTime?.now()
 // To block waiting for fetch, use the following:
 client.fetchIfNeeded { result in
     switch result {
-        case let .Success(referenceTime):
+        case let .success(referenceTime):
             let now = referenceTime.now()
-        case let .Failure(error):
+        case let .failure(error):
             print("Error! \(error)")
     }
 }
@@ -58,7 +58,7 @@ NSDate *now = [[client referenceTime] now];
 
 ## Installation Options
 
-TrueTime is currently compatible with iOS 8 and up, macOS 10.9 and tvOS 9.
+TrueTime is currently compatible with iOS 8 and up, macOS 10.10 and tvOS 9.
 
 ### [Carthage](https://github.com/Carthage/Carthage) (recommended)
 
