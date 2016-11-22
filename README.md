@@ -65,7 +65,7 @@ TrueTime is currently compatible with iOS 8 and up, macOS 10.10 and tvOS 9.
 Add this to your `Cartfile`:
 
 ```
-github "instacart/TrueTime.swift" ~> 3.0
+github "instacart/TrueTime.swift"
 ```
 
 Then run:
@@ -78,7 +78,7 @@ $ carthage update
 Add this to your `Podfile`:
 
 ```
-pod 'TrueTime', '~> 3.0'
+pod 'TrueTime'
 ```
 
 Then run:
