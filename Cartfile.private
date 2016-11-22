@@ -1,4 +1,3 @@
-github "Quick/Nimble" ~> 4.1
-github "Quick/Quick" ~> 0.9
-github "thoughtbot/Curry" ~> 2.3
-github "instacart/SwiftCheck" "ms/xcode-8-swift-2.3"
+github "Quick/Nimble" ~> 5.1.0
+github "Quick/Quick" ~> 0.10.0
+github "instacart/SwiftCheck" ~> 0.7

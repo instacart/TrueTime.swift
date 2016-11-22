@@ -10,22 +10,25 @@ import Foundation
 
 protocol TimedOperation: class {
     var started: Bool { get }
-    var timeout: NSTimeInterval { get }
-    var timer: dispatch_source_t? { get set }
-    var timerQueue: dispatch_queue_t { get }
+    var timeout: TimeInterval { get }
+    var timer: DispatchSourceTimer? { get set }
+    var timerQueue: DispatchQueue { get }
 
-    func debugLog(@autoclosure message: () -> String)
-    func timeoutError(error: NSError)
+    func debugLog(_ message: @autoclosure () -> String)
+    func timeoutError(_ error: NSError)
 }
 
 extension TimedOperation {
     func startTimer() {
         cancelTimer()
-        timer = dispatchTimer(after: timeout, queue: timerQueue) {
+        timer = DispatchSource.makeTimerSource(flags: [], queue: timerQueue)
+        timer?.scheduleOneshot(deadline: .now() + timeout)
+        timer?.setEventHandler {
             guard self.started else { return }
             self.debugLog("Got timeout for \(self)")
-            self.timeoutError(NSError(trueTimeError: .TimedOut))
+            self.timeoutError(NSError(trueTimeError: .timedOut))
         }
+        timer?.resume()
     }
 
     func cancelTimer() {

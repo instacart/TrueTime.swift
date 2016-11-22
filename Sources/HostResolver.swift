@@ -13,10 +13,10 @@ typealias HostResult = Result<[SocketAddress], NSError>
 typealias HostCallback = (HostResolver, HostResult) -> Void
 
 final class HostResolver {
-    let url: NSURL
-    let timeout: NSTimeInterval
+    let url: URL
+    let timeout: TimeInterval
     let onComplete: HostCallback
-    let callbackQueue: dispatch_queue_t
+    let callbackQueue: DispatchQueue
     var logger: LogCallback?
 
     /// Resolves the given hosts in order, returning the first resolved
@@ -28,21 +28,21 @@ final class HostResolver {
     /// - parameter callbackQueue: queue to fire `onComplete` callback
     /// - parameter onComplete: invoked upon first successfully resolved host
     ///                         or when all hosts fail
-    static func resolve(urls urls: [NSURL],
-                        timeout: NSTimeInterval,
+    static func resolve(urls: [URL],
+                        timeout: TimeInterval,
                         logger: LogCallback?,
-                        callbackQueue: dispatch_queue_t,
-                        onComplete: HostCallback) {
+                        callbackQueue: DispatchQueue,
+                        onComplete: @escaping HostCallback) {
         precondition(!urls.isEmpty, "Must include at least one URL")
         let host = HostResolver(url: urls[0],
                                 timeout: timeout,
                                 logger: logger,
                                 callbackQueue: callbackQueue) { host, result in
             switch result {
-                case .Success: fallthrough
-                case .Failure where urls.count == 1:
+                case .success: fallthrough
+                case .failure where urls.count == 1:
                     onComplete(host, result)
-                case .Failure:
+                case .failure:
                     resolve(urls: Array(urls.dropFirst()),
                             timeout: timeout,
                             logger: logger,
@@ -54,11 +54,11 @@ final class HostResolver {
         host.resolve()
     }
 
-    required init(url: NSURL,
-                  timeout: NSTimeInterval,
+    required init(url: URL,
+                  timeout: TimeInterval,
                   logger: LogCallback?,
-                  callbackQueue: dispatch_queue_t,
-                  onComplete: HostCallback) {
+                  callbackQueue: DispatchQueue,
+                  onComplete: @escaping HostCallback) {
         self.url = url
         self.timeout = timeout
         self.logger = logger
@@ -71,13 +71,16 @@ final class HostResolver {
     }
 
     func resolve() {
-        dispatch_async(lockQueue) {
+        lockQueue.async {
             guard self.host == nil else { return }
             self.resolved = false
-            self.host = CFHostCreateWithName(nil, self.url.absoluteString!).takeRetainedValue()
+            self.host = CFHostCreateWithName(
+                nil,
+                self.url.absoluteString as CFString
+            ).takeRetainedValue()
             var ctx = CFHostClientContext(
                 version: 0,
-                info: UnsafeMutablePointer(Unmanaged.passRetained(self).toOpaque()),
+                info: UnsafeMutableRawPointer(Unmanaged.passRetained(self).toOpaque()),
                 retain: nil,
                 release: nil,
                 copyDescription: nil
@@ -85,11 +88,13 @@ final class HostResolver {
 
             if let host = self.host {
                 CFHostSetClient(host, self.hostCallback, &ctx)
-                CFHostScheduleWithRunLoop(host, CFRunLoopGetMain(), kCFRunLoopCommonModes)
+                CFHostScheduleWithRunLoop(host,
+                                          CFRunLoopGetMain(),
+                                          CFRunLoopMode.commonModes.rawValue)
 
                 var err: CFStreamError = CFStreamError()
-                if !CFHostStartInfoResolution(host, .Addresses, &err) {
-                    self.complete(.Failure(NSError(trueTimeError: .CannotFindHost)))
+                if !CFHostStartInfoResolution(host, .addresses, &err) {
+                    self.complete(.failure(NSError(trueTimeError: .cannotFindHost)))
                 } else {
                     self.startTimer()
                 }
@@ -98,30 +103,37 @@ final class HostResolver {
     }
 
     func stop(waitUntilFinished wait: Bool = false) {
-        let fn = wait ? dispatch_sync : dispatch_async
-        fn(lockQueue) {
+        let work = {
             self.cancelTimer()
             guard let host = self.host else { return }
-            CFHostCancelInfoResolution(host, .Addresses)
+            CFHostCancelInfoResolution(host, .addresses)
             CFHostSetClient(host, nil, nil)
-            CFHostUnscheduleFromRunLoop(host, CFRunLoopGetMain(), kCFRunLoopCommonModes)
+            CFHostUnscheduleFromRunLoop(host,
+                                        CFRunLoopGetMain(),
+                                        CFRunLoopMode.commonModes.rawValue)
             self.host = nil
+        }
+
+        if wait {
+            lockQueue.sync(execute: work)
+        } else {
+            lockQueue.async(execute: work)
         }
     }
 
-    func debugLog(@autoclosure message: () -> String) {
+    func debugLog(_ message: @autoclosure () -> String) {
 #if DEBUG_LOGGING
         logger?(message())
 #endif
     }
 
-    var timer: dispatch_source_t?
-    private let lockQueue: dispatch_queue_t = dispatch_queue_create("com.instacart.dns.host", nil)
-    private var host: CFHost?
-    private var resolved: Bool = false
+    var timer: DispatchSourceTimer?
+    fileprivate let lockQueue = DispatchQueue(label: "com.instacart.dns.host")
+    fileprivate var host: CFHost?
+    fileprivate var resolved: Bool = false
     private let hostCallback: CFHostClientCallBack = { host, infoType, error, info in
-        guard info != nil else { return }
-        let retainedClient = Unmanaged<HostResolver>.fromOpaque(COpaquePointer(info))
+        guard let info = info else { return }
+        let retainedClient = Unmanaged<HostResolver>.fromOpaque(info)
         let client = retainedClient.takeUnretainedValue()
         client.connect(host)
         retainedClient.release()
@@ -129,25 +141,25 @@ final class HostResolver {
 }
 
 extension HostResolver: TimedOperation {
-    var timerQueue: dispatch_queue_t { return lockQueue }
+    var timerQueue: DispatchQueue { return lockQueue }
     var started: Bool { return self.host != nil }
 
-    func timeoutError(error: NSError) {
-        complete(.Failure(error))
+    func timeoutError(_ error: NSError) {
+        complete(.failure(error))
     }
 }
 
 private extension HostResolver {
-    func complete(result: HostResult) {
+    func complete(_ result: HostResult) {
         stop()
-        dispatch_async(callbackQueue) {
+        callbackQueue.async {
             self.onComplete(self, result)
         }
     }
 
-    func connect(host: CFHost) {
+    func connect(_ host: CFHost) {
         debugLog("Got CFHostStartInfoResolution callback")
-        dispatch_async(lockQueue) {
+        lockQueue.async {
             guard self.started && !self.resolved else {
                 self.debugLog("Closed")
                 return
@@ -156,20 +168,21 @@ private extension HostResolver {
             var resolved: DarwinBoolean = false
             let addressData = CFHostGetAddressing(host,
                                                   &resolved)?.takeUnretainedValue() as [AnyObject]?
-            guard let addresses = addressData as? [NSData] where resolved else {
-                self.complete(.Failure(NSError(trueTimeError: .DNSLookupFailed)))
+            guard let addresses = addressData as? [Data], resolved.boolValue else {
+                self.complete(.failure(NSError(trueTimeError: .dnsLookupFailed)))
                 return
             }
 
-            let port = self.url.port?.integerValue ?? defaultNTPPort
+            let port = self.url.port ?? defaultNTPPort
             let socketAddresses = addresses.map { data -> SocketAddress? in
-                let storage = UnsafePointer<sockaddr_storage>(data.bytes)
+                let storage = (data as NSData).bytes.bindMemory(to: sockaddr_storage.self,
+                                                                capacity: data.count)
                 return SocketAddress(storage: storage, port: UInt16(port))
             }.filter { $0 != nil }.flatMap { $0 }
 
             self.resolved = true
             self.debugLog("Resolved hosts: \(socketAddresses)")
-            self.complete(.Success(socketAddresses))
+            self.complete(.success(socketAddresses))
         }
     }
 }

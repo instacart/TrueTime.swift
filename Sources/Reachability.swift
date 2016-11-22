@@ -10,14 +10,14 @@ import Foundation
 import SystemConfiguration
 
 enum ReachabilityStatus {
-    case NotReachable
-    case ReachableViaWWAN
-    case ReachableViaWiFi
+    case notReachable
+    case reachableViaWWAN
+    case reachableViaWiFi
 }
 
 final class Reachability {
-    var callback: (ReachabilityStatus -> ())?
-    var callbackQueue: dispatch_queue_t = dispatch_get_main_queue()
+    var callback: ((ReachabilityStatus) -> ())?
+    var callbackQueue: DispatchQueue = DispatchQueue.main
     var status: ReachabilityStatus? {
         if let networkReachability = self.networkReachability {
             var flags = SCNetworkReachabilityFlags()
@@ -28,7 +28,7 @@ final class Reachability {
         return nil
     }
     var online: Bool {
-        return status != nil && status != .NotReachable
+        return status != nil && status != .notReachable
     }
 
     deinit {
@@ -37,54 +37,56 @@ final class Reachability {
 
     func startMonitoring() {
         var address = sockaddr_in()
-        address.sin_len = UInt8(sizeofValue(address))
+        address.sin_len = UInt8(MemoryLayout.size(ofValue: address))
         address.sin_family = sa_family_t(AF_INET)
-        self.networkReachability = withUnsafePointer(&address) {
-            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
+        networkReachability = withUnsafePointer(to: &address) { pointer in
+            pointer.withMemoryRebound(to: sockaddr.self, capacity: MemoryLayout<sockaddr>.size) {
+                SCNetworkReachabilityCreateWithAddress(nil, $0)
+            }
         }
 
-        guard let networkReachability = self.networkReachability else {
+        guard let networkReachability = networkReachability else {
             assertionFailure("SCNetworkReachabilityCreateWithAddress returned NULL")
             return
         }
 
         var context = SCNetworkReachabilityContext(
             version: 0,
-            info: UnsafeMutablePointer(Unmanaged.passUnretained(self).toOpaque()),
+            info: UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque()),
             retain: nil,
             release: nil,
             copyDescription: nil
         )
 
         SCNetworkReachabilitySetCallback(networkReachability,
-                                         self.dynamicType.reachabilityCallback,
+                                         Reachability.reachabilityCallback,
                                          &context)
-        SCNetworkReachabilitySetDispatchQueue(networkReachability, dispatch_get_global_queue(0, 0))
+        SCNetworkReachabilitySetDispatchQueue(networkReachability, DispatchQueue.global())
 
-        if let status = self.status {
-            self.updateStatus(status)
+        if let status = status {
+            updateStatus(status)
         }
     }
 
     func stopMonitoring() {
-        if let networkReachability = self.networkReachability {
+        if let networkReachability = networkReachability {
             SCNetworkReachabilitySetCallback(networkReachability, nil, nil)
             SCNetworkReachabilitySetDispatchQueue(networkReachability, nil)
+            self.networkReachability = nil
         }
-        self.networkReachability = nil
     }
 
-    private var networkReachability: SCNetworkReachabilityRef?
-    private static let reachabilityCallback: SCNetworkReachabilityCallBack = { (_, flags, info) in
-        let reachability = Unmanaged<Reachability>.fromOpaque(COpaquePointer(info))
-                                                  .takeUnretainedValue()
+    private var networkReachability: SCNetworkReachability?
+    private static let reachabilityCallback: SCNetworkReachabilityCallBack = { _, flags, info in
+        guard let info = info else { return }
+        let reachability = Unmanaged<Reachability>.fromOpaque(info).takeUnretainedValue()
         reachability.updateStatus(ReachabilityStatus(flags))
     }
 }
 
 private extension Reachability {
-    func updateStatus(status: ReachabilityStatus) {
-        dispatch_async(callbackQueue) {
+    func updateStatus(_ status: ReachabilityStatus) {
+        callbackQueue.async {
             self.callback?(status)
         }
     }
@@ -92,23 +94,23 @@ private extension Reachability {
 
 private extension ReachabilityStatus {
     init(_ flags: SCNetworkReachabilityFlags) {
-        let isReachable = flags.contains(.Reachable)
-        let needsConnection = flags.contains(.ConnectionRequired)
-        let connectsAutomatically = flags.contains(.ConnectionOnDemand) ||
-                                    flags.contains(.ConnectionOnTraffic)
+        let isReachable = flags.contains(.reachable)
+        let needsConnection = flags.contains(.connectionRequired)
+        let connectsAutomatically = flags.contains(.connectionOnDemand) ||
+                                    flags.contains(.connectionOnTraffic)
         let connectsWithoutInteraction = connectsAutomatically &&
-                                         !flags.contains(.InterventionRequired)
+                                         !flags.contains(.interventionRequired)
         let isNetworkReachable = isReachable && (!needsConnection || connectsWithoutInteraction)
         if !isNetworkReachable {
-            self = NotReachable
+            self = .notReachable
         } else {
 #if os(iOS)
-            if flags.contains(.IsWWAN) {
-                self = ReachableViaWWAN
+            if flags.contains(.isWWAN) {
+                self = .reachableViaWWAN
                 return
             }
 #endif
-            self = ReachableViaWiFi
+            self = .reachableViaWiFi
         }
     }
 }

@@ -8,12 +8,11 @@
 
 @testable import TrueTime
 import CTrueTime
-import Curry
 import SwiftCheck
 
 extension timeval: Arbitrary {
     public static var arbitrary: Gen<timeval> {
-        return curry(timeval.init) <^> Int.arbitrary <*> Int32.arbitrary
+        return Gen<(Int, Int32)>.zip(Int.arbitrary, Int32.arbitrary).map(timeval.init)
     }
 }
 

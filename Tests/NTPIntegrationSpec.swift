@@ -25,7 +25,7 @@ private extension NTPIntegrationSpec {
     func testReferenceTimeOutliers() {
         let clients = (0..<100).map { _ in TrueTimeClient() }
         waitUntil(timeout: 60) { done in
-            var results: [ReferenceTimeResult?] = Array(count: clients.count, repeatedValue: nil)
+            var results: [ReferenceTimeResult?] = Array(repeating: nil, count: clients.count)
             let start = NSDate()
             let finish = {
                 let end = NSDate()
@@ -35,7 +35,7 @@ private extension NTPIntegrationSpec {
                 expect(times).notTo(beEmpty(), description: "Expected times, got: \(errors)")
                 print("Got \(times.count) times for \(results.count) results")
 
-                let sortedTimes = times.sort {
+                let sortedTimes = times.sorted {
                     $0.time.timeIntervalSince1970 < $1.time.timeIntervalSince1970
                 }
 
@@ -52,11 +52,11 @@ private extension NTPIntegrationSpec {
                 done()
             }
 
-            for (idx, client) in clients.enumerate() {
-                client.start(hostURLs: [NSURL(string: "time.apple.com")!])
+            for (idx, client) in clients.enumerated() {
+                client.start(hostURLs: [URL(string: "time.apple.com")!])
                 client.retrieveReferenceTime { result in
                     results[idx] = result
-                    if !results.contains({ $0 == nil }) {
+                    if !results.contains(where: { $0 == nil }) {
                         finish()
                     }
                 }

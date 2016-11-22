@@ -10,21 +10,21 @@ import Foundation
 
 final class GCDLock<Value> {
     var value: Value
-    let queue: dispatch_queue_t = dispatch_queue_create(nil, nil)
+    let queue = DispatchQueue(label: "")
     init(value: Value) {
         self.value = value
     }
 
     func read() -> Value {
         var value: Value?
-        dispatch_sync(queue) {
+        queue.sync {
             value = self.value
         }
         return value!
     }
 
-    func write(newValue: Value) {
-        dispatch_async(queue) {
+    func write(_ newValue: Value) {
+        queue.async {
             self.value = newValue
         }
     }

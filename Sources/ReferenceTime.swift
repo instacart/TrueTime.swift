@@ -9,34 +9,36 @@
 import CTrueTime
 import Result
 
-typealias FrozenReferenceTimeResult = Result<FrozenReferenceTime, NSError>
-typealias FrozenReferenceTimeCallback = FrozenReferenceTimeResult -> Void
+typealias FrozenTimeResult = Result<FrozenTime, NSError>
+typealias FrozenTimeCallback = (FrozenTimeResult) -> Void
 
-protocol ReferenceTimeContainer {
-    var time: NSDate { get }
+typealias FrozenNetworkTimeResult = Result<FrozenNetworkTime, NSError>
+typealias FrozenNetworkTimeCallback = (FrozenNetworkTimeResult) -> Void
+
+protocol FrozenTime {
+    var time: Date { get }
     var uptime: timeval { get }
-    func now() -> NSDate
-    init(time: NSDate, uptime: timeval)
 }
 
-struct FrozenReferenceTime: ReferenceTimeContainer {
-    let time: NSDate
+struct FrozenReferenceTime: FrozenTime {
+    let time: Date
     let uptime: timeval
-    let serverResponse: NTPResponse?
-    let startTime: ntp_time_t?
+}
+
+struct FrozenNetworkTime: FrozenTime {
+    let time: Date
+    let uptime: timeval
+    let serverResponse: NTPResponse
+    let startTime: ntp_time_t
     let sampleSize: Int?
-    let pool: NSURL?
+    let pool: URL?
 
-    init(time: NSDate, uptime: timeval) {
-        self.init(time: time, uptime: uptime, serverResponse: nil, startTime: nil)
-    }
-
-    init(time: NSDate,
+    init(time: Date,
          uptime: timeval,
-         serverResponse: NTPResponse?,
-         startTime: ntp_time_t?,
+         serverResponse: NTPResponse,
+         startTime: ntp_time_t,
          sampleSize: Int? = 0,
-         pool: NSURL? = nil) {
+         pool: URL? = nil) {
         self.time = time
         self.uptime = uptime
         self.serverResponse = serverResponse
@@ -45,7 +47,7 @@ struct FrozenReferenceTime: ReferenceTimeContainer {
         self.pool = pool
     }
 
-    init(referenceTime time: FrozenReferenceTime, sampleSize: Int, pool: NSURL) {
+    init(networkTime time: FrozenNetworkTime, sampleSize: Int, pool: URL) {
         self.init(time: time.time,
                   uptime: time.uptime,
                   serverResponse: time.serverResponse,
@@ -53,19 +55,19 @@ struct FrozenReferenceTime: ReferenceTimeContainer {
                   sampleSize: sampleSize,
                   pool: pool)
     }
-
-    func now() -> NSDate {
-        return time.dateByAddingTimeInterval(uptimeInterval)
-    }
 }
 
-extension ReferenceTimeContainer {
-    var uptimeInterval: NSTimeInterval {
+extension FrozenTime {
+    var uptimeInterval: TimeInterval {
         let currentUptime = timeval.uptime()
-        return NSTimeInterval(milliseconds: currentUptime.milliseconds - uptime.milliseconds)
+        return TimeInterval(milliseconds: currentUptime.milliseconds - uptime.milliseconds)
     }
 
-    var maxUptimeInterval: NSTimeInterval {
+    func now() -> Date {
+        return time.addingTimeInterval(uptimeInterval)
+    }
+
+    var maxUptimeInterval: TimeInterval {
         return 512
     }
 
