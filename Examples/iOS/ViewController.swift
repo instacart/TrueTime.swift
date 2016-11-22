@@ -85,7 +85,7 @@ private extension ExampleViewController {
     }
 
     func refresh() {
-        TrueTimeClient.sharedInstance.retrieveReferenceTime { result in
+        TrueTimeClient.sharedInstance.fetchIfNeeded { result in
             switch result {
                 case let .success(referenceTime):
                     self.referenceTime = referenceTime

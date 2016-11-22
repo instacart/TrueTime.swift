@@ -28,7 +28,7 @@ client.start()
 let now = client.referenceTime?.now()
 
 // To block waiting for fetch, use the following:
-client.retrieveReferenceTime { result in
+client.fetchIfNeeded { result in
     switch result {
         case let .Success(referenceTime):
             let now = referenceTime.now()
@@ -49,7 +49,7 @@ TrueTimeClient *client = [TrueTimeClient sharedInstance];
 NSDate *now = [[client referenceTime] now];
 
 // To block waiting for fetch, use the following:
-[client retrieveReferenceTimeWithSuccess:^(NTPReferenceTime *referenceTime) {
+[client fetchIfNeeded:^(NTPReferenceTime *referenceTime) {
     NSLog(@"True time: %@", [referenceTime now]);
 } failure:^(NSError *error) {
     NSLog(@"Error! %@", error);

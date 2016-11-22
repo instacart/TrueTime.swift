@@ -13,7 +13,7 @@ import Result
 
 final class NTPIntegrationSpec: QuickSpec {
     override func spec() {
-        describe("retrieveReferenceTime") {
+        describe("fetchIfNeeded") {
             it("should ignore outliers") {
                 self.testReferenceTimeOutliers()
             }
@@ -54,7 +54,7 @@ private extension NTPIntegrationSpec {
 
             for (idx, client) in clients.enumerated() {
                 client.start(hostURLs: [URL(string: "time.apple.com")!])
-                client.retrieveReferenceTime { result in
+                client.fetchIfNeeded { result in
                     results[idx] = result
                     if !results.contains(where: { $0 == nil }) {
                         finish()

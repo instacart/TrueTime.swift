@@ -72,9 +72,9 @@ public typealias LogCallback = (String) -> Void
         ntp.pause()
     }
 
-    public func retrieveReferenceTime(queue callbackQueue: DispatchQueue = DispatchQueue.main,
-                                      first: ReferenceTimeCallback? = nil,
-                                      completion: ReferenceTimeCallback? = nil) {
+    public func fetchIfNeeded(queue callbackQueue: DispatchQueue = DispatchQueue.main,
+                              first: ReferenceTimeCallback? = nil,
+                              completion: ReferenceTimeCallback? = nil) {
         ntp.fetchIfNeeded(queue: callbackQueue, first: first, completion: completion)
     }
 
@@ -98,32 +98,32 @@ public typealias LogCallback = (String) -> Void
 }
 
 extension TrueTimeClient {
-    @objc public func retrieveFirstReferenceTime(success: @escaping (ReferenceTime) -> Void,
-                                                 failure: ((NSError) -> Void)?) {
-        retrieveFirstReferenceTime(success: success,
-                                   failure: failure,
-                                   onQueue: DispatchQueue.main)
+    @objc public func fetchFirstIfNeeded(success: @escaping (ReferenceTime) -> Void,
+                                         failure: ((NSError) -> Void)?) {
+        fetchFirstIfNeeded(success: success,
+                           failure: failure,
+                           onQueue: DispatchQueue.main)
     }
 
-    @objc public func retrieveReferenceTime(success: @escaping (ReferenceTime) -> Void,
-                                            failure: ((NSError) -> Void)?) {
-        retrieveReferenceTime(success: success,
-                              failure: failure,
-                              onQueue: DispatchQueue.main)
+    @objc public func fetchIfNeeded(success: @escaping (ReferenceTime) -> Void,
+                                    failure: ((NSError) -> Void)?) {
+        fetchIfNeeded(success: success,
+                      failure: failure,
+                      onQueue: DispatchQueue.main)
     }
 
-    @objc public func retrieveFirstReferenceTime(success: @escaping (ReferenceTime) -> Void,
-                                                 failure: ((NSError) -> Void)?,
-                                                 onQueue queue: DispatchQueue) {
-        retrieveReferenceTime(queue: queue, first: { result in
+    @objc public func fetchFirstIfNeeded(success: @escaping (ReferenceTime) -> Void,
+                                         failure: ((NSError) -> Void)?,
+                                         onQueue queue: DispatchQueue) {
+        fetchIfNeeded(queue: queue, first: { result in
             self.mapBridgedResult(result, success: success, failure: failure)
         })
     }
 
-    @objc public func retrieveReferenceTime(success: @escaping (ReferenceTime) -> Void,
-                                            failure: ((NSError) -> Void)?,
-                                            onQueue queue: DispatchQueue) {
-        retrieveReferenceTime(queue: queue) { result in
+    @objc public func fetchIfNeeded(success: @escaping (ReferenceTime) -> Void,
+                                    failure: ((NSError) -> Void)?,
+                                    onQueue queue: DispatchQueue) {
+        fetchIfNeeded(queue: queue) { result in
             self.mapBridgedResult(result, success: success, failure: failure)
         }
     }
