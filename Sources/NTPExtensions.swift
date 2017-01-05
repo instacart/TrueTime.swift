@@ -36,10 +36,10 @@ extension timeval {
 // Represents an amount of time since the NTP epoch, January 1, 1900.
 // https://en.wikipedia.org/wiki/Network_Time_Protocol#Timestamps
 protocol NTPTimeType {
-    associatedtype T: UnsignedInteger
-    init(whole: T, fraction: T)
-    var whole: T { get }
-    var fraction: T { get }
+    associatedtype ValueType: UnsignedInteger
+    init(whole: ValueType, fraction: ValueType)
+    var whole: ValueType { get }
+    var fraction: ValueType { get }
 }
 
 protocol NTPTimevalConvertible: NTPTimeType {}
@@ -59,8 +59,8 @@ extension NTPTimeType {
 extension NTPTimevalConvertible {
     init(timeSince1970 time: timeval) {
         precondition(time.tv_sec >= 0 && time.tv_usec >= 0, "Time must be positive \(time)")
-        self.init(whole: T(UInt64(time.tv_sec + secondsFrom1900To1970)),
-                  fraction: T(UInt64(time.tv_usec) * UInt64(1<<32 / USEC_PER_SEC)))
+        self.init(whole: ValueType(UInt64(time.tv_sec + secondsFrom1900To1970)),
+                  fraction: ValueType(UInt64(time.tv_usec) * UInt64(1<<32 / USEC_PER_SEC)))
     }
 
     var milliseconds: Int64 {

@@ -166,8 +166,8 @@ private extension NTPClient {
     func invalidate() {
         stopQueue()
         finished = false
-        if let referenceTime = referenceTime, reachability.status != .notReachable &&
-                                                   !poolURLs.isEmpty {
+        if let referenceTime = referenceTime,
+               reachability.status != .notReachable && !poolURLs.isEmpty {
             debugLog("Invalidated time \(referenceTime.debugDescription)")
             startQueue(poolURLs: poolURLs)
         }
@@ -191,8 +191,8 @@ private extension NTPClient {
             let sampleSize = responses.map { $0.count }.reduce(0, +)
             let expectedCount = addresses.count * self.config.numberOfSamples
             let atEnd = sampleSize == expectedCount
-            let times = responses.map {
-                results in results.map { $0.value }.filter { $0 != nil }.flatMap { $0 }
+            let times = responses.map { results in
+                results.map { $0.value }.filter { $0 != nil }.flatMap { $0 }
             }
 
             self.debugLog("Got \(sampleSize) out of \(expectedCount)")
