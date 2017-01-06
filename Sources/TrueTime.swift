@@ -72,7 +72,7 @@ public typealias LogCallback = (String) -> Void
         ntp.pause()
     }
 
-    public func fetchIfNeeded(queue callbackQueue: DispatchQueue = DispatchQueue.main,
+    public func fetchIfNeeded(queue callbackQueue: DispatchQueue = .main,
                               first: ReferenceTimeCallback? = nil,
                               completion: ReferenceTimeCallback? = nil) {
         ntp.fetchIfNeeded(queue: callbackQueue, first: first, completion: completion)
@@ -100,16 +100,12 @@ public typealias LogCallback = (String) -> Void
 extension TrueTimeClient {
     @objc public func fetchFirstIfNeeded(success: @escaping (ReferenceTime) -> Void,
                                          failure: ((NSError) -> Void)?) {
-        fetchFirstIfNeeded(success: success,
-                           failure: failure,
-                           onQueue: DispatchQueue.main)
+        fetchFirstIfNeeded(success: success, failure: failure, onQueue: .main)
     }
 
     @objc public func fetchIfNeeded(success: @escaping (ReferenceTime) -> Void,
                                     failure: ((NSError) -> Void)?) {
-        fetchIfNeeded(success: success,
-                      failure: failure,
-                      onQueue: DispatchQueue.main)
+        fetchIfNeeded(success: success, failure: failure, onQueue: .main)
     }
 
     @objc public func fetchFirstIfNeeded(success: @escaping (ReferenceTime) -> Void,
