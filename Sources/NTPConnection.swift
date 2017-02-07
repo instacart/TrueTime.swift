@@ -237,24 +237,35 @@ private extension NTPConnection {
                 return
             }
 
-            let packet = data.withUnsafeBytes { $0.pointee as ntp_packet_t }.nativeEndian
-            let responseTime = startTime.milliseconds + (responseTicks.milliseconds -
-                                                         requestTicks.milliseconds)
+            do {
+                let packetData = try? data.withUnsafeBytes { $0.pointee as ntp_packet_t }
 
-            guard let response = NTPResponse(packet: packet, responseTime: responseTime) else {
+                guard let packet = packetData?.nativeEndian else {
+                    self.complete(.failure(NSError(trueTimeError: .badServerResponse)))
+                    return
+                }
+
+                let responseTime = startTime.milliseconds + (responseTicks.milliseconds -
+                    requestTicks.milliseconds)
+
+                guard let response = NTPResponse(packet: packet, responseTime: responseTime) else {
+                    self.complete(.failure(NSError(trueTimeError: .badServerResponse)))
+                    return
+                }
+
+                self.debugLog("Buffer \(self.address) has read data!")
+                self.debugLog("Start time: \(startTime.milliseconds) ms, " +
+                    "response: \(packet.timeDescription)")
+                self.debugLog("Clock offset: \(response.offset) milliseconds")
+                self.debugLog("Round-trip delay: \(response.delay) milliseconds")
+                self.complete(.success(FrozenNetworkTime(time: response.networkDate,
+                                                         uptime: responseTicks,
+                                                         serverResponse: response,
+                                                         startTime: startTime)))
+            } catch {
                 self.complete(.failure(NSError(trueTimeError: .badServerResponse)))
                 return
             }
-
-            self.debugLog("Buffer \(self.address) has read data!")
-            self.debugLog("Start time: \(startTime.milliseconds) ms, " +
-                          "response: \(packet.timeDescription)")
-            self.debugLog("Clock offset: \(response.offset) milliseconds")
-            self.debugLog("Round-trip delay: \(response.delay) milliseconds")
-            self.complete(.success(FrozenNetworkTime(time: response.networkDate,
-                                                     uptime: responseTicks,
-                                                     serverResponse: response,
-                                                     startTime: startTime)))
         }
     }
 
