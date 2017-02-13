@@ -9,3 +9,4 @@
 #import "TrueTime.h"
 
 NSString * const TrueTimeErrorDomain = @"com.instacart.TrueTimeErrorDomain";
+NSString * const TrueTimeUpdatedNotification = @"TrueTimeUpdatedNotification";
