@@ -232,6 +232,7 @@ private extension NTPConnection {
         let responseTicks = timeval.uptime()
         lockQueue.async {
             guard self.started else { return } // Socket closed.
+            guard data.count == MemoryLayout<ntp_packet_t>.size else { return } // Invalid packet length.
             guard let startTime = self.startTime, let requestTicks = self.requestTicks else {
                 assertionFailure("Uninitialized timestamps")
                 return
