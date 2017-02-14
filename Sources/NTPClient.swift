@@ -211,9 +211,10 @@ private extension NTPClient {
                     referenceTime.underlyingValue = time
                 }
 
-                self.updateProgress(.success(referenceTime))
                 if atEnd {
                     self.finish(.success(referenceTime))
+                } else {
+                    self.updateProgress(.success(referenceTime))
                 }
             } else if atEnd {
                 self.finish(.failure(result.error ?? NSError(trueTimeError: .noValidPacket)))
@@ -233,6 +234,8 @@ private extension NTPClient {
         if hasStartCallbacks {
             logDuration(endTime, to: "get first result")
         }
+
+        NotificationCenter.default.post(Notification(name: .TrueTimeUpdated, object: self, userInfo: nil))
     }
 
     func finish(_ result: ReferenceTimeResult) {
