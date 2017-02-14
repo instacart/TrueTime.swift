@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 `TrueTime.swift` adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.1.0](https://github.com/instacart/TrueTime.swift/releases/tag/4.1.0)
+
+- Added: Now posting notification when reference time gets updated
+- Fixed: Fixed crash when receiving empty packets from certain hosts.
+
 ## [4.0.0](https://github.com/instacart/TrueTime.swift/releases/tag/4.0.0)
 
 - Added: Swift 3 support.
