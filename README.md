@@ -56,6 +56,18 @@ NSDate *now = [[client referenceTime] now];
 }];
 ```
 
+### Notifications
+
+You can also listen to the `TrueTimeUpdated` notification to detect when a reference time has been fetched:
+
+```swift
+let client = TrueTimeClient.sharedInstance
+let _ = NSNotificationCenter.default.addObserver(forName: .TrueTimeUpdated, object: client) { _ in
+    // Now guaranteed to be non-nil.
+    print("Got time: \(client.referenceTime?.now()")
+}
+```
+
 ## Installation Options
 
 TrueTime is currently compatible with iOS 8 and up, macOS 10.10 and tvOS 9.
