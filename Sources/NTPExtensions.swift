@@ -244,7 +244,7 @@ func withFatalErrno<X: SignedInteger>(_ block: () -> X) -> X {
 // 70 years plus 17 leap days
 private let secondsFrom1900To1970: Int64 = ((365 * 70) + 17) * 24 * 60 * 60
 
-// swiftlint:disable variable_name
+// swiftlint:disable identifier_name
 let MSEC_PER_SEC: UInt64 = 1000
 let USEC_PER_MSEC: UInt64 = 1000
-// swiftlint:enable variable_name
+// swiftlint:enable identifier_name

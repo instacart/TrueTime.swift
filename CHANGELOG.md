@@ -15,6 +15,10 @@ All notable changes to this project will be documented in this file.
 - Changed: `retrieveReferenceTime` has been renamed to `fetchIfNeeded`.
 - Changed: Dropped support for Mac OS 10.9.
 
+## [3.1.1](https://github.com/instacart/TrueTime.swift/releases/tag/3.1.1)
+
+- Fixed: Addressed issue building project with latest swiftlint installed.
+
 ## [3.1.0](https://github.com/instacart/TrueTime.swift/releases/tag/3.1.0)
 
 - Added: Now supporting CocoaPods.
