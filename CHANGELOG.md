@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 `TrueTime.swift` adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.1.1](https://github.com/instacart/TrueTime.swift/releases/tag/3.1.1)
+
+- Fixed: Addressed issue building project with latest swiftlint installed.
+
 ## [3.1.0](https://github.com/instacart/TrueTime.swift/releases/tag/3.1.0)
 
 - Added: Now supporting CocoaPods.
