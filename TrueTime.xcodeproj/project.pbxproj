@@ -549,7 +549,6 @@
 				28482DBE1D314E7B003491D9 /* Frameworks */,
 				28482DBF1D314E7B003491D9 /* Headers */,
 				28482DC01D314E7B003491D9 /* Resources */,
-				28482DDE1D3155EC003491D9 /* Swift Lint */,
 			);
 			buildRules = (
 			);
@@ -588,7 +587,6 @@
 				285047DB1D4D641400DE4CE8 /* Frameworks */,
 				285047DC1D4D641400DE4CE8 /* Headers */,
 				285047DD1D4D641400DE4CE8 /* Resources */,
-				285047E71D4D679300DE4CE8 /* Swift Lint */,
 			);
 			buildRules = (
 			);
@@ -627,7 +625,6 @@
 				287C37AA1D4419F800084D47 /* Frameworks */,
 				287C37AC1D4419F800084D47 /* Headers */,
 				287C37AF1D4419F800084D47 /* Resources */,
-				287C37B01D4419F800084D47 /* Swift Lint */,
 			);
 			buildRules = (
 			);
@@ -780,7 +777,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Tests\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Sources\"\n    swiftlint lint --path \"$SOURCE_ROOT/Tests\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
 		};
 		2800905B1D444BD3004C788E /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -801,34 +798,6 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
-		28482DDE1D3155EC003491D9 /* Swift Lint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Swift Lint";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Sources\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
-		};
-		285047E71D4D679300DE4CE8 /* Swift Lint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Swift Lint";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Sources\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
-		};
 		28682B6E1D4D2F4600D65223 /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -841,7 +810,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Tests\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Sources\"\n    swiftlint lint --path \"$SOURCE_ROOT/Tests\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
 		};
 		28682B6F1D4D2F4600D65223 /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -861,20 +830,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
-		};
-		287C37B01D4419F800084D47 /* Swift Lint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Swift Lint";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Sources\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
 		};
 		288A04D21D31A12A0032B6FE /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -921,7 +876,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Tests\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Sources\"\n    swiftlint lint --path \"$SOURCE_ROOT/Tests\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 

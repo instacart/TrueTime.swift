@@ -36,10 +36,10 @@ extension timeval {
 // Represents an amount of time since the NTP epoch, January 1, 1900.
 // https://en.wikipedia.org/wiki/Network_Time_Protocol#Timestamps
 protocol NTPTimeType {
-    associatedtype T: UnsignedIntegerType
-    init(whole: T, fraction: T)
-    var whole: T { get }
-    var fraction: T { get }
+    associatedtype ValueType: UnsignedIntegerType
+    init(whole: ValueType, fraction: ValueType)
+    var whole: ValueType { get }
+    var fraction: ValueType { get }
 }
 
 protocol NTPTimevalConvertible: NTPTimeType {}
@@ -59,8 +59,8 @@ extension NTPTimeType {
 extension NTPTimevalConvertible {
     init(timeSince1970 time: timeval) {
         precondition(time.tv_sec >= 0 && time.tv_usec >= 0, "Time must be positive \(time)")
-        self.init(whole: T(UInt64(time.tv_sec + secondsFrom1900To1970)),
-                  fraction: T(UInt64(time.tv_usec) * UInt64(1<<32 / USEC_PER_SEC)))
+        self.init(whole: ValueType(UInt64(time.tv_sec + secondsFrom1900To1970)),
+                  fraction: ValueType(UInt64(time.tv_usec) * UInt64(1<<32 / USEC_PER_SEC)))
     }
 
     var milliseconds: Int64 {
@@ -299,7 +299,7 @@ func withFatalErrno<X: SignedIntegerType>(@noescape block: () -> X) -> X {
 // 70 years plus 17 leap days
 private let secondsFrom1900To1970: Int64 = ((365 * 70) + 17) * 24 * 60 * 60
 
-// swiftlint:disable variable_name
+// swiftlint:disable identifier_name
 let MSEC_PER_SEC: UInt64 = 1000
 let USEC_PER_MSEC: UInt64 = 1000
-// swiftlint:enable variable_name
+// swiftlint:enable identifier_name

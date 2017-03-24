@@ -16,7 +16,7 @@ enum ReachabilityStatus {
 }
 
 final class Reachability {
-    var callback: (ReachabilityStatus -> ())?
+    var callback: (ReachabilityStatus -> Void)?
     var callbackQueue: dispatch_queue_t = dispatch_get_main_queue()
     var status: ReachabilityStatus? {
         if let networkReachability = self.networkReachability {
