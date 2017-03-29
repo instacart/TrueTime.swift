@@ -1,4 +1,4 @@
-github "Quick/Nimble" "v5.1.1"
-github "Quick/Quick" "v0.10.0"
-github "antitypical/Result" "3.1.0"
-github "instacart/SwiftCheck" "v0.7.0"
+github "Quick/Nimble" "v6.1.0"
+github "Quick/Quick" "v1.1.0"
+github "antitypical/Result" "3.2.1"
+github "typelift/SwiftCheck" "0.7.3"

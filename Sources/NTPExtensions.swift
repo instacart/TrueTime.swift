@@ -59,7 +59,7 @@ extension NTPTimeType {
 extension NTPTimevalConvertible {
     init(timeSince1970 time: timeval) {
         precondition(time.tv_sec >= 0 && time.tv_usec >= 0, "Time must be positive \(time)")
-        self.init(whole: ValueType(UInt64(time.tv_sec + secondsFrom1900To1970)),
+        self.init(whole: ValueType(UInt64(Int64(time.tv_sec) + secondsFrom1900To1970)),
                   fraction: ValueType(UInt64(time.tv_usec) * UInt64(1<<32 / USEC_PER_SEC)))
     }
 
