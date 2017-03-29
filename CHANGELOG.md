@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 `TrueTime.swift` adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.1.2](https://github.com/instacart/TrueTime.swift/releases/tag/4.1.2)
+
+- Fixed: Addressed warning when building with Swift 3.1.
+
 ## [4.1.1](https://github.com/instacart/TrueTime.swift/releases/tag/4.1.1)
 
 - Fixed: Addressed issue building project with latest swiftlint installed.
