@@ -1,4 +1,4 @@
-osx_image: xcode8.1
+osx_image: xcode8.3
 language: objective-c
 env:
   matrix:
@@ -7,8 +7,7 @@ env:
     - PLATFORM=tvOS SDK=appletvsimulator SCHEME=TrueTime-tvOS DESTINATION="platform=tvOS Simulator,name=Apple TV 1080p,OS=10.0"
 install: 
   - gem install xcpretty
-  - brew install swiftlint
-  - carthage bootstrap --platform "$PLATFORM" --no-use-binaries
+  - carthage bootstrap --platform "$PLATFORM" --cache-builds --no-use-binaries
 script:
   - Scripts/test
 cache:
