@@ -21,6 +21,7 @@ import Result
 
 @objc(NTPReferenceTime)
 public final class ReferenceTime: NSObject {
+    public var uptimeInterval: TimeInterval { return underlyingValue.uptimeInterval }
     public var time: Date { return underlyingValue.time }
     public var uptime: timeval { return underlyingValue.uptime }
     public func now() -> Date { return underlyingValue.now() }
