@@ -40,13 +40,11 @@ struct NTPResponse {
 }
 
 func bestTime(fromResponses times: [[FrozenNetworkTime]]) -> FrozenNetworkTime? {
-  let bestTimes = times.map { serverTimes -> FrozenNetworkTime? in
-      return serverTimes.min { $0.serverResponse.delay < $1.serverResponse.delay }
-    }.flatMap { $0 }.sorted {
-      $0.serverResponse.offset < $1.serverResponse.offset
-    }
-  
-  return bestTimes.isEmpty ? nil : bestTimes[bestTimes.count / 2]
+    let bestTimes = times.map { serverTimes -> FrozenNetworkTime? in
+        serverTimes.min { $0.serverResponse.delay < $1.serverResponse.delay }
+    }.flatMap { $0 }.sorted { $0.serverResponse.offset < $1.serverResponse.offset }
+
+    return bestTimes.isEmpty ? nil : bestTimes[bestTimes.count / 2]
 }
 
 private extension NTPResponse {
