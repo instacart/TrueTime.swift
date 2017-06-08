@@ -192,7 +192,7 @@ private extension NTPClient {
             let expectedCount = addresses.count * self.config.numberOfSamples
             let atEnd = sampleSize == expectedCount
             let times = responses.map { results in
-                results.map { $0.value }.filter { $0 != nil }.flatMap { $0 }
+                results.map { $0.value }.flatMap { $0 }
             }
 
             self.debugLog("Got \(sampleSize) out of \(expectedCount)")

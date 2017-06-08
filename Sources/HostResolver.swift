@@ -178,7 +178,7 @@ private extension HostResolver {
                 let storage = (data as NSData).bytes.bindMemory(to: sockaddr_storage.self,
                                                                 capacity: data.count)
                 return SocketAddress(storage: storage, port: UInt16(port))
-            }.filter { $0 != nil }.flatMap { $0 }
+            }.flatMap { $0 }
 
             self.resolved = true
             self.debugLog("Resolved hosts: \(socketAddresses)")
