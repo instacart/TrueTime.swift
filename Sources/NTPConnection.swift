@@ -32,7 +32,7 @@ final class NTPConnection {
             }
         }
 
-        var throttleConnections: (() -> Void)? = nil
+        var throttleConnections: (() -> Void)?
         let onComplete: NTPConnectionCallback = { connection, result in
             progress(connection, result)
             throttleConnections?()

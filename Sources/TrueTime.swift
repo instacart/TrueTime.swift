@@ -63,6 +63,7 @@ public typealias LogCallback = (String) -> Void
                            maxServers: maxServers,
                            numberOfSamples: numberOfSamples,
                            pollInterval: pollInterval)
+        ntp = NTPClient(config: config)
     }
 
     public func start(hostURLs pools: [URL] = [URL(string: "time.apple.com")!]) {
@@ -95,7 +96,7 @@ public typealias LogCallback = (String) -> Void
     public var numberOfSamples: Int { return config.numberOfSamples}
 
     private let config: NTPConfig
-    private lazy var ntp: NTPClient = NTPClient(config: self.config)
+    private let ntp: NTPClient
 }
 
 extension TrueTimeClient {
