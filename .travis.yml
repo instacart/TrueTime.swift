@@ -7,7 +7,7 @@ env:
     - PLATFORM=tvOS SDK=appletvsimulator SCHEME=TrueTime-tvOS DESTINATION="platform=tvOS Simulator,name=Apple TV 1080p,OS=10.0"
 install: 
   - gem install xcpretty
-  - carthage bootstrap --platform "$PLATFORM" --cache-builds --no-use-binaries
+  - carthage bootstrap --platform "$PLATFORM" --cache-builds --no-use-binaries --toolchain com.apple.dt.toolchain.Swift_3_1
 script:
   - Scripts/test
 cache:
