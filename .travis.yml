@@ -6,6 +6,10 @@ env:
     - PLATFORM=Mac SDK=macosx SCHEME=TrueTime-Mac DESTINATION="platform=macOS"
     - PLATFORM=tvOS SDK=appletvsimulator SCHEME=TrueTime-tvOS DESTINATION="platform=tvOS Simulator,name=Apple TV 1080p,OS=10.0"
 install: 
+  - brew remove swiftlint --force || true
+  - brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/36bb9e0/Formula/swiftlint.rb
+  - brew remove carthage --force || true
+  - brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/75d2a4a/Formula/carthage.rb
   - gem install xcpretty
   - carthage bootstrap --platform "$PLATFORM" --cache-builds --no-use-binaries --toolchain com.apple.dt.toolchain.Swift_3_1
 script:
