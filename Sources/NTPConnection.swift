@@ -73,7 +73,7 @@ final class NTPConnection {
     func start(_ callbackQueue: DispatchQueue, onComplete: @escaping NTPConnectionCallback) {
         lockQueue.async {
             guard !self.started else { return }
-
+            self.callbackPending = true
             var ctx = CFSocketContext(
                 version: 0,
                 info: UnsafeMutableRawPointer(Unmanaged.passRetained(self).toOpaque()),
@@ -144,6 +144,7 @@ final class NTPConnection {
         // Can't use switch here as these aren't defined as an enum.
         if type == .dataCallBack {
             let data = unsafeBitCast(data, to: CFData.self) as Data
+            client.callbackPending = false
             client.handleResponse(data)
             retainedClient.release()
         } else if type == .writeCallBack {
@@ -169,6 +170,7 @@ final class NTPConnection {
     fileprivate var source: CFRunLoopSource?
     fileprivate var startTime: ntp_time_t?
     fileprivate var finished: Bool = false
+    fileprivate var callbackPending: Bool = false
 }
 
 extension NTPConnection: TimedOperation {
@@ -199,6 +201,10 @@ private extension NTPConnection {
                 callbackQueue.async {
                     onComplete(self, result)
                 }
+        }
+        if callbackPending {
+            Unmanaged.passUnretained(self).release()
+            callbackPending = false
         }
     }
 
