@@ -765,7 +765,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Sources\"\n    swiftlint lint --path \"$SOURCE_ROOT/Tests\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --config ../.swiftlint.yml --path \"$SOURCE_ROOT/Sources\"\n    swiftlint lint --config ../.swiftlint.yml --path \"$SOURCE_ROOT/Tests\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
 		};
 		2800905B1D444BD3004C788E /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -797,7 +797,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Sources\"\n    swiftlint lint --path \"$SOURCE_ROOT/Tests\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --config ../.swiftlint.yml --path \"$SOURCE_ROOT/Sources\"\n    swiftlint lint --config ../.swiftlint.yml --path \"$SOURCE_ROOT/Tests\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
 		};
 		28682B6F1D4D2F4600D65223 /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -861,7 +861,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --path \"$SOURCE_ROOT/Sources\"\n    swiftlint lint --path \"$SOURCE_ROOT/Tests\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --config ../.swiftlint.yml --path \"$SOURCE_ROOT/Sources\"\n    swiftlint lint --config ../.swiftlint.yml --path \"$SOURCE_ROOT/Tests\"\nelse\n    >&2 echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
