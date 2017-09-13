@@ -106,13 +106,18 @@ final class HostResolver {
     func stop(waitUntilFinished wait: Bool = false) {
         let work = {
             self.cancelTimer()
-            guard let host = self.host else { return }
-            CFHostCancelInfoResolution(host, .addresses)
-            CFHostSetClient(host, nil, nil)
-            CFHostUnscheduleFromRunLoop(host,
-                                        CFRunLoopGetMain(),
-                                        CFRunLoopMode.commonModes.rawValue)
-            self.host = nil
+            if let host = self.host {
+                CFHostCancelInfoResolution(host, .addresses)
+                CFHostSetClient(host, nil, nil)
+                CFHostUnscheduleFromRunLoop(host,
+                                            CFRunLoopGetMain(),
+                                            CFRunLoopMode.commonModes.rawValue)
+                self.host = nil
+            }
+            if self.callbackPending {
+                Unmanaged.passUnretained(self).release()
+                self.callbackPending = false
+            }
         }
 
         if wait {
@@ -157,10 +162,6 @@ private extension HostResolver {
         stop()
         callbackQueue.async {
             self.onComplete(self, result)
-        }
-        if callbackPending {
-            Unmanaged.passUnretained(self).release()
-            callbackPending = false
         }
     }
 
