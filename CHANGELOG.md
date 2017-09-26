@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 `TrueTime.swift` adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.1.4](https://github.com/instacart/TrueTime.swift/releases/tag/4.1.4)
+
+- Fixed: Addressed casting issue with latest Xcode.
+
 ## [4.1.3](https://github.com/instacart/TrueTime.swift/releases/tag/4.1.3)
 
 - Fixed: Improved compile times when building from scratch.
