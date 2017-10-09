@@ -47,12 +47,12 @@ protocol NTPTimevalConvertible: NTPTimeType {}
 extension NTPTimeType {
     // Interprets the receiver as an elapsed time in milliseconds.
     var durationInMilliseconds: Int64 {
-        return whole.toIntMax() * Int64(MSEC_PER_SEC) +
+        return Int64(whole) * Int64(MSEC_PER_SEC) +
                fractionInMicroseconds / Int64(USEC_PER_MSEC)
     }
 
     var fractionInMicroseconds: Int64 {
-        return fraction.toIntMax() / Int64(1<<32 / USEC_PER_SEC)
+        return Int64(fraction) / Int64(1<<32 / USEC_PER_SEC)
     }
 }
 
@@ -64,7 +64,7 @@ extension NTPTimevalConvertible {
     }
 
     var milliseconds: Int64 {
-        return (whole.toIntMax() - secondsFrom1900To1970) * Int64(MSEC_PER_SEC) +
+        return (Int64(whole) - secondsFrom1900To1970) * Int64(MSEC_PER_SEC) +
                 fractionInMicroseconds / Int64(USEC_PER_MSEC)
     }
 }

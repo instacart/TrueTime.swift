@@ -87,11 +87,11 @@ private extension ExampleViewController {
     func refresh() {
         TrueTimeClient.sharedInstance.fetchIfNeeded { result in
             switch result {
-                case let .success(referenceTime):
-                    self.referenceTime = referenceTime
-                    print("Got network time! \(referenceTime)")
-                case let .failure(error):
-                    print("Error! \(error)")
+            case let .success(referenceTime):
+                self.referenceTime = referenceTime
+                print("Got network time! \(referenceTime)")
+            case let .failure(error):
+                print("Error! \(error)")
             }
         }
     }

@@ -22,7 +22,7 @@ extension TimedOperation {
     func startTimer() {
         cancelTimer()
         timer = DispatchSource.makeTimerSource(flags: [], queue: timerQueue)
-        timer?.scheduleOneshot(deadline: .now() + timeout)
+        timer?.schedule(deadline: .now() + timeout)
         timer?.setEventHandler {
             guard self.started else { return }
             self.debugLog("Got timeout for \(self)")
