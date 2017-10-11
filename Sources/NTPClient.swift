@@ -88,7 +88,7 @@ final class NTPClient {
     fileprivate var invalidated: Bool = false
     fileprivate var startCallbacks: [(DispatchQueue, ReferenceTimeCallback)] = []
     fileprivate var startTime: TimeInterval?
-    fileprivate var timer: DispatchSource?
+    fileprivate var timer: DispatchSourceTimer?
     fileprivate var poolURLs: [URL] = [] {
         didSet { invalidate() }
     }
@@ -114,10 +114,10 @@ private extension NTPClient {
         if let referenceTime = referenceTime {
             let remainingInterval = max(0, config.pollInterval -
                                            referenceTime.underlyingValue.uptimeInterval)
-            let timer = DispatchSource.makeTimerSource(flags: [], queue: queue)
-            timer.scheduleOneshot(deadline: .now() + remainingInterval)
-            timer.setEventHandler(handler: invalidate)
-            timer.resume()
+            timer = DispatchSource.makeTimerSource(flags: [], queue: queue)
+            timer?.setEventHandler(handler: invalidate)
+            timer?.scheduleOneshot(deadline: .now() + remainingInterval)
+            timer?.resume()
         }
     }
 
