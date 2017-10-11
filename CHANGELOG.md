@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 `TrueTime.swift` adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.1.5](https://github.com/instacart/TrueTime.swift/releases/tag/4.1.5)
+
+- Fixed: Addressed issue with poll interval not being handled.
+
 ## [4.1.4](https://github.com/instacart/TrueTime.swift/releases/tag/4.1.4)
 
 - Fixed: Addressed casting issue with latest Xcode.
