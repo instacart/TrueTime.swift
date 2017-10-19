@@ -50,13 +50,13 @@ public typealias ReferenceTimeCallback = (ReferenceTimeResult) -> Void
 public typealias LogCallback = (String) -> Void
 
 @objc public final class TrueTimeClient: NSObject {
-    public static let sharedInstance = TrueTimeClient()
-    required public init(timeout: TimeInterval = defaultTimeout,
-                         maxRetries: Int = defaultMaxRetries,
-                         maxConnections: Int = defaultMaxConnections,
-                         maxServers: Int = defaultMaxServers,
-                         numberOfSamples: Int = defaultNumberOfSamples,
-                         pollInterval: TimeInterval = defaultPollInterval) {
+    @objc public static let sharedInstance = TrueTimeClient()
+    @objc required public init(timeout: TimeInterval = 8,
+                               maxRetries: Int = 3,
+                               maxConnections: Int = 5,
+                               maxServers: Int = 5,
+                               numberOfSamples: Int = 4,
+                               pollInterval: TimeInterval = 512) {
         config = NTPConfig(timeout: timeout,
                            maxRetries: maxRetries,
                            maxConnections: maxConnections,
@@ -66,11 +66,11 @@ public typealias LogCallback = (String) -> Void
         ntp = NTPClient(config: config)
     }
 
-    public func start(hostURLs pools: [URL] = [URL(string: "time.apple.com")!]) {
+    @objc public func start(hostURLs pools: [URL] = [URL(string: "time.apple.com")!]) {
         ntp.start(pools: pools)
     }
 
-    public func pause() {
+    @objc public func pause() {
         ntp.pause()
     }
 
@@ -81,19 +81,19 @@ public typealias LogCallback = (String) -> Void
     }
 
 #if DEBUG_LOGGING
-    public var logCallback: LogCallback? = defaultLogger {
+    @objc public var logCallback: LogCallback? = defaultLogger {
         didSet {
             ntp.logger = logCallback
         }
     }
 #endif
 
-    public var referenceTime: ReferenceTime? { return ntp.referenceTime }
-    public var timeout: TimeInterval { return config.timeout }
-    public var maxRetries: Int { return config.maxRetries }
-    public var maxConnections: Int { return config.maxConnections }
-    public var maxServers: Int { return config.maxServers}
-    public var numberOfSamples: Int { return config.numberOfSamples}
+    @objc public var referenceTime: ReferenceTime? { return ntp.referenceTime }
+    @objc public var timeout: TimeInterval { return config.timeout }
+    @objc public var maxRetries: Int { return config.maxRetries }
+    @objc public var maxConnections: Int { return config.maxConnections }
+    @objc public var maxServers: Int { return config.maxServers}
+    @objc public var numberOfSamples: Int { return config.numberOfSamples}
 
     private let config: NTPConfig
     private let ntp: NTPClient
@@ -134,9 +134,3 @@ extension TrueTimeClient {
 }
 
 let defaultLogger: LogCallback = { print($0) }
-private let defaultMaxConnections: Int = 5
-private let defaultMaxRetries: Int = 3
-private let defaultMaxServers: Int = 5
-private let defaultNumberOfSamples: Int = 4
-private let defaultPollInterval: TimeInterval = 512
-private let defaultTimeout: TimeInterval = 8

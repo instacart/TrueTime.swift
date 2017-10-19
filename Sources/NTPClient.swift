@@ -116,7 +116,7 @@ private extension NTPClient {
                                            referenceTime.underlyingValue.uptimeInterval)
             timer = DispatchSource.makeTimerSource(flags: [], queue: queue)
             timer?.setEventHandler(handler: invalidate)
-            timer?.scheduleOneshot(deadline: .now() + remainingInterval)
+            timer?.schedule(deadline: .now() + remainingInterval)
             timer?.resume()
         }
     }
