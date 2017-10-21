@@ -114,9 +114,9 @@ private extension NTPClient {
         if let referenceTime = referenceTime {
             let remainingInterval = max(0, config.pollInterval -
                                            referenceTime.underlyingValue.uptimeInterval)
-            timer = DispatchSource.makeTimerSource(flags: [], queue: queue)
-            timer?.setEventHandler(handler: invalidate)
+            timer = DispatchSource.makeTimerSource(flags: [], queue: queue) as? DispatchSource
             timer?.schedule(deadline: .now() + remainingInterval)
+            timer?.setEventHandler(handler: invalidate)
             timer?.resume()
         }
     }
