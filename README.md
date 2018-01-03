@@ -49,7 +49,7 @@ TrueTimeClient *client = [TrueTimeClient sharedInstance];
 NSDate *now = [[client referenceTime] now];
 
 // To block waiting for fetch, use the following:
-[client fetchIfNeeded:^(NTPReferenceTime *referenceTime) {
+[client fetchIfNeededWithSuccess:^(NTPReferenceTime *referenceTime) {
     NSLog(@"True time: %@", [referenceTime now]);
 } failure:^(NSError *error) {
     NSLog(@"Error! %@", error);
