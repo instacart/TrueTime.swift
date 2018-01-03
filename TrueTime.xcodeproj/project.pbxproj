@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05CEA58A1FFC5AC5002624AC /* Bridging.m in Sources */ = {isa = PBXBuildFile; fileRef = 05CEA5871FFC5A80002624AC /* Bridging.m */; };
 		2800902E1D444AD5004C788E /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2800902D1D444AD5004C788E /* SwiftCheck.framework */; };
 		2800904F1D444B64004C788E /* TrueTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37B41D4419F800084D47 /* TrueTime.framework */; };
 		280090561D444B85004C788E /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 280090301D444AE5004C788E /* Nimble.framework */; };
@@ -129,6 +130,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		05CEA5871FFC5A80002624AC /* Bridging.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Bridging.m; sourceTree = "<group>"; };
 		2800902D1D444AD5004C788E /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/iOS/SwiftCheck.framework; sourceTree = "<group>"; };
 		280090301D444AE5004C788E /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/Mac/Nimble.framework; sourceTree = "<group>"; };
 		280090311D444AE5004C788E /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/Mac/Quick.framework; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				287485581DB140F70020B777 /* Default-568h@2x.png */,
 				280090801D454A9F004C788E /* AppDelegate.swift */,
 				28F30A3D1DC1374700CCF4F0 /* ViewController.swift */,
+				05CEA5871FFC5A80002624AC /* Bridging.m */,
 				280090811D454A9F004C788E /* Assets.xcassets */,
 				280090821D454A9F004C788E /* Info.plist */,
 			);
@@ -960,6 +963,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05CEA58A1FFC5AC5002624AC /* Bridging.m in Sources */,
 				28F30A3F1DC1374D00CCF4F0 /* ViewController.swift in Sources */,
 				280090831D454A9F004C788E /* AppDelegate.swift in Sources */,
 			);

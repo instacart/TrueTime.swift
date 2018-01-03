@@ -21,10 +21,10 @@ import Result
 
 @objc(NTPReferenceTime)
 public final class ReferenceTime: NSObject {
-    public var uptimeInterval: TimeInterval { return underlyingValue.uptimeInterval }
-    public var time: Date { return underlyingValue.time }
-    public var uptime: timeval { return underlyingValue.uptime }
-    public func now() -> Date { return underlyingValue.now() }
+    @objc public var uptimeInterval: TimeInterval { return underlyingValue.uptimeInterval }
+    @objc public var time: Date { return underlyingValue.time }
+    @objc public var uptime: timeval { return underlyingValue.uptime }
+    @objc public func now() -> Date { return underlyingValue.now() }
 
     public convenience init(time: Date, uptime: timeval) {
         self.init(FrozenReferenceTime(time: time, uptime: uptime))
