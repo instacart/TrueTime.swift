@@ -39,15 +39,14 @@ final class HostResolver {
                                 logger: logger,
                                 callbackQueue: callbackQueue) { host, result in
             switch result {
-                case .success: fallthrough
-                case .failure where urls.count == 1:
-                    onComplete(host, result)
-                case .failure:
-                    resolve(urls: Array(urls.dropFirst()),
-                            timeout: timeout,
-                            logger: logger,
-                            callbackQueue: callbackQueue,
-                            onComplete: onComplete)
+            case .success,
+                 .failure where urls.count == 1: onComplete(host, result)
+            case .failure:
+                resolve(urls: Array(urls.dropFirst()),
+                        timeout: timeout,
+                        logger: logger,
+                        callbackQueue: callbackQueue,
+                        onComplete: onComplete)
             }
         }
 
@@ -109,9 +108,7 @@ final class HostResolver {
             if let host = self.host {
                 CFHostCancelInfoResolution(host, .addresses)
                 CFHostSetClient(host, nil, nil)
-                CFHostUnscheduleFromRunLoop(host,
-                                            CFRunLoopGetMain(),
-                                            CFRunLoopMode.commonModes.rawValue)
+                CFHostUnscheduleFromRunLoop(host, CFRunLoopGetMain(), CFRunLoopMode.commonModes.rawValue)
                 self.host = nil
             }
             if self.callbackPending {
@@ -174,8 +171,7 @@ private extension HostResolver {
             }
 
             var resolved: DarwinBoolean = false
-            let addressData = CFHostGetAddressing(host,
-                                                  &resolved)?.takeUnretainedValue() as [AnyObject]?
+            let addressData = CFHostGetAddressing(host, &resolved)?.takeUnretainedValue() as [AnyObject]?
             guard let addresses = addressData as? [Data], resolved.boolValue else {
                 self.complete(.failure(NSError(trueTimeError: .dnsLookupFailed)))
                 return
@@ -183,10 +179,9 @@ private extension HostResolver {
 
             let port = self.url.port ?? defaultNTPPort
             let socketAddresses = addresses.map { data -> SocketAddress? in
-                let storage = (data as NSData).bytes.bindMemory(to: sockaddr_storage.self,
-                                                                capacity: data.count)
+                let storage = (data as NSData).bytes.bindMemory(to: sockaddr_storage.self, capacity: data.count)
                 return SocketAddress(storage: storage, port: UInt16(port))
-            }.flatMap { $0 }
+            }.compactMap { $0 }
 
             self.resolved = true
             self.debugLog("Resolved hosts: \(socketAddresses)")

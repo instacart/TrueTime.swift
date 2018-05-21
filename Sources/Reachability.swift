@@ -58,9 +58,7 @@ final class Reachability {
             copyDescription: nil
         )
 
-        SCNetworkReachabilitySetCallback(networkReachability,
-                                         Reachability.reachabilityCallback,
-                                         &context)
+        SCNetworkReachabilitySetCallback(networkReachability, Reachability.reachabilityCallback, &context)
         SCNetworkReachabilitySetDispatchQueue(networkReachability, .global())
 
         if let status = status {
@@ -96,10 +94,8 @@ private extension ReachabilityStatus {
     init(_ flags: SCNetworkReachabilityFlags) {
         let isReachable = flags.contains(.reachable)
         let needsConnection = flags.contains(.connectionRequired)
-        let connectsAutomatically = flags.contains(.connectionOnDemand) ||
-                                    flags.contains(.connectionOnTraffic)
-        let connectsWithoutInteraction = connectsAutomatically &&
-                                         !flags.contains(.interventionRequired)
+        let connectsAutomatically = flags.contains(.connectionOnDemand) || flags.contains(.connectionOnTraffic)
+        let connectsWithoutInteraction = connectsAutomatically && !flags.contains(.interventionRequired)
         let isNetworkReachable = isReachable && (!needsConnection || connectsWithoutInteraction)
         if !isNetworkReachable {
             self = .notReachable

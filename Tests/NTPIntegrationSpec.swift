@@ -29,7 +29,7 @@ private extension NTPIntegrationSpec {
             let start = NSDate()
             let finish = {
                 let end = NSDate()
-                let results = results.flatMap { $0 }
+                let results = results.compactMap { $0 }
                 let times = results.filter { $0.value != nil }.map { $0.value! }
                 let errors = results.filter { $0.error != nil }.map { $0.error! }
                 expect(times).notTo(beEmpty(), description: "Expected times, got: \(errors)")
