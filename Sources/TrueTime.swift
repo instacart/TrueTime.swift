@@ -100,13 +100,11 @@ public typealias LogCallback = (String) -> Void
 }
 
 extension TrueTimeClient {
-    @objc public func fetchFirstIfNeeded(success: @escaping (ReferenceTime) -> Void,
-                                         failure: ((NSError) -> Void)?) {
+    @objc public func fetchFirstIfNeeded(success: @escaping (ReferenceTime) -> Void, failure: ((NSError) -> Void)?) {
         fetchFirstIfNeeded(success: success, failure: failure, onQueue: .main)
     }
 
-    @objc public func fetchIfNeeded(success: @escaping (ReferenceTime) -> Void,
-                                    failure: ((NSError) -> Void)?) {
+    @objc public func fetchIfNeeded(success: @escaping (ReferenceTime) -> Void, failure: ((NSError) -> Void)?) {
         fetchIfNeeded(success: success, failure: failure, onQueue: .main)
     }
 

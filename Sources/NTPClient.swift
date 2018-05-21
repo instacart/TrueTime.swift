@@ -80,16 +80,16 @@ final class NTPClient {
     }
 
     var logger: LogCallback? = defaultLogger
-    fileprivate let queue = DispatchQueue(label: "com.instacart.ntp.client")
-    fileprivate let reachability = Reachability()
-    fileprivate var completionCallbacks: [(DispatchQueue, ReferenceTimeCallback)] = []
-    fileprivate var connections: [NTPConnection] = []
-    fileprivate var finished: Bool = false
-    fileprivate var invalidated: Bool = false
-    fileprivate var startCallbacks: [(DispatchQueue, ReferenceTimeCallback)] = []
-    fileprivate var startTime: TimeInterval?
-    fileprivate var timer: DispatchSourceTimer?
-    fileprivate var poolURLs: [URL] = [] {
+    private let queue = DispatchQueue(label: "com.instacart.ntp.client")
+    private let reachability = Reachability()
+    private var completionCallbacks: [(DispatchQueue, ReferenceTimeCallback)] = []
+    private var connections: [NTPConnection] = []
+    private var finished: Bool = false
+    private var invalidated: Bool = false
+    private var startCallbacks: [(DispatchQueue, ReferenceTimeCallback)] = []
+    private var startTime: TimeInterval?
+    private var timer: DispatchSourceTimer?
+    private var poolURLs: [URL] = [] {
         didSet { invalidate() }
     }
 }
@@ -98,22 +98,21 @@ private extension NTPClient {
     var started: Bool { return startTime != nil }
     func updateReachability(status: ReachabilityStatus) {
         switch status {
-            case .notReachable:
-                debugLog("Network unreachable")
-                cancelTimer()
-                finish(.failure(NSError(trueTimeError: .offline)))
-            case .reachableViaWWAN, .reachableViaWiFi:
-                debugLog("Network reachable")
-                startTimer()
-                startQueue(poolURLs: poolURLs)
+        case .notReachable:
+            debugLog("Network unreachable")
+            cancelTimer()
+            finish(.failure(NSError(trueTimeError: .offline)))
+        case .reachableViaWWAN, .reachableViaWiFi:
+            debugLog("Network reachable")
+            startTimer()
+            startQueue(poolURLs: poolURLs)
         }
     }
 
     func startTimer() {
         cancelTimer()
         if let referenceTime = referenceTime {
-            let remainingInterval = max(0, config.pollInterval -
-                                           referenceTime.underlyingValue.uptimeInterval)
+            let remainingInterval = max(0, config.pollInterval - referenceTime.underlyingValue.uptimeInterval)
             timer = DispatchSource.makeTimerSource(flags: [], queue: queue)
             timer?.setEventHandler(handler: invalidate)
             timer?.schedule(deadline: .now() + remainingInterval)
@@ -148,10 +147,8 @@ private extension NTPClient {
             }
 
             switch result {
-                case let .success(addresses):
-                    self.query(addresses: addresses, pool: host.url)
-                case let .failure(error):
-                    self.finish(.failure(error))
+            case let .success(addresses): self.query(addresses: addresses, pool: host.url)
+            case let .failure(error): self.finish(.failure(error))
             }
         }
     }
@@ -192,7 +189,7 @@ private extension NTPClient {
             let expectedCount = addresses.count * self.config.numberOfSamples
             let atEnd = sampleSize == expectedCount
             let times = responses.map { results in
-                results.map { $0.value }.flatMap { $0 }
+                results.map { $0.value }.compactMap { $0 }
             }
 
             self.debugLog("Got \(sampleSize) out of \(expectedCount)")

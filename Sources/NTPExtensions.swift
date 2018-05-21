@@ -16,8 +16,7 @@ public extension timeval {
         var mib: [CInt] = [CTL_KERN, KERN_BOOTTIME]
         var size = MemoryLayout.stride(ofValue: boottime)
         withFatalErrno { sysctl(&mib, 2, &boottime, &size, nil, 0) }
-        return timeval(tv_sec: now.tv_sec - boottime.tv_sec,
-                       tv_usec: now.tv_usec - boottime.tv_usec)
+        return timeval(tv_sec: now.tv_sec - boottime.tv_sec, tv_usec: now.tv_usec - boottime.tv_usec)
     }
 
     var milliseconds: Int64 {
@@ -190,19 +189,12 @@ extension String {
 extension TrueTimeError: CustomStringConvertible {
     public var description: String {
         switch self {
-            case .cannotFindHost:
-                return "The connection failed because the host could not be found.".localized
-            case .dnsLookupFailed:
-                return "The connection failed because the DNS lookup failed.".localized
-            case .timedOut:
-                return "The connection timed out.".localized
-            case .offline:
-                return "The connection failed because the device is not connected to the " +
-                       "internet.".localized
-            case .badServerResponse:
-                return "The connection received an invalid server response.".localized
-            case .noValidPacket:
-                return "No valid NTP packet was found.".localized
+        case .cannotFindHost: return "The connection failed because the host could not be found.".localized
+        case .dnsLookupFailed: return "The connection failed because the DNS lookup failed.".localized
+        case .timedOut: return "The connection timed out.".localized
+        case .offline: return "The connection failed because the device is not connected to the internet.".localized
+        case .badServerResponse: return "The connection received an invalid server response.".localized
+        case .noValidPacket: return "No valid NTP packet was found.".localized
         }
     }
 }

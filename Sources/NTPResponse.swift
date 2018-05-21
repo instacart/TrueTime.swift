@@ -17,9 +17,7 @@ struct NTPResponse {
         self.packet = packet
         self.responseTime = responseTime
         self.receiveTime = receiveTime
-        if !isValidResponse {
-            return nil
-        }
+        guard isValidResponse else { return nil }
     }
 
     // See https://en.wikipedia.org/wiki/Network_Time_Protocol#Clock_synchronization_algorithm
@@ -42,7 +40,7 @@ struct NTPResponse {
 func bestTime(fromResponses times: [[FrozenNetworkTime]]) -> FrozenNetworkTime? {
     let bestTimes = times.map { serverTimes -> FrozenNetworkTime? in
         serverTimes.min { $0.serverResponse.delay < $1.serverResponse.delay }
-    }.flatMap { $0 }.sorted { $0.serverResponse.offset < $1.serverResponse.offset }
+    }.compactMap { $0 }.sorted { $0.serverResponse.offset < $1.serverResponse.offset }
 
     return bestTimes.isEmpty ? nil : bestTimes[bestTimes.count / 2]
 }
@@ -54,9 +52,7 @@ private extension NTPResponse {
                packet.root_dispersion.durationInMilliseconds < maxRootDispersion &&
                packet.client_mode == ntpModeServer &&
                packet.leap_indicator != leapIndicatorUnknown &&
-               abs(receiveTime.milliseconds -
-                   packet.originate_time.milliseconds -
-                   delay) < maxDelayDelta
+               abs(receiveTime.milliseconds - packet.originate_time.milliseconds - delay) < maxDelayDelta
     }
 
     var offsetValues: [Int64] {

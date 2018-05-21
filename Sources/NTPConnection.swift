@@ -165,17 +165,17 @@ final class NTPConnection {
     private static let callbackFlags: CFOptionFlags = callbackTypes.map {
         $0.rawValue
     }.reduce(0, |)
-    fileprivate let lockQueue = DispatchQueue(label: "com.instacart.ntp.connection")
-    fileprivate var attempts: Int = 0
-    fileprivate var callbackQueue: DispatchQueue?
-    fileprivate var didTimeout: Bool = false
-    fileprivate var onComplete: NTPConnectionCallback?
-    fileprivate var requestTicks: timeval?
-    fileprivate var socket: CFSocket?
-    fileprivate var source: CFRunLoopSource?
-    fileprivate var startTime: ntp_time_t?
-    fileprivate var finished: Bool = false
-    fileprivate var callbackPending: Bool = false
+    private let lockQueue = DispatchQueue(label: "com.instacart.ntp.connection")
+    private var attempts: Int = 0
+    private var callbackQueue: DispatchQueue?
+    private var didTimeout: Bool = false
+    private var onComplete: NTPConnectionCallback?
+    private var requestTicks: timeval?
+    private var socket: CFSocket?
+    private var source: CFRunLoopSource?
+    private var startTime: ntp_time_t?
+    private var finished: Bool = false
+    private var callbackPending: Bool = false
 }
 
 extension NTPConnection: TimedOperation {
@@ -197,15 +197,15 @@ private extension NTPConnection {
 
         close()
         switch result {
-            case let .failure(error) where attempts < maxRetries && !didTimeout:
-                debugLog("Got error from \(address) (attempt \(attempts)), " +
-                         "trying again. \(error)")
-                start(callbackQueue, onComplete: onComplete)
-            case .failure, .success:
-                finished = true
-                callbackQueue.async {
-                    onComplete(self, result)
-                }
+        case let .failure(error) where attempts < maxRetries && !didTimeout:
+            debugLog("Got error from \(address) (attempt \(attempts)), " +
+                     "trying again. \(error)")
+            start(callbackQueue, onComplete: onComplete)
+        case .failure, .success:
+            finished = true
+            callbackQueue.async {
+                onComplete(self, result)
+            }
         }
     }
 
