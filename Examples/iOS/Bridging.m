@@ -15,7 +15,7 @@
 
 - (void)testBridging {
     TrueTimeClient *client = [TrueTimeClient sharedInstance];
-    [client startWithHostURLs:@[(id)[NSURL URLWithString:@"time.apple.com"]]];
+    [client start];
 
     NSDate *now = [[client referenceTime] now];
     NSLog(@"True time: %@", now);
