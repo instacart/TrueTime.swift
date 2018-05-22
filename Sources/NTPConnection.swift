@@ -23,26 +23,27 @@ final class NTPConnection {
                       logger: LogCallback?,
                       callbackQueue: DispatchQueue,
                       progress: @escaping NTPConnectionCallback) -> [NTPConnection] {
-        let connections = addresses.flatMap { address in
-            (0..<config.numberOfSamples).map { _ in
-                NTPConnection(address: address,
-                              timeout: config.timeout,
-                              maxRetries: config.maxRetries,
-                              logger: logger)
-            }
-        }
-
         var throttleConnections: (() -> Void)?
         let onComplete: NTPConnectionCallback = { connection, result in
             progress(connection, result)
             throttleConnections?()
+        }
+        let connections: [NTPConnection] = addresses.flatMap { address in
+            (0..<config.numberOfSamples).map { _ in
+                NTPConnection(address: address,
+                              timeout: config.timeout,
+                              maxRetries: config.maxRetries,
+                              logger: logger,
+                              callbackQueue: callbackQueue,
+                              onComplete: onComplete)
+            }
         }
 
         throttleConnections = {
             let remainingConnections = connections.filter { $0.canRetry }
             let activeConnections = Array(remainingConnections[0..<min(config.maxConnections,
                                                                        remainingConnections.count)])
-            activeConnections.forEach { $0.start(callbackQueue, onComplete: onComplete) }
+            activeConnections.forEach { $0.start() }
         }
         throttleConnections?()
         return connections
@@ -51,222 +52,175 @@ final class NTPConnection {
     required init(address: SocketAddress,
                   timeout: TimeInterval,
                   maxRetries: Int,
-                  logger: LogCallback?) {
+                  logger: LogCallback?,
+                  callbackQueue: DispatchQueue,
+                  onComplete: @escaping NTPConnectionCallback) {
         self.address = address
         self.timeout = timeout
         self.maxRetries = maxRetries
+        self.callbackQueue = callbackQueue
+        self.onComplete = onComplete
         self.logger = logger
     }
 
-    deinit {
-        assert(!self.started, "Unclosed connection")
-    }
-
     var canRetry: Bool {
-        var canRetry: Bool = false
-        lockQueue.sync {
-            canRetry = self.attempts < self.maxRetries && !self.didTimeout && !self.finished
-        }
-        return canRetry
+        return self.attempts < self.maxRetries && !self.didTimeout && !self.isFinished
     }
 
-    func start(_ callbackQueue: DispatchQueue, onComplete: @escaping NTPConnectionCallback) {
-        lockQueue.async {
-            guard !self.started else { return }
-            self.callbackPending = true
-            var ctx = CFSocketContext(
-                version: 0,
-                info: UnsafeMutableRawPointer(Unmanaged.passRetained(self).toOpaque()),
-                retain: nil,
-                release: nil,
-                copyDescription: nil
-            )
+    func start() {
+        guard self.socket == nil else { return }
+        let callback: CFSocketCallBack = { socket, callbackType, address, data, info in
+            guard let info = info else { return }
+            let retainedClient = Unmanaged<NTPConnection>.fromOpaque(info)
+            let client = retainedClient.takeUnretainedValue()
+            guard let socket = socket, CFSocketIsValid(socket) else { return }
 
-            self.attempts += 1
-            self.callbackQueue = callbackQueue
-            self.onComplete = onComplete
-            self.socket = CFSocketCreate(nil,
-                                         self.address.family,
-                                         SOCK_DGRAM,
-                                         IPPROTO_UDP,
-                                         NTPConnection.callbackFlags,
-                                         self.dataCallback,
-                                         &ctx)
-
-            if let socket = self.socket {
-                CFSocketSetSocketFlags(socket, kCFSocketCloseOnInvalidate)
-                self.source = CFSocketCreateRunLoopSource(nil, socket, 0)
+            // Can't use switch here as these aren't defined as an enum.
+            if callbackType == .dataCallBack {
+                let data = unsafeBitCast(data, to: CFData.self) as Data
+                client.complete(client.parseResponse(data))
+            } else if callbackType == .writeCallBack {
+                client.debugLog("Buffer \(client.address) writable - requesting time")
+                do {
+                    try client.requestTime()
+                    client.startTimer() // Restart timer.
+                } catch {
+                    client.complete(.failure(error as NSError))
+                }
+            } else {
+                assertionFailure("Unexpected socket callback")
             }
+        }
 
-            if let source = self.source {
-                CFRunLoopAddSource(CFRunLoopGetMain(), source, CFRunLoopMode.commonModes)
-                self.startTimer()
-            }
+        var context = CFSocketContext(version: 0,
+                                      info: UnsafeMutableRawPointer(Unmanaged.passRetained(self).toOpaque()),
+                                      retain: nil,
+                                      release: nil,
+                                      copyDescription: nil)
+        let socket = CFSocketCreate(nil,
+                                    address.family,
+                                    SOCK_DGRAM,
+                                    IPPROTO_UDP,
+                                    NTPConnection.callbackFlags,
+                                    callback,
+                                    &context)!
+        let runLoopSource = CFSocketCreateRunLoopSource(kCFAllocatorDefault, socket, 0)
+        CFRunLoopAddSource(CFRunLoopGetMain(), runLoopSource, CFRunLoopMode.commonModes)
+        CFSocketConnectToAddress(socket, address.networkData as CFData, timeout)
+        isFinished = false
+        startTimer()
+        self.socket = socket
+        self.runLoopSource = runLoopSource
+        self.attempts += 1
+    }
+
+    func stop() {
+        timer?.cancel()
+        timer = nil
+        guard let socket = socket, let runLoopSource = runLoopSource else { return }
+        let disabledFlags = NTPConnection.callbackFlags |
+          kCFSocketAutomaticallyReenableDataCallBack |
+          kCFSocketAutomaticallyReenableReadCallBack |
+          kCFSocketAutomaticallyReenableWriteCallBack |
+          kCFSocketAutomaticallyReenableAcceptCallBack
+        CFSocketDisableCallBacks(socket, disabledFlags)
+        CFSocketInvalidate(socket)
+        CFRunLoopRemoveSource(CFRunLoopGetMain(), runLoopSource, CFRunLoopMode.commonModes)
+        self.socket = nil
+        self.runLoopSource = nil
+        Unmanaged.passUnretained(self).release()
+    }
+
+    func startTimer() {
+        timer?.cancel()
+        timer = .scheduled(timeInterval: timeout) { [weak self] _ in
+            self?.complete(.failure(.init(trueTimeError: .timedOut)))
         }
     }
 
-    func close(waitUntilFinished wait: Bool = false) {
-        let work = {
-            self.cancelTimer()
-            if let socket = self.socket, let source = self.source {
-                let disabledFlags = NTPConnection.callbackFlags |
-                                    kCFSocketAutomaticallyReenableDataCallBack |
-                                    kCFSocketAutomaticallyReenableReadCallBack |
-                                    kCFSocketAutomaticallyReenableWriteCallBack |
-                                    kCFSocketAutomaticallyReenableAcceptCallBack
-                CFSocketDisableCallBacks(socket, disabledFlags)
-                CFSocketInvalidate(socket)
-                CFRunLoopRemoveSource(CFRunLoopGetMain(), source, CFRunLoopMode.commonModes)
-                self.socket = nil
-                self.source = nil
-                self.debugLog("Connection closed \(self.address)")
-            }
-            if self.callbackPending {
-                Unmanaged.passUnretained(self).release()
-                self.callbackPending = false
-            }
-        }
-
-        if wait {
-            lockQueue.sync(execute: work)
-        } else {
-            lockQueue.async(execute: work)
-        }
-    }
-
-    func debugLog(_ message: @autoclosure () -> String) {
+    private func debugLog(_ message: @autoclosure () -> String) {
 #if DEBUG_LOGGING
         logger?(message())
 #endif
     }
 
-    private let dataCallback: CFSocketCallBack = { socket, type, address, data, info in
-        guard let info = info else { return }
-        let retainedClient = Unmanaged<NTPConnection>.fromOpaque(info)
-        let client = retainedClient.takeUnretainedValue()
-        guard let socket = socket, CFSocketIsValid(socket) else { return }
-
-        // Can't use switch here as these aren't defined as an enum.
-        if type == .dataCallBack {
-            let data = unsafeBitCast(data, to: CFData.self) as Data
-            client.callbackPending = false
-            client.handleResponse(data)
-            retainedClient.release()
-        } else if type == .writeCallBack {
-            client.debugLog("Buffer \(client.address) writable - requesting time")
-            client.requestTime()
-        } else {
-            assertionFailure("Unexpected socket callback")
-        }
-    }
-
-    var timer: DispatchSourceTimer?
+    private var timer: DispatchBlockTimer?
     private static let callbackTypes: [CFSocketCallBackType] = [.dataCallBack, .writeCallBack]
     private static let callbackFlags: CFOptionFlags = callbackTypes.map {
         $0.rawValue
     }.reduce(0, |)
-    private let lockQueue = DispatchQueue(label: "com.instacart.ntp.connection")
     private var attempts: Int = 0
-    private var callbackQueue: DispatchQueue?
+    private var callbackQueue: DispatchQueue
     private var didTimeout: Bool = false
-    private var onComplete: NTPConnectionCallback?
+    private var isFinished: Bool = false
+    private var onComplete: NTPConnectionCallback
     private var requestTicks: timeval?
+    private var runLoopSource: CFRunLoopSource?
     private var socket: CFSocket?
-    private var source: CFRunLoopSource?
     private var startTime: ntp_time_t?
-    private var finished: Bool = false
-    private var callbackPending: Bool = false
-}
-
-extension NTPConnection: TimedOperation {
-    var timerQueue: DispatchQueue { return lockQueue }
-    var started: Bool { return self.socket != nil }
-
-    func timeoutError(_ error: NSError) {
-        self.didTimeout = true
-        complete(.failure(error))
-    }
 }
 
 private extension NTPConnection {
     func complete(_ result: FrozenNetworkTimeResult) {
-        guard let callbackQueue = callbackQueue, let onComplete = onComplete else {
-            assertionFailure("Completion callback not initialized")
+        switch result {
+        case let .failure(error) where attempts < maxRetries && !didTimeout:
+            debugLog("Got error from \(address) (attempt \(attempts)), trying again. \(error)")
+            stop()
+            start()
+        case .failure, .success:
+            isFinished = true
+            callbackQueue.async {
+                self.onComplete(self, result)
+            }
+            stop()
+        }
+    }
+
+    func requestTime() throws {
+        guard let socket = self.socket else {
+            self.debugLog("Socket closed prematurely")
             return
         }
 
-        close()
-        switch result {
-        case let .failure(error) where attempts < maxRetries && !didTimeout:
-            debugLog("Got error from \(address) (attempt \(attempts)), " +
-                     "trying again. \(error)")
-            start(callbackQueue, onComplete: onComplete)
-        case .failure, .success:
-            finished = true
-            callbackQueue.async {
-                onComplete(self, result)
-            }
+        let startTime: ntp_time_t = .init(timeSince1970: .now())
+        let requestTicks: timeval = .uptime()
+        let packet = NTPConnection.requestPacket(startTime).bigEndian
+        let interval = TimeInterval(milliseconds: startTime.milliseconds)
+        self.startTime = startTime
+        self.requestTicks = requestTicks
+        debugLog("Sending time: \(Date(timeIntervalSince1970: interval))")
+        let result = CFSocketSendData(socket, nil, packet.data as CFData, timeout)
+        if result != .success {
+            throw NSError(errno: errno)
         }
     }
 
-    func requestTime() {
-        lockQueue.async {
-            guard let socket = self.socket else {
-                self.debugLog("Socket closed")
-                return
-            }
-
-            self.startTime = ntp_time_t(timeSince1970: .now())
-            self.requestTicks = .uptime()
-            if let startTime = self.startTime {
-                let packet = self.requestPacket(startTime).bigEndian
-                let interval = TimeInterval(milliseconds: startTime.milliseconds)
-                self.debugLog("Sending time: \(Date(timeIntervalSince1970: interval))")
-                let err = CFSocketSendData(socket,
-                                           self.address.networkData as CFData,
-                                           packet.data as CFData,
-                                           self.timeout)
-                if err != .success {
-                    self.complete(.failure(NSError(errno: errno)))
-                } else {
-                    self.startTimer()
-                }
-            }
-        }
-    }
-
-    func handleResponse(_ data: Data) {
+    func parseResponse(_ responseData: Data) -> FrozenNetworkTimeResult {
         let responseTicks = timeval.uptime()
-        lockQueue.async {
-            guard self.started else { return } // Socket closed.
-            guard data.count == MemoryLayout<ntp_packet_t>.size else { return } // Invalid packet length.
-            guard let startTime = self.startTime, let requestTicks = self.requestTicks else {
-                assertionFailure("Uninitialized timestamps")
-                return
-            }
-
-            let packet = data.withUnsafeBytes { $0.pointee as ntp_packet_t }.nativeEndian
-            let responseTime = startTime.milliseconds + (responseTicks.milliseconds -
-                                                         requestTicks.milliseconds)
-
-            guard let response = NTPResponse(packet: packet, responseTime: responseTime) else {
-                self.complete(.failure(NSError(trueTimeError: .badServerResponse)))
-                return
-            }
-
-            self.debugLog("Buffer \(self.address) has read data!")
-            self.debugLog("Start time: \(startTime.milliseconds) ms, " +
-                          "response: \(packet.timeDescription)")
-            self.debugLog("Clock offset: \(response.offset) milliseconds")
-            self.debugLog("Round-trip delay: \(response.delay) milliseconds")
-            self.complete(.success(FrozenNetworkTime(time: response.networkDate,
-                                                     uptime: responseTicks,
-                                                     serverResponse: response,
-                                                     startTime: startTime)))
+        guard responseData.count == MemoryLayout<ntp_packet_t>.size else {
+            return .failure(NSError(trueTimeError: .badServerResponse)) // Invalid packet length.
         }
+        guard let startTime = startTime, let requestTicks = requestTicks else {
+            fatalError("Uninitialized timestamps")
+        }
+
+        let packet = responseData.withUnsafeBytes { $0.pointee as ntp_packet_t }.nativeEndian
+        let responseTime = startTime.milliseconds + (responseTicks.milliseconds - requestTicks.milliseconds)
+        guard let response = NTPResponse(packet: packet, responseTime: responseTime) else {
+            return .failure(NSError(trueTimeError: .badServerResponse))
+        }
+
+        debugLog("Buffer \(self.address) has read data!")
+        debugLog("Start time: \(startTime.milliseconds) ms, response: \(packet.timeDescription)")
+        debugLog("Clock offset: \(response.offset) milliseconds")
+        debugLog("Round-trip delay: \(response.delay) milliseconds")
+        return .success(FrozenNetworkTime(time: response.networkDate,
+                                          uptime: responseTicks,
+                                          serverResponse: response,
+                                          startTime: startTime))
     }
 
-    func requestPacket(_ time: ntp_time_t) -> ntp_packet_t {
+    static func requestPacket(_ time: ntp_time_t) -> ntp_packet_t {
         var packet = ntp_packet_t()
         packet.client_mode = 3
         packet.version_number = 3

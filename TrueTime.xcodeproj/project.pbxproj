@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		056C648E20B4BC2E008B55C5 /* DispatchBlockTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056C648D20B4BC2E008B55C5 /* DispatchBlockTimer.swift */; };
+		056C648F20B4BC2E008B55C5 /* DispatchBlockTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056C648D20B4BC2E008B55C5 /* DispatchBlockTimer.swift */; };
+		056C649020B4BC2E008B55C5 /* DispatchBlockTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056C648D20B4BC2E008B55C5 /* DispatchBlockTimer.swift */; };
 		05CEA58A1FFC5AC5002624AC /* Bridging.m in Sources */ = {isa = PBXBuildFile; fileRef = 05CEA5871FFC5A80002624AC /* Bridging.m */; };
 		2800902E1D444AD5004C788E /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2800902D1D444AD5004C788E /* SwiftCheck.framework */; };
 		2800904F1D444B64004C788E /* TrueTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37B41D4419F800084D47 /* TrueTime.framework */; };
@@ -19,8 +22,6 @@
 		2800906B1D45489D004C788E /* TrueTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090611D45489D004C788E /* TrueTime.swift */; };
 		2800906C1D45489D004C788E /* NTPExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090621D45489D004C788E /* NTPExtensions.swift */; };
 		2800906D1D45489D004C788E /* NTPExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090621D45489D004C788E /* NTPExtensions.swift */; };
-		2800906E1D45489D004C788E /* TimedOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090631D45489D004C788E /* TimedOperation.swift */; };
-		2800906F1D45489D004C788E /* TimedOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090631D45489D004C788E /* TimedOperation.swift */; };
 		280090701D45489D004C788E /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090641D45489D004C788E /* Reachability.swift */; };
 		280090711D45489D004C788E /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090641D45489D004C788E /* Reachability.swift */; };
 		280090721D45489D004C788E /* TrueTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 280090651D45489D004C788E /* TrueTime.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -33,7 +34,6 @@
 		280090841D454A9F004C788E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 280090811D454A9F004C788E /* Assets.xcassets */; };
 		28482DCD1D314E7B003491D9 /* TrueTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28482DC21D314E7B003491D9 /* TrueTime.framework */; };
 		285047E81D4D67B800DE4CE8 /* TrueTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090611D45489D004C788E /* TrueTime.swift */; };
-		285047E91D4D67B800DE4CE8 /* TimedOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090631D45489D004C788E /* TimedOperation.swift */; };
 		285047EA1D4D67B800DE4CE8 /* NTPExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090621D45489D004C788E /* NTPExtensions.swift */; };
 		285047EB1D4D67B800DE4CE8 /* Endian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2800905F1D45489D004C788E /* Endian.swift */; };
 		285047EC1D4D67B800DE4CE8 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090641D45489D004C788E /* Reachability.swift */; };
@@ -130,6 +130,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		056C648D20B4BC2E008B55C5 /* DispatchBlockTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchBlockTimer.swift; sourceTree = "<group>"; };
 		05CEA5871FFC5A80002624AC /* Bridging.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Bridging.m; sourceTree = "<group>"; };
 		2800902D1D444AD5004C788E /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/iOS/SwiftCheck.framework; sourceTree = "<group>"; };
 		280090301D444AE5004C788E /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/Mac/Nimble.framework; sourceTree = "<group>"; };
@@ -140,7 +141,6 @@
 		280090601D45489D004C788E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		280090611D45489D004C788E /* TrueTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrueTime.swift; sourceTree = "<group>"; };
 		280090621D45489D004C788E /* NTPExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTPExtensions.swift; sourceTree = "<group>"; };
-		280090631D45489D004C788E /* TimedOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimedOperation.swift; sourceTree = "<group>"; };
 		280090641D45489D004C788E /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		280090651D45489D004C788E /* TrueTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrueTime.h; sourceTree = "<group>"; };
 		280090751D4548A3004C788E /* ArbitraryExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArbitraryExtensions.swift; sourceTree = "<group>"; };
@@ -274,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				280090611D45489D004C788E /* TrueTime.swift */,
+				056C648D20B4BC2E008B55C5 /* DispatchBlockTimer.swift */,
 				2866628D1D5B771D002CA06B /* HostResolver.swift */,
 				288334BF1DAF200000A38C7C /* NTPClient.swift */,
 				2866628F1D5B7721002CA06B /* NTPConnection.swift */,
@@ -282,7 +283,6 @@
 				280090641D45489D004C788E /* Reachability.swift */,
 				28A88AA81DC1AA1600E1B8C3 /* ReferenceTime.swift */,
 				28B93B511D8A05AC00DC91FD /* SocketAddress.swift */,
-				280090631D45489D004C788E /* TimedOperation.swift */,
 				2800905F1D45489D004C788E /* Endian.swift */,
 				28EBC9FF1DC2CE6900CE788E /* GCDLock.swift */,
 				280090651D45489D004C788E /* TrueTime.h */,
@@ -883,7 +883,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2800906E1D45489D004C788E /* TimedOperation.swift in Sources */,
 				28BD08411D6248EC00D9981C /* TrueTime.m in Sources */,
 				28B93B521D8A05AC00DC91FD /* SocketAddress.swift in Sources */,
 				2800906A1D45489D004C788E /* TrueTime.swift in Sources */,
@@ -893,6 +892,7 @@
 				2874855B1DB1AE720020B777 /* NTPResponse.swift in Sources */,
 				280090701D45489D004C788E /* Reachability.swift in Sources */,
 				28A88AA91DC1AA1600E1B8C3 /* ReferenceTime.swift in Sources */,
+				056C648E20B4BC2E008B55C5 /* DispatchBlockTimer.swift in Sources */,
 				286662901D5B7721002CA06B /* NTPConnection.swift in Sources */,
 				2800906C1D45489D004C788E /* NTPExtensions.swift in Sources */,
 				288334C01DAF200000A38C7C /* NTPClient.swift in Sources */,
@@ -913,7 +913,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				285047E91D4D67B800DE4CE8 /* TimedOperation.swift in Sources */,
 				285047E81D4D67B800DE4CE8 /* TrueTime.swift in Sources */,
 				28804D9C1D8A2B5600FB186F /* SocketAddress.swift in Sources */,
 				285047EB1D4D67B800DE4CE8 /* Endian.swift in Sources */,
@@ -923,6 +922,7 @@
 				2874855D1DB1DFB90020B777 /* NTPResponse.swift in Sources */,
 				286662941D5B82BE002CA06B /* HostResolver.swift in Sources */,
 				28A88AAB1DC1AA2800E1B8C3 /* ReferenceTime.swift in Sources */,
+				056C649020B4BC2E008B55C5 /* DispatchBlockTimer.swift in Sources */,
 				286662921D5B82BB002CA06B /* NTPConnection.swift in Sources */,
 				285047EA1D4D67B800DE4CE8 /* NTPExtensions.swift in Sources */,
 				288334C21DAF200000A38C7C /* NTPClient.swift in Sources */,
@@ -943,7 +943,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2800906F1D45489D004C788E /* TimedOperation.swift in Sources */,
 				2800906B1D45489D004C788E /* TrueTime.swift in Sources */,
 				28804D9B1D8A2B5600FB186F /* SocketAddress.swift in Sources */,
 				280090671D45489D004C788E /* Endian.swift in Sources */,
@@ -953,6 +952,7 @@
 				2874855C1DB1DFB80020B777 /* NTPResponse.swift in Sources */,
 				286662931D5B82BD002CA06B /* HostResolver.swift in Sources */,
 				28A88AAA1DC1AA2700E1B8C3 /* ReferenceTime.swift in Sources */,
+				056C648F20B4BC2E008B55C5 /* DispatchBlockTimer.swift in Sources */,
 				286662911D5B82BA002CA06B /* NTPConnection.swift in Sources */,
 				2800906D1D45489D004C788E /* NTPExtensions.swift in Sources */,
 				288334C11DAF200000A38C7C /* NTPClient.swift in Sources */,
