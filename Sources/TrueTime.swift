@@ -100,6 +100,10 @@ public typealias LogCallback = (String) -> Void
 }
 
 extension TrueTimeClient {
+    @objc(start) public func bridgedStart() {
+        start()
+    }
+
     @objc public func fetchFirstIfNeeded(success: @escaping (ReferenceTime) -> Void, failure: ((NSError) -> Void)?) {
         fetchFirstIfNeeded(success: success, failure: failure, onQueue: .main)
     }
