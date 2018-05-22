@@ -24,11 +24,12 @@ final class NTPClient {
         self.config = config
     }
 
-    func start(pools poolURLs: [URL]) {
-        precondition(!poolURLs.isEmpty, "Must include at least one pool URL")
+    func start(pool: [String], port: Int) {
+        precondition(!pool.isEmpty, "Must include at least one pool URL")
         queue.async {
             precondition(self.reachability.callback == nil, "Already started")
-            self.poolURLs = poolURLs
+            self.pool = pool
+            self.port = port
             self.reachability.callbackQueue = self.queue
             self.reachability.callback = self.updateReachability
             self.reachability.startMonitoring()
@@ -89,7 +90,8 @@ final class NTPClient {
     private var startCallbacks: [(DispatchQueue, ReferenceTimeCallback)] = []
     private var startTime: TimeInterval?
     private var timer: DispatchSourceTimer?
-    private var poolURLs: [URL] = [] {
+    private var port: Int = 123
+    private var pool: [String] = [] {
         didSet { invalidate() }
     }
 }
@@ -105,7 +107,7 @@ private extension NTPClient {
         case .reachableViaWWAN, .reachableViaWiFi:
             debugLog("Network reachable")
             startTimer()
-            startQueue(poolURLs: poolURLs)
+            startPool(pool: pool, port: port)
         }
     }
 
@@ -125,29 +127,29 @@ private extension NTPClient {
         timer = nil
     }
 
-    func startQueue(poolURLs: [URL]) {
+    func startPool(pool: [String], port: Int) {
         guard !started && !finished else {
             debugLog("Already \(started ? "started" : "finished")")
             return
         }
 
         startTime = CFAbsoluteTimeGetCurrent()
-        debugLog("Resolving pool: \(poolURLs)")
-        HostResolver.resolve(urls: poolURLs,
+        debugLog("Resolving pool: \(pool)")
+        HostResolver.resolve(hosts: pool.map { ($0, port) },
                              timeout: config.timeout,
                              logger: logger,
-                             callbackQueue: queue) { host, result in
+                             callbackQueue: queue) { resolver, result in
             guard self.started && !self.finished else {
-                self.debugLog("Got DNS response after queue stopped: \(host), \(result)")
+                self.debugLog("Got DNS response after queue stopped: \(resolver), \(result)")
                 return
             }
-            guard poolURLs == self.poolURLs else {
-                self.debugLog("Got DNS response after pool URLs changed: \(host), \(result)")
+            guard pool == self.pool, port == self.port else {
+                self.debugLog("Got DNS response after pool URLs changed: \(resolver), \(result)")
                 return
             }
 
             switch result {
-            case let .success(addresses): self.query(addresses: addresses, pool: host.url)
+            case let .success(addresses): self.query(addresses: addresses, host: resolver.host)
             case let .failure(error): self.finish(.failure(error))
             }
         }
@@ -164,13 +166,13 @@ private extension NTPClient {
         stopQueue()
         finished = false
         if let referenceTime = referenceTime,
-               reachability.status != .notReachable && !poolURLs.isEmpty {
+               reachability.status != .notReachable && !pool.isEmpty {
             debugLog("Invalidated time \(referenceTime.debugDescription)")
-            startQueue(poolURLs: poolURLs)
+            startPool(pool: pool, port: port)
         }
     }
 
-    func query(addresses: [SocketAddress], pool: URL) {
+    func query(addresses: [SocketAddress], host: String) {
         var results: [String: [FrozenNetworkTimeResult]] = [:]
         connections = NTPConnection.query(addresses: addresses,
                                           config: config,
@@ -194,9 +196,7 @@ private extension NTPClient {
 
             self.debugLog("Got \(sampleSize) out of \(expectedCount)")
             if let time = bestTime(fromResponses: times) {
-                let time = FrozenNetworkTime(networkTime: time,
-                                             sampleSize: sampleSize,
-                                             pool: pool)
+                let time = FrozenNetworkTime(networkTime: time, sampleSize: sampleSize, host: host)
                 self.debugLog("\(atEnd ? "Final" : "Best") time: \(time), " +
                               "δ: \(time.serverResponse.delay), " +
                               "θ: \(time.serverResponse.offset)")

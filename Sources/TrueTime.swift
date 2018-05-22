@@ -66,8 +66,8 @@ public typealias LogCallback = (String) -> Void
         ntp = NTPClient(config: config)
     }
 
-    @objc public func start(hostURLs pools: [URL] = [URL(string: "time.apple.com")!]) {
-        ntp.start(pools: pools)
+    @objc public func start(pool: [String] = ["time.apple.com"], port: Int = 123) {
+        ntp.start(pool: pool, port: port)
     }
 
     @objc public func pause() {
