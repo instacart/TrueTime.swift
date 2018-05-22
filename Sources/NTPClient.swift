@@ -41,6 +41,7 @@ final class NTPClient {
         queue.async {
             self.cancelTimer()
             self.reachability.stopMonitoring()
+            self.reachability.callback = nil
             self.stopQueue()
         }
     }
@@ -49,8 +50,7 @@ final class NTPClient {
                        first: ReferenceTimeCallback?,
                        completion: ReferenceTimeCallback?) {
         queue.async {
-            precondition(self.reachability.callback != nil,
-                         "Must start client before retrieving time")
+            precondition(self.reachability.callback != nil, "Must start client before retrieving time")
             if let time = self.referenceTime {
                 callbackQueue.async { first?(.success(time)) }
             } else if let first = first {
@@ -74,7 +74,7 @@ final class NTPClient {
         set { referenceTimeLock.write(newValue) }
     }
 
-    fileprivate func debugLog(_ message: @autoclosure () -> String) {
+    private func debugLog(_ message: @autoclosure () -> String) {
 #if DEBUG_LOGGING
         logger?(message())
 #endif
@@ -107,7 +107,7 @@ private extension NTPClient {
         case .reachableViaWWAN, .reachableViaWiFi:
             debugLog("Network reachable")
             startTimer()
-            startPool(pool: pool, port: port)
+            startPool(pool: pool)
         }
     }
 
@@ -127,7 +127,7 @@ private extension NTPClient {
         timer = nil
     }
 
-    func startPool(pool: [String], port: Int) {
+    func startPool(pool: [String]) {
         guard !started && !finished else {
             debugLog("Already \(started ? "started" : "finished")")
             return
@@ -135,7 +135,7 @@ private extension NTPClient {
 
         startTime = CFAbsoluteTimeGetCurrent()
         debugLog("Resolving pool: \(pool)")
-        HostResolver.resolve(hosts: pool.map { ($0, port) },
+        HostResolver.resolve(hosts: pool.map { host in (host, port) },
                              timeout: config.timeout,
                              logger: logger,
                              callbackQueue: queue) { resolver, result in
@@ -143,8 +143,8 @@ private extension NTPClient {
                 self.debugLog("Got DNS response after queue stopped: \(resolver), \(result)")
                 return
             }
-            guard pool == self.pool, port == self.port else {
-                self.debugLog("Got DNS response after pool URLs changed: \(resolver), \(result)")
+            guard pool == self.pool else {
+                self.debugLog("Got DNS response after pool changed: \(resolver), \(result)")
                 return
             }
 
@@ -158,17 +158,16 @@ private extension NTPClient {
     func stopQueue() {
         debugLog("Stopping queue")
         startTime = nil
-        connections.forEach { $0.close(waitUntilFinished: true) }
+        connections.forEach { $0.stop() }
         connections = []
     }
 
     func invalidate() {
         stopQueue()
         finished = false
-        if let referenceTime = referenceTime,
-               reachability.status != .notReachable && !pool.isEmpty {
+        if let referenceTime = referenceTime, reachability.status != .notReachable && !pool.isEmpty {
             debugLog("Invalidated time \(referenceTime.debugDescription)")
-            startPool(pool: pool, port: port)
+            startPool(pool: pool)
         }
     }
 
@@ -186,11 +185,11 @@ private extension NTPClient {
             let host = connection.address.host
             results[host] = (results[host] ?? []) + [result]
 
-            let responses = Array(results.values)
+            let responses: [[FrozenNetworkTimeResult]] = Array(results.values)
             let sampleSize = responses.map { $0.count }.reduce(0, +)
             let expectedCount = addresses.count * self.config.numberOfSamples
             let atEnd = sampleSize == expectedCount
-            let times = responses.map { results in
+            let times: [[FrozenNetworkTime]] = responses.map { results in
                 results.map { $0.value }.compactMap { $0 }
             }
 
