@@ -117,7 +117,7 @@ extension sockaddr_in: CustomStringConvertible {
 
 extension HostResolver: CustomStringConvertible {
     var description: String {
-        return "\(type(of: self))(url: \(url), timeout: \(timeout))"
+        return "\(type(of: self))(host: \(host), port: \(port) timeout: \(timeout))"
     }
 }
 
@@ -131,13 +131,12 @@ extension NTPConnection: CustomStringConvertible {
 
 extension FrozenNetworkTime: CustomStringConvertible {
     var description: String {
-        let poolDescription = pool?.absoluteString ?? "nil"
         return "\(type(of: self))(time: \(time), " +
                                  "uptime: \(uptime.milliseconds) ms, " +
                                  "serverResponse: \(serverResponse), " +
                                  "startTime: \(startTime.milliseconds) ms, " +
                                  "sampleSize: \((sampleSize ?? 0)), " +
-                                 "pool: \(poolDescription))"
+                                 "host: \(host ?? "nil"))"
     }
 }
 

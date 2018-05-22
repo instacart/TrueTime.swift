@@ -53,7 +53,7 @@ private extension NTPIntegrationSpec {
             }
 
             for (idx, client) in clients.enumerated() {
-                client.start(hostURLs: [URL(string: "time.apple.com")!])
+                client.start(pool: ["time.apple.com"])
                 client.fetchIfNeeded { result in
                     results[idx] = result
                     if !results.contains(where: { $0 == nil }) {
