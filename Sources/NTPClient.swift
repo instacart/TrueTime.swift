@@ -41,6 +41,7 @@ final class NTPClient {
         queue.async {
             self.cancelTimer()
             self.reachability.stopMonitoring()
+            self.reachability.callback = nil
             self.stopQueue()
         }
     }
