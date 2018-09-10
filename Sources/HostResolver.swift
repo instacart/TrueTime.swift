@@ -82,6 +82,7 @@ final class HostResolver {
 
     /// Starts host resolution asynchronously for the given parameters.
     func resolve() {
+        guard self.networkHost == nil else { return }
         let callback: CFHostClientCallBack = { host, hostinfo, error, info in
             guard let info = info else { return }
             let retainedSelf = Unmanaged<HostResolver>.fromOpaque(info)

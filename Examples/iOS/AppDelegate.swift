@@ -18,6 +18,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?
     ) -> Bool {
         TrueTimeClient.sharedInstance.start()
+        for _ in (0..<10) {
+            TrueTimeClient.sharedInstance.fetchIfNeeded()
+        }
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = .white
         window?.makeKeyAndVisible()

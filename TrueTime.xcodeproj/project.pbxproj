@@ -1332,7 +1332,7 @@
 				INFOPLIST_FILE = Examples/iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.TrueTimeExample;
 				PRODUCT_NAME = TrueTimeExample;
 				SDKROOT = iphoneos;
 			};
@@ -1351,7 +1351,7 @@
 				INFOPLIST_FILE = Examples/iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NetworkTimeExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.TrueTimeExample;
 				PRODUCT_NAME = TrueTimeExample;
 				SDKROOT = iphoneos;
 			};

@@ -78,6 +78,9 @@ private extension ExampleViewController {
     }
 
     func tick() {
+        for _ in (0..<10) {
+            TrueTimeClient.sharedInstance.fetchIfNeeded()
+        }
         if let referenceTime = referenceTime {
             let trueTime = referenceTime.now()
             label.text = "\(trueTime)\n\n\(referenceTime)"

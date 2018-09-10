@@ -21,7 +21,10 @@ protocol FrozenTime {
 }
 
 struct FrozenReferenceTime: FrozenTime {
+    /// Time sent from NTP server.
     let time: Date
+
+    /// Uptime at the time of network response.
     let uptime: timeval
 }
 
@@ -58,11 +61,13 @@ struct FrozenNetworkTime: FrozenTime {
 }
 
 extension FrozenTime {
+    /// Current uptime subtracted by uptime at the time of network request.
     var uptimeInterval: TimeInterval {
         let currentUptime = timeval.uptime()
         return TimeInterval(milliseconds: currentUptime.milliseconds - uptime.milliseconds)
     }
 
+    /// Current time relative to adjusted network time.
     func now() -> Date {
         return time.addingTimeInterval(uptimeInterval)
     }
