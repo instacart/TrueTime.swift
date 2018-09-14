@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 `TrueTime.swift` adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.0.0](https://github.com/instacart/TrueTime.swift/releases/tag/5.0.0)
+
+- Added: Swift 4 support.
+- Added: Exposed missing methods via Objective-C bridging.
+- Fixed: Addressed issue with poll interval not being handled.
+- Fixed: Addressed issue with resuming after pausing.
+- Changed: Dropped support for Swift 3.
+- Changed: Updated pool parameter in `TrueTime.start` to take an explicit
+  string an port instead of a URL.
+
 ## [4.1.5](https://github.com/instacart/TrueTime.swift/releases/tag/4.1.5)
 
 - Fixed: Addressed issue with poll interval not being handled.
