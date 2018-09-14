@@ -1,4 +1,4 @@
-osx_image: xcode9
+osx_image: xcode9.4
 language: objective-c
 env:
   matrix:
@@ -7,7 +7,7 @@ env:
     - PLATFORM=tvOS SDK=appletvsimulator SCHEME=TrueTime-tvOS DESTINATION="platform=tvOS Simulator,name=Apple TV 1080p,OS=10.0"
 install: 
   - brew remove swiftlint --force || true
-  - brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/36bb9e0/Formula/swiftlint.rb
+  - brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/8d6cbc8/Formula/swiftlint.rb
   - brew remove carthage --force || true
   - brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/75d2a4a/Formula/carthage.rb
   - gem install xcpretty
