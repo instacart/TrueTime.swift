@@ -43,7 +43,7 @@ client.fetchIfNeeded { result in
 
 // At an opportune time (e.g. app start):
 TrueTimeClient *client = [TrueTimeClient sharedInstance];
-[client startWithHostURLs:@[[NSURL URLWithString:@"time.apple.com"]]];
+[client startWithPool:@[@"time.apple.com"] port:123];
 
 // You can now use this instead of [NSDate date]:
 NSDate *now = [[client referenceTime] now];
