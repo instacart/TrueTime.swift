@@ -15,8 +15,13 @@ public extension timeval {
         var boottime = timeval()
         var mib: [CInt] = [CTL_KERN, KERN_BOOTTIME]
         var size = MemoryLayout.stride(ofValue: boottime)
-        withFatalErrno { sysctl(&mib, 2, &boottime, &size, nil, 0) }
-        return timeval(tv_sec: now.tv_sec - boottime.tv_sec, tv_usec: now.tv_usec - boottime.tv_usec)
+        do {
+            try withErrno { sysctl(&mib, 2, &boottime, &size, nil, 0) }
+            return timeval(tv_sec: now.tv_sec - boottime.tv_sec, tv_usec: now.tv_usec - boottime.tv_usec)
+        } catch {
+            fatalError("Could not acquire uptime timeval")
+
+        }
     }
 
     var milliseconds: Int64 {
@@ -27,8 +32,12 @@ public extension timeval {
 extension timeval {
     static func now() -> timeval {
         var tv = timeval()
-        withFatalErrno { gettimeofday(&tv, nil) }
-        return tv
+        do {
+            try withErrno { gettimeofday(&tv, nil) }
+            return tv
+        } catch {
+            fatalError("Could not acquire now timeval")
+        }
     }
 }
 
@@ -214,6 +223,7 @@ extension NSError {
     }
 }
 
+@discardableResult
 func withErrno<X: SignedInteger>(_ block: () -> X) throws -> X {
     let result = block()
     if result < 0 {
