@@ -19,7 +19,7 @@ public extension timeval {
             try withErrno { sysctl(&mib, 2, &boottime, &size, nil, 0) }
             return timeval(tv_sec: now.tv_sec - boottime.tv_sec, tv_usec: now.tv_usec - boottime.tv_usec)
         } catch {
-            fatalError("Could not acquire uptime timeval")
+            fatalError("Could not acquire uptime timeval: \(error)")
 
         }
     }
@@ -36,7 +36,7 @@ extension timeval {
             try withErrno { gettimeofday(&tv, nil) }
             return tv
         } catch {
-            fatalError("Could not acquire now timeval")
+            fatalError("Could not acquire now timeval: \(error)")
         }
     }
 }
