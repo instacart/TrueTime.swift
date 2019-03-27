@@ -120,9 +120,26 @@ $ git submodule add https://github.com/instacart/TrueTime.swift.git
 ## Notes / Tips
 
 * Since `NSDates` are just Unix timestamps, it's safe to hold onto values returned by `ReferenceTime.now()` or persist them to disk without having to adjust them later.
-* Reachability events are automatically accounted for to pause/start requests.
+* Reachability events are automatically accounted for to start requests.
 * UDP requests are executed in parallel, with a default limit of 5 parallel calls. If one fails, we'll retry up to 3 times by default.
 * TrueTime is also [available for Android](https://github.com/instacart/truetime-android).
+
+## Contributing
+
+This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md).
+By participating (including but not limited to; reporting issues, commenting on issues and contributing code) you are expected to uphold this code. Please report unacceptable behavior to  opensource@instacart.com.
+
+### Setup
+
+Development depends on some [Carthage](https://github.com/Carthage/Carthage) dependencies and a (xcconfig)[https://github.com/jspahrsummers/xcconfigs] git submodule.
+
+Clone the repo and setup dependencies with:
+
+```
+git submodule update --init --recursive
+carthage bootstrap
+```
+
 
 ## License
 
