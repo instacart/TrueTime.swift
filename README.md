@@ -120,7 +120,7 @@ $ git submodule add https://github.com/instacart/TrueTime.swift.git
 ## Notes / Tips
 
 * Since `NSDates` are just Unix timestamps, it's safe to hold onto values returned by `ReferenceTime.now()` or persist them to disk without having to adjust them later.
-* Reachability events are automatically accounted for to start requests.
+* Reachability events are automatically accounted for to pause/start requests.
 * UDP requests are executed in parallel, with a default limit of 5 parallel calls. If one fails, we'll retry up to 3 times by default.
 * TrueTime is also [available for Android](https://github.com/instacart/truetime-android).
 
