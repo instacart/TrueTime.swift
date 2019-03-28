@@ -131,7 +131,7 @@ By participating (including but not limited to; reporting issues, commenting on 
 
 ### Setup
 
-Development depends on some [Carthage](https://github.com/Carthage/Carthage) dependencies and a (xcconfig)[https://github.com/jspahrsummers/xcconfigs] git submodule.
+Development depends on some [Carthage](https://github.com/Carthage/Carthage) dependencies and a [xcconfig](https://github.com/jspahrsummers/xcconfigs) git submodule.
 
 Clone the repo and setup dependencies with:
 
