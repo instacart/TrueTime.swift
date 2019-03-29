@@ -59,8 +59,8 @@ extension SocketAddress: CustomStringConvertible {
 }
 
 extension SocketAddress: Hashable {
-    var hashValue: Int {
-        return host.hashValue
+    func hash(into: inout Hasher) {
+        host.hash(into: &into)
     }
 }
 
