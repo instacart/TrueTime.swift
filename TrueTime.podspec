@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'TrueTime'
-  s.version = '5.0.0'
+  s.version = '5.0.1'
   s.summary = 'NTP library for Swift. Get the true time impervious to device clock changes.'
 
   s.homepage = 'https://github.com/instacart/TrueTime.swift'
@@ -17,5 +17,5 @@ Pod::Spec.new do |s|
   s.public_header_files = 'Sources/*.h'
   s.pod_target_xcconfig = { 'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/TrueTime/Sources/CTrueTime/**' }
   s.preserve_paths  = 'Sources/CTrueTime/module.modulemap'
-  s.dependency 'Result', '~> 4.0'
+  s.dependency 'Result', '~> 4.1'
 end
