@@ -6,9 +6,9 @@
 //  Copyright © 2016 Instacart. All rights reserved.
 //
 
-import CTrueTime
 import Foundation
 import Result
+import CTrueTime
 
 @objc public enum TrueTimeError: Int {
     case cannotFindHost

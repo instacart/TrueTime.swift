@@ -81,6 +81,7 @@
 		28EBCA011DC2CE6900CE788E /* GCDLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EBC9FF1DC2CE6900CE788E /* GCDLock.swift */; };
 		28EBCA021DC2CE6900CE788E /* GCDLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EBC9FF1DC2CE6900CE788E /* GCDLock.swift */; };
 		28F30A3F1DC1374D00CCF4F0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F30A3D1DC1374700CCF4F0 /* ViewController.swift */; };
+		7F2F7FF42271DE6B00E6A388 /* ntp_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F2F7FF32271DE6B00E6A388 /* ntp_types.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -199,6 +200,8 @@
 		28BD083F1D6248EC00D9981C /* TrueTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrueTime.m; sourceTree = "<group>"; };
 		28EBC9FF1DC2CE6900CE788E /* GCDLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDLock.swift; sourceTree = "<group>"; };
 		28F30A3D1DC1374700CCF4F0 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7F2F7FF12271DB5900E6A388 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = CTrueTime/module.modulemap; sourceTree = "<group>"; };
+		7F2F7FF32271DE6B00E6A388 /* ntp_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ntp_types.h; path = CTrueTime/ntp_types.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -273,6 +276,7 @@
 		2800905D1D45489D004C788E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				7F2F7FEF2271DB3D00E6A388 /* CtrueTime */,
 				280090611D45489D004C788E /* TrueTime.swift */,
 				2866628D1D5B771D002CA06B /* HostResolver.swift */,
 				288334BF1DAF200000A38C7C /* NTPClient.swift */,
@@ -482,6 +486,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7F2F7FEF2271DB3D00E6A388 /* CtrueTime */ = {
+			isa = PBXGroup;
+			children = (
+				7F2F7FF32271DE6B00E6A388 /* ntp_types.h */,
+				7F2F7FF12271DB5900E6A388 /* module.modulemap */,
+			);
+			name = CtrueTime;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -490,6 +503,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				280090721D45489D004C788E /* TrueTime.h in Headers */,
+				7F2F7FF42271DE6B00E6A388 /* ntp_types.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1099,6 +1113,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 282BD1EB1D5CE2E0000D78A7 /* iOS-Framework.xcconfig */;
 			buildSettings = {
+				BITCODE_GENERATION_MODE = "";
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
@@ -1113,6 +1128,8 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "";
+				MODULEMAP_PRIVATE_FILE = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.TrueTime;
 				PRODUCT_NAME = TrueTime;
 				SKIP_INSTALL = YES;
@@ -1127,6 +1144,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 282BD1EB1D5CE2E0000D78A7 /* iOS-Framework.xcconfig */;
 			buildSettings = {
+				BITCODE_GENERATION_MODE = "";
+				"BITCODE_GENERATION_MODE[sdk=iphoneos*]" = bitcode;
+				"BITCODE_GENERATION_MODE[sdk=iphonesimulator*]" = "";
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEAD_CODE_STRIPPING = YES;
@@ -1141,6 +1161,8 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "";
+				MODULEMAP_PRIVATE_FILE = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.TrueTime;
 				PRODUCT_NAME = TrueTime;
 				SKIP_INSTALL = YES;

@@ -9,7 +9,7 @@
 #ifndef NTP_TYPES_H
 #define NTP_TYPES_H
 
-#include <stdint.h>
+#import <stdint.h>
 
 typedef struct {
     uint16_t whole;
