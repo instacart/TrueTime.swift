@@ -658,11 +658,11 @@
 					};
 					28482DC11D314E7B003491D9 = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0810;
+						LastSwiftMigration = 1010;
 					};
 					28482DCB1D314E7B003491D9 = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 1010;
 					};
 					285047DE1D4D641400DE4CE8 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -1108,6 +1108,8 @@
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1136,6 +1138,8 @@
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -1152,6 +1156,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-iOSTests";
 				PRODUCT_NAME = TrueTimeTests;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1168,6 +1174,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-iOSTests";
 				PRODUCT_NAME = TrueTimeTests;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
