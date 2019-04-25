@@ -98,14 +98,14 @@ private extension NTPClient {
     var started: Bool { return startTime != nil }
     func updateReachability(status: ReachabilityStatus) {
         switch status {
-            case .notReachable:
-                debugLog("Network unreachable")
-                cancelTimer()
-                finish(.failure(NSError(trueTimeError: .offline)))
-            case .reachableViaWWAN, .reachableViaWiFi:
-                debugLog("Network reachable")
-                startTimer()
-                startQueue(poolURLs: poolURLs)
+        case .notReachable:
+            debugLog("Network unreachable")
+            cancelTimer()
+            finish(.failure(NSError(trueTimeError: .offline)))
+        case .reachableViaWWAN, .reachableViaWiFi:
+            debugLog("Network reachable")
+            startTimer()
+            startQueue(poolURLs: poolURLs)
         }
     }
 
@@ -148,10 +148,10 @@ private extension NTPClient {
             }
 
             switch result {
-                case let .success(addresses):
-                    self.query(addresses: addresses, pool: host.url)
-                case let .failure(error):
-                    self.finish(.failure(error))
+            case let .success(addresses):
+                self.query(addresses: addresses, pool: host.url)
+            case let .failure(error):
+                self.finish(.failure(error))
             }
         }
     }

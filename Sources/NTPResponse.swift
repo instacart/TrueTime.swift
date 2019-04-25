@@ -24,13 +24,11 @@ struct NTPResponse {
 
     // See https://en.wikipedia.org/wiki/Network_Time_Protocol#Clock_synchronization_algorithm
     var offset: Int64 {
-        let T = offsetValues
-        return ((T[1] - T[0]) + (T[2] - T[3])) / 2
+        return ((offsetValues[1] - offsetValues[0]) + (offsetValues[2] - offsetValues[3])) / 2
     }
 
     var delay: Int64 {
-        let T = offsetValues
-        return (T[3] - T[0]) - (T[2] - T[1])
+        return (offsetValues[3] - offsetValues[0]) - (offsetValues[2] - offsetValues[1])
     }
 
     var networkDate: Date {

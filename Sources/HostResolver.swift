@@ -39,15 +39,15 @@ final class HostResolver {
                                 logger: logger,
                                 callbackQueue: callbackQueue) { host, result in
             switch result {
-                case .success: fallthrough
-                case .failure where urls.count == 1:
-                    onComplete(host, result)
-                case .failure:
-                    resolve(urls: Array(urls.dropFirst()),
-                            timeout: timeout,
-                            logger: logger,
-                            callbackQueue: callbackQueue,
-                            onComplete: onComplete)
+            case .success: fallthrough
+            case .failure where urls.count == 1:
+                onComplete(host, result)
+            case .failure:
+                resolve(urls: Array(urls.dropFirst()),
+                        timeout: timeout,
+                        logger: logger,
+                        callbackQueue: callbackQueue,
+                        onComplete: onComplete)
             }
         }
 

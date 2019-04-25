@@ -190,15 +190,15 @@ private extension NTPConnection {
 
         close()
         switch result {
-            case let .failure(error) where attempts < maxRetries && !didTimeout:
-                debugLog("Got error from \(address) (attempt \(attempts)), " +
-                         "trying again. \(error)")
-                start(callbackQueue, onComplete: onComplete)
-            case .failure, .success:
-                finished = true
-                callbackQueue.async {
-                    onComplete(self, result)
-                }
+        case let .failure(error) where attempts < maxRetries && !didTimeout:
+            debugLog("Got error from \(address) (attempt \(attempts)), " +
+                     "trying again. \(error)")
+            start(callbackQueue, onComplete: onComplete)
+        case .failure, .success:
+            finished = true
+            callbackQueue.async {
+                onComplete(self, result)
+            }
         }
     }
 

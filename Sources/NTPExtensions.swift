@@ -27,9 +27,9 @@ public extension timeval {
 
 extension timeval {
     static func now() -> timeval {
-        var tv = timeval()
-        withFatalErrno { gettimeofday(&tv, nil) }
-        return tv
+        var timeVal = timeval()
+        withFatalErrno { gettimeofday(&timeVal, nil) }
+        return timeVal
     }
 }
 
@@ -190,19 +190,19 @@ extension String {
 extension TrueTimeError: CustomStringConvertible {
     public var description: String {
         switch self {
-            case .cannotFindHost:
-                return "The connection failed because the host could not be found.".localized
-            case .dnsLookupFailed:
-                return "The connection failed because the DNS lookup failed.".localized
-            case .timedOut:
-                return "The connection timed out.".localized
-            case .offline:
-                return "The connection failed because the device is not connected to the " +
-                       "internet.".localized
-            case .badServerResponse:
-                return "The connection received an invalid server response.".localized
-            case .noValidPacket:
-                return "No valid NTP packet was found.".localized
+        case .cannotFindHost:
+            return "The connection failed because the host could not be found.".localized
+        case .dnsLookupFailed:
+            return "The connection failed because the DNS lookup failed.".localized
+        case .timedOut:
+            return "The connection timed out.".localized
+        case .offline:
+            return "The connection failed because the device is not connected to the " +
+                   "internet.".localized
+        case .badServerResponse:
+            return "The connection received an invalid server response.".localized
+        case .noValidPacket:
+            return "No valid NTP packet was found.".localized
         }
     }
 }
