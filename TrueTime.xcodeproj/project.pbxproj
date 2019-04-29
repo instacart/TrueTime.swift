@@ -670,6 +670,9 @@
 					285047DE1D4D641400DE4CE8 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
+					287C37A31D4419F800084D47 = {
+						LastSwiftMigration = 1020;
+					};
 					288A04D61D31A74D0032B6FE = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 59VC75K95Z;
@@ -679,7 +682,7 @@
 			};
 			buildConfigurationList = 28482DBC1D314E7B003491D9 /* Build configuration list for PBXProject "TrueTime" */;
 			compatibilityVersion = "Xcode 6.3";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -1011,6 +1014,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-MacTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1030,6 +1034,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-MacTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1061,7 +1066,7 @@
 				SDKROOT = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1091,7 +1096,7 @@
 				SDKROOT = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1292,6 +1297,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/Sources/CTrueTime";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1318,6 +1324,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/Sources/CTrueTime";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
