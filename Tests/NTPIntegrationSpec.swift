@@ -9,7 +9,6 @@
 @testable import TrueTime
 import Nimble
 import Quick
-import Result
 
 final class NTPIntegrationSpec: QuickSpec {
     override func spec() {
@@ -30,8 +29,12 @@ private extension NTPIntegrationSpec {
             let finish = {
                 let end = NSDate()
                 let results = results.compactMap { $0 }
-                let times = results.filter { $0.value != nil }.map { $0.value! }
-                let errors = results.filter { $0.error != nil }.map { $0.error! }
+                let times = results.compactMap { try? $0.get() }
+                let errors: [Error] = results.compactMap {
+                    guard case let .failure(failure) = $0 else { return nil }
+
+                    return failure
+                }
                 expect(times).notTo(beEmpty(), description: "Expected times, got: \(errors)")
                 print("Got \(times.count) times for \(results.count) results")
 
