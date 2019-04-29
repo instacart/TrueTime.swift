@@ -15,13 +15,13 @@ final class ExampleViewController: UIViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(startTimer),
-            name: NSNotification.Name.UIApplicationDidBecomeActive,
+            name: UIApplication.didBecomeActiveNotification,
             object: nil
         )
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(cancelTimer),
-            name: NSNotification.Name.UIApplicationWillResignActive,
+            name: UIApplication.willResignActiveNotification,
             object: nil
         )
     }
