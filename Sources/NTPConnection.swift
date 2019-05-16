@@ -107,23 +107,18 @@ final class NTPConnection {
     func close(waitUntilFinished wait: Bool = false) {
         let work = {
             self.cancelTimer()
-            if let socket = self.socket, let source = self.source {
-                let disabledFlags = NTPConnection.callbackFlags |
-                                    kCFSocketAutomaticallyReenableDataCallBack |
-                                    kCFSocketAutomaticallyReenableReadCallBack |
-                                    kCFSocketAutomaticallyReenableWriteCallBack |
-                                    kCFSocketAutomaticallyReenableAcceptCallBack
-                CFSocketDisableCallBacks(socket, disabledFlags)
-                CFSocketInvalidate(socket)
-                CFRunLoopRemoveSource(CFRunLoopGetMain(), source, CFRunLoopMode.commonModes)
-                self.socket = nil
-                self.source = nil
-                self.debugLog("Connection closed \(self.address)")
-            }
-            if self.callbackPending {
-                Unmanaged.passUnretained(self).release()
-                self.callbackPending = false
-            }
+            guard let socket = self.socket, let source = self.source else { return }
+            let disabledFlags = NTPConnection.callbackFlags |
+                                kCFSocketAutomaticallyReenableDataCallBack |
+                                kCFSocketAutomaticallyReenableReadCallBack |
+                                kCFSocketAutomaticallyReenableWriteCallBack |
+                                kCFSocketAutomaticallyReenableAcceptCallBack
+            CFSocketDisableCallBacks(socket, disabledFlags)
+            CFSocketInvalidate(socket)
+            CFRunLoopRemoveSource(CFRunLoopGetMain(), source, CFRunLoopMode.commonModes)
+            self.socket = nil
+            self.source = nil
+            self.debugLog("Connection closed \(self.address)")
         }
 
         if wait {
@@ -205,6 +200,10 @@ private extension NTPConnection {
             callbackQueue.async {
                 onComplete(self, result)
             }
+        }
+        if callbackPending {
+            callbackPending = false
+            Unmanaged.passUnretained(self).release()
         }
     }
 
