@@ -8,7 +8,6 @@
 
 import CTrueTime
 import Foundation
-import Result
 
 @objc public enum TrueTimeError: Int {
     case cannotFindHost
@@ -127,7 +126,10 @@ extension TrueTimeClient {
     private func mapBridgedResult(_ result: ReferenceTimeResult,
                                   success: (ReferenceTime) -> Void,
                                   failure: ((NSError) -> Void)?) {
-        result.analysis(ifSuccess: success, ifFailure: { err in failure?(err) })
+        switch result {
+        case .success(let referenceTime): success(referenceTime)
+        case .failure(let error): failure?(error)
+        }
     }
 }
 

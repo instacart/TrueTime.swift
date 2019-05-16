@@ -7,7 +7,6 @@
 //
 
 import CTrueTime
-import Result
 
 typealias FrozenTimeResult = Result<FrozenTime, NSError>
 typealias FrozenTimeCallback = (FrozenTimeResult) -> Void

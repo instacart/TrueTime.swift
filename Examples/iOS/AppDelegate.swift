@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Result
 import TrueTime
 
 @UIApplicationMain
