@@ -29,7 +29,6 @@ final class HostResolver {
     /// - parameter callbackQueue: queue to fire `onComplete` callback
     /// - parameter onComplete: invoked upon first successfully resolved host
     ///                         or when all hosts fail
-    // swiftlint:disable:next function_parameter_count
     static func resolve(hosts: [(host: String, port: Int)],
                         timeout: TimeInterval,
                         logger: LogCallback?,
