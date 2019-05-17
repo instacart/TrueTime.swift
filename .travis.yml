@@ -1,11 +1,11 @@
-osx_image: xcode9.4
+osx_image: xcode10.2
 language: objective-c
 env:
   matrix:
     - PLATFORM=iOS SDK=iphonesimulator SCHEME=TrueTime-iOS DESTINATION="platform=iOS Simulator,name=iPhone 6,OS=10.0"
     - PLATFORM=Mac SDK=macosx SCHEME=TrueTime-Mac DESTINATION="platform=macOS"
     - PLATFORM=tvOS SDK=appletvsimulator SCHEME=TrueTime-tvOS DESTINATION="platform=tvOS Simulator,name=Apple TV 1080p,OS=10.0"
-install: 
+install:
   - brew remove swiftlint --force || true
   - brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/8d6cbc8/Formula/swiftlint.rb
   - brew remove carthage --force || true
