@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Result
 
 typealias HostResult = Result<[SocketAddress], NSError>
 typealias HostCallback = (HostResolver, HostResult) -> Void

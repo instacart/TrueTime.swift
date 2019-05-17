@@ -39,7 +39,6 @@
 		285047EC1D4D67B800DE4CE8 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280090641D45489D004C788E /* Reachability.swift */; };
 		285047ED1D4D681300DE4CE8 /* TrueTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 280090651D45489D004C788E /* TrueTime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		285047EE1D4D688000DE4CE8 /* TrueTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 285047DF1D4D641400DE4CE8 /* TrueTime.framework */; };
-		285047EF1D4D68B000DE4CE8 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28682B591D4D2F2B00D65223 /* Result.framework */; };
 		2866628E1D5B771D002CA06B /* HostResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2866628D1D5B771D002CA06B /* HostResolver.swift */; };
 		286662901D5B7721002CA06B /* NTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2866628F1D5B7721002CA06B /* NTPConnection.swift */; };
 		286662911D5B82BA002CA06B /* NTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2866628F1D5B7721002CA06B /* NTPConnection.swift */; };
@@ -55,9 +54,6 @@
 		2874855B1DB1AE720020B777 /* NTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2874855A1DB1AE720020B777 /* NTPResponse.swift */; };
 		2874855C1DB1DFB80020B777 /* NTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2874855A1DB1AE720020B777 /* NTPResponse.swift */; };
 		2874855D1DB1DFB90020B777 /* NTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2874855A1DB1AE720020B777 /* NTPResponse.swift */; };
-		287C37D11D44202000084D47 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37D01D44202000084D47 /* Result.framework */; };
-		287C37F01D4422CE00084D47 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37CB1D441FC700084D47 /* Result.framework */; };
-		287C37FB1D44297000084D47 /* Result.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 287C37D01D44202000084D47 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		28804D9B1D8A2B5600FB186F /* SocketAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B93B511D8A05AC00DC91FD /* SocketAddress.swift */; };
 		28804D9C1D8A2B5600FB186F /* SocketAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B93B511D8A05AC00DC91FD /* SocketAddress.swift */; };
 		288334C01DAF200000A38C7C /* NTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288334BF1DAF200000A38C7C /* NTPClient.swift */; };
@@ -121,7 +117,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				287C37FB1D44297000084D47 /* Result.framework in Copy Frameworks */,
 				28AF2F7B1D3CB66100FE536A /* TrueTime.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -181,14 +176,11 @@
 		2866628F1D5B7721002CA06B /* NTPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTPConnection.swift; sourceTree = "<group>"; };
 		28682B571D4D2F2B00D65223 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/tvOS/Nimble.framework; sourceTree = "<group>"; };
 		28682B581D4D2F2B00D65223 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/tvOS/Quick.framework; sourceTree = "<group>"; };
-		28682B591D4D2F2B00D65223 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/tvOS/Result.framework; sourceTree = "<group>"; };
 		28682B5A1D4D2F2B00D65223 /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/tvOS/SwiftCheck.framework; sourceTree = "<group>"; };
 		28682B731D4D2F4600D65223 /* TrueTime-TVTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TrueTime-TVTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		287485581DB140F70020B777 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		2874855A1DB1AE720020B777 /* NTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTPResponse.swift; sourceTree = "<group>"; };
 		287C37B41D4419F800084D47 /* TrueTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TrueTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		287C37CB1D441FC700084D47 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
-		287C37D01D44202000084D47 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		288334BF1DAF200000A38C7C /* NTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NTPClient.swift; sourceTree = "<group>"; };
 		288A04CE1D31A1250032B6FE /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		288A04CF1D31A1250032B6FE /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
@@ -217,7 +209,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				287C37D11D44202000084D47 /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,7 +227,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				285047EF1D4D68B000DE4CE8 /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,7 +245,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				287C37F01D4422CE00084D47 /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,7 +433,6 @@
 			children = (
 				28682B571D4D2F2B00D65223 /* Nimble.framework */,
 				28682B581D4D2F2B00D65223 /* Quick.framework */,
-				28682B591D4D2F2B00D65223 /* Result.framework */,
 				28682B5A1D4D2F2B00D65223 /* SwiftCheck.framework */,
 			);
 			name = tvOS;
@@ -454,7 +442,6 @@
 			isa = PBXGroup;
 			children = (
 				2800902D1D444AD5004C788E /* SwiftCheck.framework */,
-				287C37D01D44202000084D47 /* Result.framework */,
 				288A04CE1D31A1250032B6FE /* Nimble.framework */,
 				288A04CF1D31A1250032B6FE /* Quick.framework */,
 			);
@@ -467,7 +454,6 @@
 				280090301D444AE5004C788E /* Nimble.framework */,
 				280090311D444AE5004C788E /* Quick.framework */,
 				280090321D444AE5004C788E /* SwiftCheck.framework */,
-				287C37CB1D441FC700084D47 /* Result.framework */,
 			);
 			name = Mac;
 			sourceTree = "<group>";
@@ -670,6 +656,9 @@
 					285047DE1D4D641400DE4CE8 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
+					287C37A31D4419F800084D47 = {
+						LastSwiftMigration = 1020;
+					};
 					288A04D61D31A74D0032B6FE = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 59VC75K95Z;
@@ -679,7 +668,7 @@
 			};
 			buildConfigurationList = 28482DBC1D314E7B003491D9 /* Build configuration list for PBXProject "TrueTime" */;
 			compatibilityVersion = "Xcode 6.3";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -779,7 +768,6 @@
 				"$(SRCROOT)/Carthage/Build/Mac/Quick.framework",
 				"$(SRCROOT)/Carthage/Build/Mac/Nimble.framework",
 				"$(SRCROOT)/Carthage/Build/Mac/SwiftCheck.framework",
-				"$(SRCROOT)/Carthage/Build/Mac/Result.framework",
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (
@@ -811,7 +799,6 @@
 				"$(SRCROOT)/Carthage/Build/tvOS/Quick.framework",
 				"$(SRCROOT)/Carthage/Build/tvOS/Nimble.framework",
 				"$(SRCROOT)/Carthage/Build/tvOS/SwiftCheck.framework",
-				"$(SRCROOT)/Carthage/Build/tvOS/Result.framework",
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (
@@ -828,7 +815,6 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Nimble.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Quick.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftCheck.framework",
 			);
 			name = "Copy Carthage Frameworks";
@@ -1011,6 +997,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-MacTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1030,6 +1017,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.instacart.TrueTime-MacTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1061,7 +1049,7 @@
 				SDKROOT = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1091,7 +1079,7 @@
 				SDKROOT = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1292,6 +1280,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/Sources/CTrueTime";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1318,6 +1307,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/Sources/CTrueTime";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

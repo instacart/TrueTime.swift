@@ -7,7 +7,6 @@
 //
 
 import CTrueTime
-import Result
 
 struct NTPConfig {
     let timeout: TimeInterval
@@ -192,7 +191,7 @@ private extension NTPClient {
             let expectedCount = addresses.count * self.config.numberOfSamples
             let atEnd = sampleSize == expectedCount
             let times = responses.map { results in
-                results.map { $0.value }.compactMap { $0 }
+                results.compactMap { try? $0.get() }
             }
 
             self.debugLog("Got \(sampleSize) out of \(expectedCount)")
@@ -215,7 +214,14 @@ private extension NTPClient {
                     self.updateProgress(.success(referenceTime))
                 }
             } else if atEnd {
-                self.finish(.failure(result.error ?? NSError(trueTimeError: .noValidPacket)))
+                let error: NSError
+                if case let .failure(failure) = result {
+                    error = failure as NSError
+                } else {
+                    error = NSError(trueTimeError: .noValidPacket)
+                }
+
+                self.finish(ReferenceTimeResult.failure(error))
             }
         }
     }
@@ -246,7 +252,7 @@ private extension NTPClient {
         }
         completionCallbacks = []
         logDuration(endTime, to: "get last result")
-        finished = result.value != nil
+        finished = (try? result.get()) != nil
         stopQueue()
         startTimer()
     }
