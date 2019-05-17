@@ -243,7 +243,7 @@ private extension NTPConnection {
                 return
             }
 
-            let packet = data.withUnsafeBytes { $0.pointee as ntp_packet_t }.nativeEndian
+            let packet = data.withUnsafeBytes { $0.load(as: ntp_packet_t.self) }.nativeEndian
             let responseTime = startTime.milliseconds + (responseTicks.milliseconds -
                                                          requestTicks.milliseconds)
 
