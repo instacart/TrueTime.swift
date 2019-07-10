@@ -72,10 +72,9 @@ final class NTPConnection {
     func start(_ callbackQueue: DispatchQueue, onComplete: @escaping NTPConnectionCallback) {
         lockQueue.async {
             guard !self.started else { return }
-            self.callbackPending = true
             var ctx = CFSocketContext(
                 version: 0,
-                info: UnsafeMutableRawPointer(Unmanaged.passRetained(self).toOpaque()),
+                info: UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque()),
                 retain: nil,
                 release: nil,
                 copyDescription: nil
@@ -136,16 +135,13 @@ final class NTPConnection {
 
     private let dataCallback: CFSocketCallBack = { socket, type, address, data, info in
         guard let info = info else { return }
-        let retainedClient = Unmanaged<NTPConnection>.fromOpaque(info)
-        let client = retainedClient.takeUnretainedValue()
+        let client = Unmanaged<NTPConnection>.fromOpaque(info).takeUnretainedValue()
         guard let socket = socket, CFSocketIsValid(socket) else { return }
 
         // Can't use switch here as these aren't defined as an enum.
         if type == .dataCallBack {
             let data = unsafeBitCast(data, to: CFData.self) as Data
-            client.callbackPending = false
             client.handleResponse(data)
-            retainedClient.release()
         } else if type == .writeCallBack {
             client.debugLog("Buffer \(client.address) writable - requesting time")
             client.requestTime()
@@ -169,7 +165,6 @@ final class NTPConnection {
     private var source: CFRunLoopSource?
     private var startTime: ntp_time_t?
     private var finished: Bool = false
-    private var callbackPending: Bool = false
 }
 
 extension NTPConnection: TimedOperation {
@@ -200,10 +195,6 @@ private extension NTPConnection {
             callbackQueue.async {
                 onComplete(self, result)
             }
-        }
-        if callbackPending {
-            callbackPending = false
-            Unmanaged.passUnretained(self).release()
         }
     }
 
