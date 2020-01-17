@@ -77,6 +77,9 @@
 		28EBCA011DC2CE6900CE788E /* GCDLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EBC9FF1DC2CE6900CE788E /* GCDLock.swift */; };
 		28EBCA021DC2CE6900CE788E /* GCDLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EBC9FF1DC2CE6900CE788E /* GCDLock.swift */; };
 		28F30A3F1DC1374D00CCF4F0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F30A3D1DC1374700CCF4F0 /* ViewController.swift */; };
+		D4C54EC523D1131A009DE762 /* ntp_types.h in Headers */ = {isa = PBXBuildFile; fileRef = D4C54EC323D1131A009DE762 /* ntp_types.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4C54EC623D1195D009DE762 /* ntp_types.h in Headers */ = {isa = PBXBuildFile; fileRef = D4C54EC323D1131A009DE762 /* ntp_types.h */; };
+		D4C54EC723D1195E009DE762 /* ntp_types.h in Headers */ = {isa = PBXBuildFile; fileRef = D4C54EC323D1131A009DE762 /* ntp_types.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -191,6 +194,8 @@
 		28BD083F1D6248EC00D9981C /* TrueTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrueTime.m; sourceTree = "<group>"; };
 		28EBC9FF1DC2CE6900CE788E /* GCDLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDLock.swift; sourceTree = "<group>"; };
 		28F30A3D1DC1374700CCF4F0 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D4C54EC323D1131A009DE762 /* ntp_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ntp_types.h; sourceTree = "<group>"; };
+		D4C54EC423D1131A009DE762 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,6 +267,7 @@
 		2800905D1D45489D004C788E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				D4C54EC223D1131A009DE762 /* CTrueTime */,
 				280090611D45489D004C788E /* TrueTime.swift */,
 				2866628D1D5B771D002CA06B /* HostResolver.swift */,
 				288334BF1DAF200000A38C7C /* NTPClient.swift */,
@@ -468,6 +474,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D4C54EC223D1131A009DE762 /* CTrueTime */ = {
+			isa = PBXGroup;
+			children = (
+				D4C54EC323D1131A009DE762 /* ntp_types.h */,
+				D4C54EC423D1131A009DE762 /* module.modulemap */,
+			);
+			path = CTrueTime;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -476,6 +491,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				280090721D45489D004C788E /* TrueTime.h in Headers */,
+				D4C54EC523D1131A009DE762 /* ntp_types.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,6 +500,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				285047ED1D4D681300DE4CE8 /* TrueTime.h in Headers */,
+				D4C54EC723D1195E009DE762 /* ntp_types.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,6 +509,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				280090731D45489D004C788E /* TrueTime.h in Headers */,
+				D4C54EC623D1195D009DE762 /* ntp_types.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1108,7 +1126,7 @@
 				PRODUCT_NAME = TrueTime;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/Sources/CTrueTime";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1137,7 +1155,7 @@
 				PRODUCT_NAME = TrueTime;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT) $(SRCROOT)/Sources/CTrueTime";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
