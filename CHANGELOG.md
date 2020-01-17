@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 `TrueTime.swift` adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.1.0](https://github.com/instacart/TrueTime.swift/releases/tag/5.1.0)
+
+- Changed: `CTrueTime` is now embeded in the project to avoid issues with Carthage.
+
+## [5.0.3](https://github.com/instacart/TrueTime.swift/releases/tag/5.0.2)
+
+- Fixed: Resolved race condition crash by removing unnecessary retain/release.
+
+## [5.0.2](https://github.com/instacart/TrueTime.swift/releases/tag/5.0.2)
+
+- Changed: Swift 5 support and use of built-in `Result` type.
+
+## [5.0.1](https://github.com/instacart/TrueTime.swift/releases/tag/5.0.1)
+
+- Fixed: `EXC_BAD_ACCESS` Crash.
+  
 ## [5.0.0](https://github.com/instacart/TrueTime.swift/releases/tag/5.0.0)
 
 - Added: Swift 4 support.
