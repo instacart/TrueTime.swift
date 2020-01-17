@@ -7,7 +7,6 @@
 //
 
 @testable import TrueTime
-import CTrueTime
 import Nimble
 import Quick
 import SwiftCheck

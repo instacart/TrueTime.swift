@@ -7,6 +7,7 @@
 //
 
 @import Foundation;
+#import "ntp_types.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

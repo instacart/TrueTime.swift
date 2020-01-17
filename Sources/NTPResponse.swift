@@ -6,7 +6,6 @@
 //  Copyright © 2016 Instacart. All rights reserved.
 //
 
-import CTrueTime
 import Foundation
 
 struct NTPResponse {
