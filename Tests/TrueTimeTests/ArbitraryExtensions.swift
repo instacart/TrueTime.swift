@@ -7,6 +7,7 @@
 //
 
 @testable import TrueTime
+import CTrueTime
 import SwiftCheck
 
 extension timeval: Arbitrary {

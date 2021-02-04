@@ -6,6 +6,9 @@
 //  Copyright © 2016 Instacart. All rights reserved.
 //
 
+import Foundation
+import CTrueTime
+
 struct NTPConfig {
     let timeout: TimeInterval
     let maxRetries: Int
