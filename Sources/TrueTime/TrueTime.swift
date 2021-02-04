@@ -10,7 +10,7 @@ import Foundation
 
 let TrueTimeErrorDomain = "com.instacart.TrueTimeErrorDomain"
 
-extension Notification.Name {
+public extension Notification.Name {
     static let TrueTimeUpdated = Notification.Name.init("TrueTimeUpdatedNotification")
 }
 
