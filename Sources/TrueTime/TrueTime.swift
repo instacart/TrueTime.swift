@@ -8,6 +8,12 @@
 
 import Foundation
 
+let TrueTimeErrorDomain = "com.instacart.TrueTimeErrorDomain"
+
+public extension Notification.Name {
+    static let TrueTimeUpdated = Notification.Name.init("TrueTimeUpdatedNotification")
+}
+
 @objc public enum TrueTimeError: Int {
     case cannotFindHost
     case dnsLookupFailed

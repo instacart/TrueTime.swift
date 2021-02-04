@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CTrueTime
 
 typealias NTPConnectionCallback = (NTPConnection, FrozenNetworkTimeResult) -> Void
 

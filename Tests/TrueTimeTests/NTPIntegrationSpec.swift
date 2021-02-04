@@ -7,6 +7,7 @@
 //
 
 @testable import TrueTime
+import Foundation
 import Nimble
 import Quick
 

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CTrueTime
 
 protocol NetworkOrderConvertible {
     var byteSwapped: Self { get }
