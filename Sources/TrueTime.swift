@@ -92,6 +92,7 @@ public typealias LogCallback = (String) -> Void
     @objc public var maxConnections: Int { return config.maxConnections }
     @objc public var maxServers: Int { return config.maxServers}
     @objc public var numberOfSamples: Int { return config.numberOfSamples}
+    @objc public var isStarted: Bool { return ntp.isStarted }
 
     private let config: NTPConfig
     private let ntp: NTPClient
