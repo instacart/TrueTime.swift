@@ -92,6 +92,7 @@ final class NTPClient {
     private var pool: [String] = [] {
         didSet { invalidate() }
     }
+    var isStarted: Bool { return self.reachability.callback != nil }
 }
 
 private extension NTPClient {
